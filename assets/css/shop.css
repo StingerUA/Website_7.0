@@ -67,12 +67,22 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  width: 64px;
-  height: 64px;
-  background: url('/assets/icons/—Pngtree—30 discount png_6967430.png') center/contain no-repeat;
+  min-width: 48px;
+  height: 24px;
+  padding: 0 10px;
+  background: #ef4444;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   z-index: 3;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  box-shadow: 0 2px 8px rgba(239,68,68,0.35);
 }
 
 /* ── Product image — square 1:1 ── */
