@@ -177,7 +177,7 @@
     link.innerHTML =
       `<span class="header-cart-icon">`
         +
-        `<img src="/assets/icons/chart.png" alt="Cart">`
+        `<img src="/assets/icons/cart.png" alt="Cart">`
         +
         `<span class="header-cart-count" data-cart-count>`
           +

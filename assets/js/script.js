@@ -1,7 +1,7 @@
 // HTTPS endpoint of the Cloudflare Worker that handles text replies
 const VOICE_WORKER_URL = 'https://divine-flower-a0ae.nncdecdgc.workers.dev';
 const VOICE_WORKER_TIMEOUT = 15000; // 15 секунд timeout
-const VOICE_DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || true; // Включаем debug всегда
+const VOICE_DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 let recognition = null;
 let isListening = false;

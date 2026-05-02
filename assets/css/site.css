@@ -2343,3 +2343,50 @@ main:not(.home-main),
     margin-top: 90px !important; /* Minimal mobile spacing for home page */
   }
 }
+
+/* =====================================================
+   MOBILE ACCOUNT MENU — centered in header, compact buttons
+   ===================================================== */
+@media (max-width: 1023px) {
+  /* Remove relative positioning so #alienMenu anchors to .header-inner instead */
+  .alien-dropdown-container {
+    position: static !important;
+  }
+
+  /* Center the dropdown relative to the full header width */
+  #alienMenu {
+    position: absolute !important;
+    top: calc(100% + 4px) !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    min-width: min(240px, calc(100vw - 32px)) !important;
+    width: min(240px, calc(100vw - 32px)) !important;
+    padding: 8px !important;
+    gap: 6px !important;
+  }
+
+  /* Compact buttons */
+  #alienMenu .alien-menu-item {
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Compact user summary row */
+  .alien-user-summary {
+    padding: 4px 6px !important;
+    gap: 6px !important;
+  }
+
+  .alien-user-summary img,
+  #accountMenuAvatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .alien-user-name {
+    font-size: 12px !important;
+  }
+}

@@ -285,6 +285,7 @@ runAfterDomReady(() => {
   function injectAiWidget() {
     const path = window.location.pathname || '/';
     const isEn = path.startsWith('/eng/');
+    const isRu = path.startsWith('/rus/');
 
     const strings = isEn ? {
       placeholder: 'Send a message...',
@@ -295,6 +296,15 @@ runAfterDomReady(() => {
       welcomeBack: 'Welcome back, ',
       voiceNotSupported: 'Voice not supported',
       connectionError: 'Connection error.'
+    } : isRu ? {
+      placeholder: 'Напишите сообщение...',
+      listening: 'Слушаю...',
+      connect: 'Подключение...',
+      initialStatus: 'Чем я могу вам помочь?',
+      talkPrompt: 'Нажми и говори 🔊',
+      welcomeBack: 'С возвращением, ',
+      voiceNotSupported: 'Голос не поддерживается',
+      connectionError: 'Ошибка соединения.'
     } : {
       placeholder: 'Bir mesaj yazın...',
       listening: 'Dinliyorum...',
@@ -582,7 +592,7 @@ runAfterDomReady(() => {
       statusText.textContent = strings.listening;
       statusText.style.display = 'block';
       inputField.focus();
-      recognition.lang = isEn ? 'en-US' : 'tr-TR';
+      recognition.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
       recognition.interimResults = true;
       recognition.maxAlternatives = 1;
       isListening = true;
@@ -613,6 +623,7 @@ runAfterDomReady(() => {
 function injectVoiceWidget() {
   const path = window.location.pathname || '/';
   const isEn = path.startsWith('/eng/');
+  const isRu = path.startsWith('/rus/');
 
   const t = isEn ? {
     btnAria: 'Voice chat',
@@ -884,7 +895,7 @@ function injectAnalytics() {
 }
 
 function injectModelViewerStyles() {
-  if (document.getElementById("-model-viewer-styles")) return;
+  if (document.getElementById("albaspace-model-viewer-styles")) return;
   const style = document.createElement("style");
   style.id = "albaspace-model-viewer-styles";
   style.textContent = `
@@ -1111,7 +1122,8 @@ function normalizePath(p) {
 function setupLangSwitch() {
   const path = window.location.pathname || "/";
   const isEn = path.startsWith("/eng/");
-  const currentLang = isEn ? "en" : "tr";
+  const isRu = path.startsWith("/rus/");
+  const currentLang = isEn ? "en" : isRu ? "ru" : "tr";
   const container = document.querySelector(".top-lang-switch");
   if (!container) return;
   container.querySelectorAll("[data-lang]").forEach((btn) => {
@@ -1120,7 +1132,10 @@ function setupLangSwitch() {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       if (lang === currentLang) return;
-      const targetPath = lang === "en" ? toEnPath(path) : toTrPath(path);
+      let targetPath;
+      if (lang === "en") targetPath = toEnPath(path);
+      else if (lang === "ru") targetPath = toRuPath(path);
+      else targetPath = toTrPath(path);
       window.location.href = targetPath;
     });
   });
@@ -1129,14 +1144,24 @@ function setupLangSwitch() {
 function toEnPath(path) {
   path = normalizePath(path);
   if (path.startsWith("/eng/")) return path;
+  if (path.startsWith("/rus/")) return path.replace(/^\/rus/, "/eng");
   if (path === "/index.html") return "/eng/index.html";
   return "/eng" + (path.startsWith("/") ? path : "/" + path);
 }
 
 function toTrPath(path) {
   path = normalizePath(path);
-  if (!path.startsWith("/eng/")) return path;
-  return path.replace(/^\/eng/, "") || "/index.html";
+  if (path.startsWith("/eng/")) return path.replace(/^\/eng/, "") || "/index.html";
+  if (path.startsWith("/rus/")) return path.replace(/^\/rus/, "") || "/index.html";
+  return path;
+}
+
+function toRuPath(path) {
+  path = normalizePath(path);
+  if (path.startsWith("/rus/")) return path;
+  if (path.startsWith("/eng/")) return path.replace(/^\/eng/, "/rus");
+  if (path === "/index.html") return "/rus/index.html";
+  return "/rus" + (path.startsWith("/") ? path : "/" + path);
 }
 
 function enhanceFooter(root) {
@@ -1269,6 +1294,7 @@ function getAlbamenIdentity() {
 function injectUnifiedAiWidget() {
   const path = window.location.pathname || '/';
   const isEn = path.startsWith('/eng/');
+  const isRu = path.startsWith('/rus/');
 
   const strings = isEn ? {
     placeholder: 'Send a message...',
@@ -1281,6 +1307,17 @@ function injectUnifiedAiWidget() {
     talkPrompt: 'Tap and Talk 🔊',
     voiceTabTitle: 'Voice Chat',
     textTabTitle: 'Text Chat'
+  } : isRu ? {
+    placeholder: 'Напишите сообщение...',
+    listening: 'Слушаю...',
+    connect: 'Подключение...',
+    initialStatus: 'Чем я могу вам помочь?',
+    welcomeBack: 'С возвращением, ',
+    voiceNotSupported: 'Голос не поддерживается',
+    connectionError: 'Ошибка соединения.',
+    talkPrompt: 'Нажми и говори 🔊',
+    voiceTabTitle: 'Голосовой чат',
+    textTabTitle: 'Текстовый чат'
   } : {
     placeholder: 'Bir mesaj yazın...',
     listening: 'Dinliyorum...',
@@ -1821,12 +1858,22 @@ function injectUnifiedAiWidget() {
   const sendBtn = document.getElementById('ai-send-btn');
   const messagesList = document.getElementById('ai-messages-list');
 
-  function addMessage(text, type) {
+  function addMessage(text, type, id) {
     const msgDiv = document.createElement('div');
     msgDiv.className = `ai-message ${type}`;
-    msgDiv.innerHTML = `<div class="ai-message-content">${text}</div>`;
+    if (id) msgDiv.id = id;
+    const content = document.createElement('div');
+    content.className = 'ai-message-content';
+    // Bot responses may contain safe markdown-like text; user input is always plain text
+    if (type === 'bot') {
+      content.innerHTML = text;
+    } else {
+      content.textContent = text;
+    }
+    msgDiv.appendChild(content);
     messagesList.appendChild(msgDiv);
     messagesList.scrollTop = messagesList.scrollHeight;
+    return msgDiv;
   }
 
   function sendMessage() {
@@ -1837,7 +1884,7 @@ function injectUnifiedAiWidget() {
     inputField.value = '';
 
     const loadingId = 'loading-' + Date.now();
-    addMessage('...', 'bot');
+    addMessage('...', 'bot', loadingId);
 
     const currentName = localStorage.getItem('albamen_user_name') || null;
     const currentAge = localStorage.getItem('albamen_user_age') || null;
@@ -1854,10 +1901,8 @@ function injectUnifiedAiWidget() {
     })
       .then(res => res.json())
       .then(data => {
-        const lastMsg = messagesList.lastChild;
-        if (lastMsg && lastMsg.textContent === '...') {
-          lastMsg.remove();
-        }
+        const loader = document.getElementById(loadingId);
+        if (loader) loader.remove();
 
         if (!data || typeof data.reply !== 'string') {
           addMessage(strings.connectionError, 'bot');
@@ -1875,10 +1920,8 @@ function injectUnifiedAiWidget() {
       })
       .catch(err => {
         console.error('AI Error:', err);
-        const lastMsg = messagesList.lastChild;
-        if (lastMsg && lastMsg.textContent === '...') {
-          lastMsg.remove();
-        }
+        const loader = document.getElementById(loadingId);
+        if (loader) loader.remove();
         addMessage(strings.connectionError, 'bot');
       });
   }
@@ -1904,7 +1947,7 @@ function injectUnifiedAiWidget() {
 
   if (SpeechRec) {
     recognition = new SpeechRec();
-    recognition.lang = isEn ? 'en-US' : 'tr-TR';
+    recognition.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
     recognition.interimResults = true;
   }
 
@@ -1986,7 +2029,7 @@ function injectUnifiedAiWidget() {
               // Speak the response
               if (window.speechSynthesis) {
                 const utterance = new SpeechSynthesisUtterance(data.reply);
-                utterance.lang = isEn ? 'en-US' : 'tr-TR';
+                utterance.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
                 utterance.onstart = () => {
                   avatarVoice.classList.add('glow');
                 };
