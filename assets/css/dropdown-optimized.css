@@ -217,7 +217,7 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0) !important;
 }
 
 /* Keep menu open when hovering over buffer zone */
@@ -313,66 +313,73 @@
     display: none !important;
   }
 
+  /* Дропдаун появляется прямо под кнопкой которую нажали */
   .dropdown-menu {
-    position: fixed !important;
-    top: 50% !important;
+    position: absolute !important;
+    top: calc(100% + 6px) !important;
     left: 50% !important;
     right: auto !important;
     bottom: auto !important;
+    transform: translateX(-50%) translateY(-4px) !important;
     z-index: 2147483647 !important;
-    width: min(94vw, 420px);
-    max-width: 420px;
-    max-height: 72vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-      background: rgba(0, 0, 0, 1);
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 12px 10px;
-      margin: 0;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.95), inset 0 0 0 1px rgba(0, 194, 255, 0.1);
-      transform: translate(-50%, -50%) scale(0.97);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none !important;
-      transition: transform 0.28s cubic-bezier(0.22, 1.0, 0.36, 1), opacity 0.25s ease, visibility 0.25s ease, box-shadow 0.3s ease;
-    text-align: center;
-    border-radius: 12px;
+
+    /* 4 элемента в одну строку — ширина подстраивается под контент */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    max-width: 96vw !important;
+
     background: #020617 !important;
-    z-index: 2147483647 !important;
-    flex: 0 0 auto;
-    scroll-snap-align: center;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    margin: 0 !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 0 0 1px rgba(0, 194, 255, 0.08) !important;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none !important;
+    transition: transform 0.22s cubic-bezier(0.22, 1.0, 0.36, 1), opacity 0.2s ease, visibility 0.2s ease;
   }
 
-  /* Ensure all inactive menu items cannot receive clicks */
+  /* Ссылки в мобильном дропдауне — такой же размер и шрифт как nav кнопки */
   .dropdown-menu a,
   .dropdown-menu button {
     pointer-events: none !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+    border-radius: 6px !important;
+    flex: 0 0 auto !important;
+    text-align: center !important;
+    justify-content: center !important;
   }
 
   .dropdown-menu a:hover,
   .dropdown-menu button:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: #00c2ff;
-    transform: translateY(-1px);
+    background-color: rgba(0, 194, 255, 0.15) !important;
+    color: #00c2ff !important;
+    transform: none !important;
   }
 
   .dropdown-trigger {
     padding: 8px 10px;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 600;
     border-radius: 6px;
   }
 }
 
 /* ============================================================================
-   MOBILE BACKDROP - Block clicks outside dropdown menu
+   MOBILE BACKDROP
    ============================================================================ */
 
 @media (max-width: 1023px) {
-  /* When dropdown is active, create a full-screen invisible overlay */
   .dropdown.active::before {
     content: '';
     position: fixed;
@@ -381,13 +388,12 @@
     right: 0;
     bottom: 0;
     z-index: 1499;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     cursor: default;
     pointer-events: auto;
-    animation: fadeIn 0.25s ease forwards;
+    animation: fadeIn 0.2s ease forwards;
   }
 
-  /* Ensure all elements behind the dropdown cannot receive clicks */
   body.has-active-dropdown {
     pointer-events: none;
   }
@@ -399,12 +405,8 @@
   }
 
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 }
 

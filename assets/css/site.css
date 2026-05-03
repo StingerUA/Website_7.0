@@ -2127,18 +2127,20 @@ select, select option {
     }
 }
 
-/* ===== ALIEN DROPDOWN FIX ===== */
-.alien-dropdown-container {
+/* ===== ALIEN DROPDOWN FIX (desktop only) ===== */
+@media (min-width: 1024px) {
+  .alien-dropdown-container {
     position: relative !important;
     z-index: 9999 !important;
-}
+  }
 
-#alienMenu {
+  #alienMenu {
     z-index: 10000 !important;
     position: absolute !important;
     top: calc(100% + 8px) !important;
     left: 0 !important;
     transform: none !important;
+  }
 }
 
 /* Footer Icon Size Restoration */
