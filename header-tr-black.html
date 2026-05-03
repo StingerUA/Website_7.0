@@ -136,19 +136,35 @@
 <script src="/assets/js/mobile-header-cart.js" defer></script>
 <script>
 (function () {
+    function positionAlienMenu(menu, trigger) {
+    var rect = trigger.getBoundingClientRect();
+    var menuW = 220, gap = 6;
+    var left = rect.left;
+    if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
+    menu.style.top = (rect.bottom + gap) + 'px';
+    menu.style.left = Math.max(8, left) + 'px';
+    menu.style.right = 'auto';
+    menu.style.transform = 'none';
+  }
+
   function toggleAlienMenu(e) {
-    e.preventDefault();
-    const menu = document.getElementById('alienMenu');
-    const trigger = document.querySelector('.alien-ghost');
-    const isHidden = menu.hasAttribute('hidden');
-    if (isHidden) {
+    if (e) e.preventDefault();
+    var menu = document.getElementById('alienMenu');
+    var trigger = document.querySelector('.alien-ghost');
+    if (!menu || !trigger) return;
+    if (menu.hasAttribute('hidden')) {
+      positionAlienMenu(menu, trigger);
       menu.removeAttribute('hidden');
-      trigger.setAttribute('aria-expanded', 'true');
     } else {
       menu.setAttribute('hidden', '');
-      trigger.setAttribute('aria-expanded', 'false');
     }
   }
+
+  window.addEventListener('resize', function() {
+    var menu = document.getElementById('alienMenu');
+    var trigger = document.querySelector('.alien-ghost');
+    if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
+  });
 
   function closeAlienMenu() {
     const menu = document.getElementById('alienMenu');
