@@ -497,7 +497,7 @@ html.product-text-black .dropdown-menu button:hover {
 }
 
 .alien-dropdown-container .alien-menu {
-  position: absolute;
+  position: fixed;  /* overridden by #alienMenu { position: fixed !important } in site.css */
   top: calc(100% + 8px);
   right: 0;
   min-width: 200px;

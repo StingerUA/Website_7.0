@@ -136,15 +136,28 @@
 <script src="/assets/js/mobile-header-cart.js" defer></script>
 <script>
 (function () {
-    function positionAlienMenu(menu, trigger) {
-    var rect = trigger.getBoundingClientRect();
-    var menuW = 220, gap = 6;
-    var left = rect.left;
-    if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-    menu.style.top = (rect.bottom + gap) + 'px';
-    menu.style.left = Math.max(8, left) + 'px';
-    menu.style.right = 'auto';
-    menu.style.transform = 'none';
+      function positionAlienMenu(menu, trigger) {
+    var isMobile = window.innerWidth <= 767;
+    if (isMobile) {
+      // На мобильном: прижимаем под хедер, CSS сделает остальное (full-width row)
+      var headerEl = document.querySelector('.site-header') || document.querySelector('header');
+      var headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
+      menu.style.top  = headerBottom + 'px';
+      menu.style.left = '0';
+      menu.style.right = '0';
+      menu.style.transform = 'none';
+    } else {
+      // Десктоп: прямо под кнопкой-триггером
+      var rect = trigger.getBoundingClientRect();
+      var menuW = 220;
+      var gap = 6;
+      var left = rect.left;
+      if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
+      menu.style.top  = (rect.bottom + gap) + 'px';
+      menu.style.left = Math.max(8, left) + 'px';
+      menu.style.right = 'auto';
+      menu.style.transform = 'none';
+    }
   }
 
   function toggleAlienMenu(e) {
@@ -164,11 +177,7 @@
     var menu = document.getElementById('alienMenu');
     var trigger = document.querySelector('.alien-ghost');
     if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
-  }); else {
-      menu.setAttribute('hidden', '');
-      trigger.setAttribute('aria-expanded', 'false');
-    }
-  }
+  });
 
   function closeAlienMenu() {
     const menu = document.getElementById('alienMenu');
