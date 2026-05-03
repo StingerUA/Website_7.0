@@ -2393,3 +2393,49 @@ main:not(.home-main),
     font-size: 12px !important;
   }
 }
+
+/* =====================================================
+   MOBILE ALIEN MENU — fixed centre of viewport
+   ===================================================== */
+@media (max-width: 1023px) {
+  .alien-dropdown-container {
+    position: static !important;
+  }
+
+  #alienMenu {
+    position: fixed !important;
+    top: 68px !important;          /* ≈ высота хедера на мобиле, подкорректируй если нужно */
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    min-width: min(260px, calc(100vw - 32px)) !important;
+    width:     min(260px, calc(100vw - 32px)) !important;
+    padding: 8px !important;
+    gap: 6px !important;
+    z-index: 99999 !important;
+  }
+
+  /* Компактные кнопки */
+  #alienMenu .alien-menu-item {
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    line-height: 1.3 !important;
+  }
+
+  .alien-user-summary {
+    padding: 4px 6px !important;
+    gap: 6px !important;
+  }
+
+  .alien-user-summary img,
+  #accountMenuAvatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .alien-user-name {
+    font-size: 12px !important;
+  }
+}
