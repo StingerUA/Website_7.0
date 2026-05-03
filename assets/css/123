@@ -1,0 +1,2395 @@
+/* ── Inter font (premium typography) ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Removed 80px icon size enforcement */
+
+/* Fix for dropdown options visibility on dark themes
+   Ensures text is black on the default white background of options */
+select option {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+
+/* БАЗОВЫЕ НАСТРОЙКИ
+
+   (НЕ трогаем background и color, чтобы страницы сами их задавали) */
+
+:root {
+
+  --header-bg: transparent;
+
+  --accent: #00c2ff;
+
+  --page-bg: #020617;
+
+  --text-main: #e5e7eb;
+
+  --text-muted: #9ca3af;
+
+}
+
+body{
+
+  margin:0;
+
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Prevent pages from exceeding the device width on mobile */
+
+  width:100%;
+
+  max-width:100vw;
+
+  overflow-x:hidden;
+
+  /*
+
+   * Mobile Safari fix for stretched background
+
+   *
+
+   * Many pages of the site set a custom background on the element via
+
+   * inline styles like:
+
+   *   background: #020617 url("/assets/images/space-bg.jpg") center/cover fixed no-repeat;
+
+   * On iOS (Safari on iPhone/iPad) the `fixed` background-attachment is not
+
+   * supported and causes the image to zoom and distort.  To fix this we
+
+   * override the `background-attachment` property on small screens to use
+
+   * the default scrolling behaviour.  On larger screens we explicitly
+
+   * restore the `fixed` attachment so the desktop experience remains
+
+   * unchanged.  See documentation:
+
+   *   - Medium article explaining that `background-attachment: scroll` is
+
+   *     required on mobile Safarihttps://medium.com/@roberthaylor/background-images-not-showing-in-mobile-safari-try-this-b4fa3ed208f2#:~:text=Further%20research%20revealed%20that%20in,size%20as%20cover.
+
+   *   - Kriesi support thread noting iOS devices do not support fixed backgroundshttps://kriesi.at/support/topic/ios-do-not-support-fixed-backgrounds/#:~:text=Participant.
+
+   */
+
+}
+
+/* Apply border-box sizing everywhere to keep padded blocks within the viewport */
+*,*::before,*::after{
+
+  box-sizing:border-box;
+
+}
+
+/* ... (начало вашего файла без изменений до мобильного медиа-запроса) ... */
+
+/* Fix background attachment on mobile devices */
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll !important;
+    background-image: none !important;
+    background-position: center center !important;
+    background-size: auto !important;
+    background: #020617 !important;
+  }
+
+  body.home-page, body.index-page {
+    background: #020617 !important;
+  }
+
+  /* УДАЛЯЕМ ГОЛУБЫЕ ПОДЛОЖКИ НА МОБИЛКАХ */
+  .video-card, 
+  .video-item, 
+  .gallery-item, 
+  .gallery-category, 
+  .product-card, 
+  .shop-item,
+  .cart-item,
+  .basket-item,
+  .content-block,
+  [class*="container"], 
+  [class*="wrapper"] {
+    background: transparent !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Restore fixed background on larger screens (desktop/tablet) */
+@media (min-width: 768px) {
+
+  body {
+
+    background: #020617 url('/assets/images/space-bg11.jpg') center/cover no-repeat !important;
+
+  }
+
+  /* ПК версия: используем space-bg11.jpg и для классов с фоном */
+  .space-bg {
+    background: #020617 url('/assets/images/space-bg11.jpg') center/cover fixed no-repeat !important;
+  }
+
+}
+
+/* Fix for dropdown options visibility on dark themes */
+select, select option {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+/* Cookie Overlay Styles & Fixes */
+.cookie-overlay-fix, #cookie-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99999;
+  display: none; /* Controlled by JS */
+  justify-content: center;
+  align-items: center;
+}
+
+.cookie-modal {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  width: 90%;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cookie-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000000 !important;
+  text-transform: uppercase;
+}
+
+.cookie-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e5e7eb !important;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.cookie-link {
+  color: #00c2ff;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.cookie-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-cookie {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.btn-accept {
+  background-color: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+}
+
+.btn-accept:hover {
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.btn-settings {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255,255,255,0.12) !important;
+}
+
+.btn-settings:hover {
+  background-color: rgba(255,255,255,0.03) !important;
+}
+
+
+/* =========================
+
+   Scroll reveal animations
+
+   (used across all pages)
+
+   ========================= */
+
+.reveal {
+
+  opacity: 0;
+
+  transform: translateY(16px);
+
+  filter: blur(6px);
+
+  transition: transform 1.3s cubic-bezier(0.19, 1, 0.22, 1),
+
+              opacity 1.3s ease,
+
+              filter 1.3s ease;
+
+  will-change: transform, opacity;
+
+}
+
+.reveal[data-direction="left"] { transform: translateX(-70px); }
+
+.reveal[data-direction="right"] { transform: translateX(70px); }
+
+.reveal.is-visible {
+
+  opacity: 1;
+
+  transform: translateX(0);
+
+  filter: none;
+
+}
+
+.reveal { transition-delay: var(--reveal-delay, 0s); }
+
+/* =========================
+
+   HEADER
+
+   ========================= */
+
+.site-header{
+
+  /* Match footer background and text color for visual consistency */
+
+  background: transparent !important;
+
+  color:#d1d5db;
+
+  border-bottom:1px solid #0f172a;
+
+  box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+
+  position: relative;
+  z-index: 4000;
+  isolation: isolate;
+  overflow: visible;
+
+}
+
+.header-inner{
+
+  max-width:1200px;
+
+  margin:0 auto;
+
+  padding:10px 15px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+
+  position: relative;
+  z-index: 4000;
+  overflow: visible;
+
+}
+
+/* Hide DFS and BLOG from header menu (keep SHOP visible) */
+
+.main-nav a[href="/dfs.html"],
+
+.main-nav a[href="/blog.html"]{
+
+  display:none !important;
+
+}
+
+.header-logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  text-decoration:none;
+
+  color:#e5e7eb;
+
+}
+
+.header-logo img{
+
+  width:40px;
+
+  height:40px;
+
+  border-radius:999px;
+
+  background:#0f172a;
+
+  padding:4px;
+
+}
+
+.header-logo span{
+
+  font-weight:600;
+
+  font-size:16px;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+}
+
+/* ===== HEADER LOGO FIX ===== */
+
+/* This ensures the AlbaSpace text-image in the header is NOT round/framed */
+
+.header-logo .albaspace-img {
+
+  border-radius: 0 !important;
+
+  border: none !important;
+
+  box-shadow: none !important;
+
+  background: transparent !important;
+
+  padding: 0 !important;
+
+  /* Adjust height/width if necessary to match footer style */
+
+  height: auto;
+
+  max-height: 40px; /* Example constraint to keep it neat */
+
+  object-fit: contain;
+
+}
+
+.header-logo img.albaspace-img{
+
+  height:22px;
+
+  width:auto;
+
+  object-fit:contain;
+
+  margin-left: 8px;
+
+}
+
+/* Logo sub-icons spacing */
+
+.logo-sub-icons {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+}
+
+.logo-sub-icons a {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+}
+
+.logo-sub-icons img {
+
+  width: 32px;
+
+  height: 32px;
+
+  object-fit: contain;
+
+}
+
+.footer-logo img.albaspace-img{
+
+  height:48px;
+
+  width:auto;
+
+  object-fit:contain;
+
+  margin-left: 8px;
+
+}
+
+.footer-logo img {
+  max-height: 60px;
+  width: auto;
+}
+
+/* Force header/footer logos and social icons to display without
+
+   framed background, rounded clipping or shadows. This targets only
+
+   the images and their immediate link wrappers in header/footer so
+
+   other containers remain unchanged. */
+
+.header-logo img,
+
+.header-logo .albaspace-img,
+
+.header-logo img.albaspace-img,
+
+.footer-logo img,
+
+.header-social img,
+
+.header-social a img,
+
+.footer-social img,
+
+.footer-social a img,
+
+.footer-social--row img,
+
+.top-lang-switch .lang-flag img {
+
+  border-radius: 0 !important;
+
+  background: transparent !important;
+
+  padding: 0 !important;
+
+  box-shadow: none !important;
+
+  background-color: transparent !important;
+
+  object-fit: contain !important;
+
+}
+
+/* Remove background 'panel' used behind social icons/flags in header/footer */
+
+.header-social a,
+
+.top-lang-switch a,
+
+.footer-social a {
+
+  background: transparent !important;
+
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  padding: 0 !important;
+
+}
+
+/* меню чуть правее и по центру между логотипом и соцсетями */
+
+.main-nav{
+
+  display:flex;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+
+  font-size:13px;
+
+  flex:1;
+
+  justify-content:center;
+
+  margin:0 10px;
+
+  position: relative;
+
+  z-index: 2;
+
+  overflow: visible;
+
+  position: relative;
+
+  overflow: visible !important; /* Ensure dropdowns aren't clipped */
+
+  z-index: 51 !important;
+
+  z-index: 51 !important; /* High z-index context */
+
+}
+
+/* @media (max-width: 480px) {
+  .main-nav {
+    gap: 8px;
+    margin: 10px 0;
+    order: 3;
+    width: 100%;
+  }
+} */
+
+.main-nav a{
+
+  color:#d1d5db;
+
+  text-decoration:none;
+
+  padding-bottom:2px;
+
+  position:relative;
+
+}
+
+.main-nav a:hover,
+
+.main-nav a.active{
+
+  color:#ffffff;
+
+}
+
+.main-nav a.active::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  bottom:-2px;
+
+  width:100%;
+
+  height:2px;
+
+  background:#00c2ff;
+
+  border-radius:999px;
+
+}
+
+/* Dropdown menu - Base styles (overridden by dropdown-optimized.css) */
+
+.dropdown {
+
+  position: relative;
+
+  z-index: 3;
+
+  overflow: visible !important; /* Ensure dropdowns aren't clipped */
+
+  z-index: auto;
+
+}
+
+.dropdown-trigger {
+
+  color:#d1d5db;
+
+  text-decoration:none;
+
+  padding-bottom:2px;
+
+  position:relative;
+
+  cursor: pointer;
+
+}
+
+.dropdown-trigger:hover,
+
+.dropdown-trigger.active {
+
+  color:#ffffff;
+
+}
+
+.dropdown-menu {
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  display: block;
+
+  position: absolute;
+
+  top: 100%;
+
+  left: 0;
+
+  background: #111827;
+
+  border: 1px solid #1e293b;
+
+  border-radius: 8px;
+
+  min-width: 200px;
+
+  z-index: 1000;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+
+  opacity: 0;
+
+  transform: translateY(-8px);
+
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+
+  padding: 8px 0;
+
+  margin-top: -1px;
+
+  pointer-events: auto;
+
+}
+
+.dropdown:hover .dropdown-menu {
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+.dropdown.active .dropdown-menu {
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+.dropdown-menu a {
+
+  display: block;
+
+  padding: 12px 20px;
+
+  color: #e2e8f0;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+
+  white-space: nowrap;
+
+}
+
+.dropdown-menu a:hover {
+
+  background: rgba(0, 194, 255, 0.1);
+
+  color: #ffffff;
+
+  padding-left: 24px;
+
+}
+
+.header-social{
+  margin-left:auto;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap:8px;
+}
+
+.header-social .social-row {
+
+  display: flex;
+
+  gap: 14px;
+
+}
+
+/* Иконки соцсетей (PNG) в хедере */
+
+.header-social img{
+
+  width:28px;
+
+  height:28px;
+
+  display:block;
+
+  border-radius:6px;
+
+  transition:transform .15s,filter .2s;
+
+}
+
+.footer-social img,
+.footer-social--row img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Force update timestamp: 2026-02-02 */
+.footer-social--xl img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Footer Bottom & Legal Links */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-legal-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  padding: 0 15px;
+}
+
+.footer-legal-links a {
+  color: #9ca3af;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-legal-links a:hover {
+  color: #e5e7eb;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .footer-legal-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.header-social svg.social-icon-svg{
+
+  width:22px;
+
+  height:22px;
+
+  display:block;
+
+  stroke:currentColor;
+
+  stroke-linecap:round;
+
+  stroke-linejoin:round;
+
+  fill:none;
+
+  transition:transform .15s,filter .2s;
+
+}
+
+/* Force header social icons to use header text color (avoid accidental accent blue) */
+
+.site-header .header-social svg.social-icon-svg {
+
+  color: #e5e7eb !important;
+
+  stroke: #e5e7eb !important;
+
+}
+
+/* =========================
+
+   AI WIDGET TOGGLE BUTTON
+
+   ========================= */
+
+.ai-widget-toggle-btn {
+
+  position: fixed;
+
+  right: 20px;
+
+  bottom: 20px;
+
+  width: 30px;
+
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #00c2ff, #0ea5e9);
+
+  color: #ffffff;
+
+  border: none;
+
+  box-shadow: 0 12px 28px rgba(0, 194, 255, 0.3);
+
+  cursor: pointer;
+
+  display: grid;
+
+  place-items: center;
+
+  z-index: 1090;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+
+  font-size: 0;
+
+  line-height: 0;
+
+}
+
+.ai-widget-toggle-btn:hover {
+
+  transform: scale(1.1);
+
+  box-shadow: 0 14px 35px rgba(0, 194, 255, 0.5);
+
+}
+
+.ai-widget-toggle-btn:active {
+
+  transform: scale(0.95);
+
+}
+
+.ai-widget-toggle-btn svg {
+
+  width: 24px;
+
+  height: 24px;
+
+  stroke: currentColor;
+
+  stroke-width: 2;
+
+  fill: none;
+
+  transition: transform 0.3s ease;
+
+}
+
+.ai-widget-toggle-btn img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  transition: transform 0.3s ease;
+
+}
+
+.ai-widget-toggle-btn.ai-open svg {
+
+  transform: rotate(180deg);
+
+}
+
+.ai-widget-toggle-btn.ai-open img {
+
+  transform: rotate(180deg);
+
+}
+
+/* =========================
+
+   AI WIDGET (RE-DESIGNED)
+
+   ========================= */
+
+.ai-floating,
+
+.ai-floating.footer-docked {
+
+  position: fixed;
+
+  left: 20px;
+
+  bottom: 20px;
+
+  z-index: 1100;
+
+  display: none !important; /* Скрываем по умолчанию */
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px; /* Расстояние между элементами */
+
+}
+
+/* Показываем виджеты только когда они открыты */
+
+.ai-floating[style*="display: flex"],
+
+.ai-floating.footer-docked[style*="display: flex"] {
+
+  display: flex !important;
+
+}
+
+/* 1. Картинка-аватар (Albamen) */
+
+.ai-hero-avatar {
+
+  width: 97px;
+
+  height: 97px;
+
+  aspect-ratio: 1 / 1;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  border: 3px solid rgba(56, 189, 248, 0.6); /* Легкая голубая обводка */
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  cursor: pointer;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  background: #000;
+
+}
+
+.ai-hero-avatar img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  image-rendering: -webkit-optimize-contrast;
+
+  image-rendering: optimizeQuality;
+
+  transform: translateZ(0);
+
+}
+
+.ai-hero-avatar:hover {
+
+  transform: scale(1.05);
+
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
+
+}
+
+/* 2. Кнопка вызова (черная с иконкой) */
+
+.ai-call-btn {
+
+  width: 54px;
+
+  height: 54px;
+
+  border-radius: 50%;
+
+  background: #000000;
+
+  border: 2px solid rgba(255, 255, 255, 0.1);
+
+  color: #fff;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+
+  transition: transform 0.2s ease, background 0.2s ease;
+
+}
+
+.ai-call-btn:hover {
+
+  transform: scale(1.1);
+
+  background: #111;
+
+}
+
+/* Пульсация для кнопки вызова */
+
+.ai-call-btn.pulse {
+
+  animation: call-pulse 2s infinite;
+
+}
+
+@keyframes call-pulse {
+
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+
+}
+
+/* =========================
+
+   AI PANEL (WHITE THEME)
+
+   ========================= */
+
+.ai-panel-global {
+
+  position: fixed;
+
+  bottom: 20px;
+
+  right: 90px;
+
+  width: 95px;
+
+  max-width: 90vw;
+
+  height: 125px;
+
+  max-height: 80vh;
+
+ 
+
+  /* Transparent panel like hakkimizda page */
+
+  background: transparent;
+
+  color: #ffffff;
+
+ 
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(148, 163, 184, 0.4);
+
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.85);
+
+  display: none !important;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+ 
+
+  transform: translateY(20px) scale(0.95);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+
+  z-index: 1200;
+
+}
+
+.ai-panel-global.ai-open {
+
+  display: flex !important;
+
+  transform: translateY(0) scale(1);
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+}
+
+.ai-panel-global.ai-fullscreen {
+
+  width: 100vw !important;
+
+  height: 100vh !important;
+
+  top: 0 !important;
+
+  left: 0 !important;
+
+  right: auto !important;
+
+  bottom: auto !important;
+
+  border-radius: 0 !important;
+
+  max-width: none !important;
+
+  max-height: none !important;
+
+  transform: none !important;
+
+}
+
+/* Header панели */
+
+.ai-panel-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 16px;
+
+  background: transparent;
+
+}
+
+.ai-header-actions {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.ai-fullscreen-btn {
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50%;
+
+  background: #0b1628;
+
+  color: #e5e7eb;
+
+  border: 2px solid rgba(17, 24, 39, 0.65);
+
+  display: grid;
+
+  place-items: center;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+
+}
+
+.ai-fullscreen-btn:hover {
+
+  background: #1f2937;
+
+}
+
+.ai-fullscreen-btn svg {
+
+  width: 20px;
+
+  height: 20px;
+
+  transition: transform 0.3s ease;
+
+}
+
+.ai-panel-global.ai-fullscreen .ai-fullscreen-btn svg {
+
+  transform: rotate(180deg);
+
+}
+
+.ai-panel-header .ai-voice-btn {
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50%;
+
+  background: #0b1628;
+
+  color: #e5e7eb;
+
+  border: 2px solid rgba(17, 24, 39, 0.65);
+
+  display: grid;
+
+  place-items: center;
+
+  cursor: pointer;
+
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
+
+}
+
+.ai-panel-header .ai-voice-btn:hover {
+
+  transform: translateY(-1px) scale(1.04);
+
+  background: #111827;
+
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.45);
+
+}
+
+.ai-close-icon {
+
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 50%;
+
+  background: #374151;
+
+  color: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  border: none;
+
+  font-size: 20px;
+
+  transition: background 0.2s;
+
+}
+
+.ai-close-icon:hover { background: #4b5563; }
+
+/* Body панели - Центрирование контента */
+
+.ai-panel-body {
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center; /* Центрируем аватар по вертикали */
+
+  padding: 0 20px 20px;
+
+  text-align: center;
+
+}
+
+/* Большой аватар в центре чата */
+
+.ai-chat-avatar-large {
+
+  width: 160px;
+
+  height: 160px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+.ai-chat-avatar-large img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  image-rendering: -webkit-optimize-contrast;
+
+  image-rendering: optimizeQuality;
+
+  transform: translateZ(0);
+
+}
+
+.ai-status-text {
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  color: #374151;
+
+  margin-bottom: 30px;
+
+}
+
+.ai-voice-status { display: none; }
+
+.voice-controls {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+
+}
+
+.voice-wave { display: flex; gap: 4px; align-items: flex-end; }
+
+.voice-wave.hidden { display: none !important; }
+
+.voice-bar { width: 4px; border-radius: 999px; background: #22c55e; animation: voiceWave 1.2s ease-in-out infinite; }
+
+.voice-bar:nth-child(2) { animation-delay: .12s; }
+
+.voice-bar:nth-child(3) { animation-delay: .24s; }
+
+@keyframes voiceWave { 0%,100% { height: 6px; } 50% { height: 20px; } }
+
+.voice-stop-btn { width: 34px; height: 34px; border-radius: 999px; border: none; cursor: pointer; display: grid; place-items: center; background: #ef4444; color: #fee2e2; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); animation: pulseStop 1.4s infinite; }
+
+.voice-stop-btn.hidden { display: none !important; }
+
+@keyframes pulseStop { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+.hidden { display: none !important; }
+
+.ai-panel-global.voice-active .ai-input-area { display: none; }
+
+.ai-panel-global.voice-active .ai-status-text { display: none; }
+
+.ai-panel-global.voice-active .ai-voice-status { display: block; }
+
+.ai-panel-global.voice-active #voice-inline-controls { display: flex; }
+
+/* Нижняя панель ввода (как на скриншоте) */
+
+.ai-input-area {
+
+  margin-top: auto;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  background: #f9fafb;
+
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  border: 1px solid #e5e7eb;
+
+}
+
+.ai-input {
+
+  flex: 1;
+
+  border: none;
+
+  background: transparent;
+
+  outline: none;
+
+  font-size: 14px;
+
+  color: #1f2937;
+
+  padding: 4px;
+
+}
+
+.ai-action-btn {
+
+  width: 36px;
+
+  height: 36px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: background 0.2s;
+
+}
+
+.ai-mic-btn-panel {
+
+  background: #f3f4f6;
+
+  color: #111827;
+
+}
+
+.ai-mic-btn-panel:hover { background: #e5e7eb; }
+
+.ai-send-btn-panel {
+
+  background: #111827; /* Черная кнопка отправки */
+
+  color: #fff;
+
+}
+
+.ai-send-btn-panel:hover { background: #000; }
+
+/* Сообщения (скрыты по умолчанию, появляются при чате) */
+
+.ai-messages-list {
+
+  position: absolute;
+
+  top: 60px;
+
+  bottom: 80px;
+
+  left: 0;
+
+  right: 0;
+
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* =========================
+   RESPONSIVE MENU FIX
+   ========================= */
+
+/* Desktop: Hide burger button */
+.menu-toggle {
+  display: none;
+}
+
+/* Mobile: Show burger, hide main nav */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e5e7eb;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    z-index: 10001; /* Above mobile menu */
+  }
+
+  .menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+  }
+
+  /* Hide the original nav in the header - DISABLED to show nav on mobile */
+  /* .header-inner .main-nav {
+    display: none !important;
+  } */
+}
+
+/* Removed conflicting double size rules */
+
+
+/* Mobile Portal Nav (Generated by JS) */
+#mobile-nav-portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0; /* Hidden by default */
+  z-index: 10000;
+}
+
+#mobile-nav-portal:has(.nav-open) {
+  height: 100%;
+}
+
+.mobile-portal-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #020617 !important; /* Force solid background */
+  z-index: 10002; /* Ensure above content */
+  padding: 100px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.mobile-portal-nav.nav-open {
+  transform: translateY(0);
+}
+
+.mobile-portal-nav a {
+  font-size: 18px;
+  color: #e5e7eb;
+  text-decoration: none;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-portal-nav .dropdown-menu {
+    position: static;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    display: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+.mobile-portal-nav .dropdown.active .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+/* =========================
+   FOOTER RESTORATION PATCH
+   ========================= */
+
+.footer {
+  width: 100%;
+  padding: 40px 20px;
+  background: transparent;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 40px;
+  box-shadow: 0 -4px 12px rgba(0, 194, 255, 0.15);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid--3 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (min-width: 768px) {
+  .footer-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Footer Left */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-logo p {
+  margin: 10px 0 0;
+  color: #9ca3af;
+  font-size: 0.9em;
+}
+
+/* ========================================
+   FOOTER ACTION BUTTONS - ENHANCED UI/UX
+   ======================================== */
+
+/* Container for footer action groups */
+.footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Individual action button */
+.footer-action {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(0, 194, 255, 0.08) 0%, rgba(0, 194, 255, 0.02) 100%);
+  padding: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  border: 2px solid rgba(0, 194, 255, 0.35);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Hover state */
+.footer-action:hover {
+  background: linear-gradient(135deg, rgba(0, 194, 255, 0.18) 0%, rgba(0, 194, 255, 0.08) 100%);
+  border-color: rgba(0, 194, 255, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 194, 255, 0.2);
+}
+
+/* Focus state for accessibility */
+.footer-action:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.4), 0 12px 24px rgba(0, 194, 255, 0.2);
+  border-color: rgba(0, 194, 255, 0.9);
+}
+
+/* Active/pressed state */
+.footer-action:active {
+  transform: translateY(0px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 194, 255, 0.15);
+}
+
+/* Audio/visual feedback for mouse down */
+.footer-action:not(:focus-visible):active {
+  background: linear-gradient(135deg, rgba(0, 194, 255, 0.25) 0%, rgba(0, 194, 255, 0.12) 100%);
+}
+
+.footer-social, .footer-social--row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Title element */
+.footer-action__title {
+  font-weight: 700;
+  font-size: 0.95em;
+  margin-bottom: 6px;
+  display: block;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+/* Value element (phone, email, address) */
+.footer-action__value {
+  font-size: 0.85em;
+  color: #cbd5e1;
+  display: block;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.footer-action__value:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Hint element (Call us, Write to us, etc.) */
+.footer-action__hint {
+  font-size: 0.7em;
+  color: #00c2ff;
+  margin-top: 10px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.footer-action:hover .footer-action__hint {
+  opacity: 1;
+}
+
+/* Special styling for office address buttons */
+.footer-actions--offices .footer-action {
+  border: 2px solid rgba(0, 194, 255, 0.4);
+}
+
+.footer-actions--offices .footer-action::after {
+  content: '→';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 194, 255, 0.6);
+  font-size: 1.3em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.footer-actions--offices .footer-action:hover::after {
+  opacity: 1;
+  color: rgba(0, 194, 255, 1);
+  transform: translateY(-50%) translateX(4px);
+}
+
+/* Contact buttons styling */
+.footer-actions--contact .footer-action {
+  border: 2px solid rgba(0, 194, 255, 0.3);
+}
+
+.footer-actions--contact .footer-action::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 194, 255, 0.8) 0%, rgba(0, 194, 255, 0.4) 100%);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.footer-actions--contact .footer-action:hover::before {
+  opacity: 1;
+}
+
+/* Phone button special styling */
+.footer-action[href^="tel:"] {
+  border-left: 3px solid rgba(0, 194, 255, 0.5);
+}
+
+.footer-action[href^="tel:"]:hover {
+  border-left-color: rgba(0, 194, 255, 0.9);
+  box-shadow: -4px 12px 24px rgba(0, 194, 255, 0.15), 0 12px 24px rgba(0, 194, 255, 0.2);
+}
+
+/* Email button special styling */
+.footer-action[href^="mailto:"] {
+  border-left: 3px solid rgba(0, 194, 255, 0.5);
+}
+
+.footer-action[href^="mailto:"]:hover {
+  border-left-color: rgba(0, 194, 255, 0.9);
+  box-shadow: -4px 12px 24px rgba(0, 194, 255, 0.15), 0 12px 24px rgba(0, 194, 255, 0.2);
+}
+
+/* Mobile responsiveness for footer actions */
+@media (max-width: 640px) {
+  .footer-action {
+    padding: 14px;
+    border-radius: 10px;
+    min-height: 56px;
+    justify-content: center;
+  }
+
+  .footer-action__title {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+  }
+
+  .footer-action__value {
+    font-size: 0.8em;
+  }
+
+  .footer-action__hint {
+    font-size: 0.65em;
+    margin-top: 8px;
+  }
+
+  .footer-actions--offices .footer-action::after {
+    font-size: 1.2em;
+    right: 14px;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .footer-action {
+    padding: 15px;
+  }
+
+  .footer-action__title {
+    font-size: 0.92em;
+  }
+}
+
+/* High contrast mode improvements for accessibility */
+@media (prefers-contrast: more) {
+  .footer-action {
+    border: 3px solid rgba(0, 194, 255, 0.6);
+    background: linear-gradient(135deg, rgba(0, 194, 255, 0.15) 0%, rgba(0, 194, 255, 0.05) 100%);
+  }
+
+  .footer-action:hover {
+    border-color: rgba(0, 194, 255, 0.95);
+    background: linear-gradient(135deg, rgba(0, 194, 255, 0.25) 0%, rgba(0, 194, 255, 0.12) 100%);
+  }
+
+  .footer-action::after {
+    font-weight: 900;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .footer-action {
+    transition: none;
+  }
+
+  .footer-action:hover,
+  .footer-action:active,
+  .footer-action:focus {
+    transform: none;
+  }
+
+  .footer-action__hint {
+    transition: none;
+  }
+
+  .footer-actions--offices .footer-action::after {
+    transition: none;
+  }
+}
+
+/* Removed conflicting mobile header final version rules */
+
+/* =========================================
+   FINAL LAYOUT FIXES (ICONS & MOBILE MENU)
+   ========================================= */
+
+/* ===== ICON SIZE STANDARDIZATION ===== */
+/* Apply consistent size to ALL header icons */
+.header-social img,
+.top-lang-switch img,
+.header-cart-icon img,
+.header-flags img {
+    width: 20px !important;
+    height: 20px !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    transform: none !important; /* Ensure no scaling remains */
+}
+
+/* Specific override for cart icon inside the link */
+.header-cart-link .header-cart-icon img {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* ===== HEADER LEFT SECTION (Logo + Flags) ===== */
+.header-left-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin-right: auto !important; /* Push everything else to right */
+}
+
+/* Logo Sizing */
+.logo-sub-icons img {
+    width: 20px !important;
+    height: 20px !important;
+    padding: 2px !important;
+}
+
+.main-center-logo .albaspace-img {
+    height: 44px !important;
+    max-height: 44px !important;
+    width: auto !important;
+    padding: 0 !important;
+    transform: none !important; /* Ensure no previous scaling applies */
+}
+
+.logo-sub-icons img {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* Flags Layout */
+.header-flags {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    justify-content: center !important;
+}
+
+.header-flags img {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+/* ===== HEADER RIGHT SECTION (Socials + Cart + AI + Alien) ===== */
+.header-social {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+}
+
+/* Social Row (Insta, Linkedin, WA, YT) */
+.social-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    align-items: center !important;
+}
+
+/* Top Lang Switch (AI, Cart, Alien) */
+.top-lang-switch {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    align-items: center !important;
+}
+
+/* Ensure items are centered */
+.top-lang-switch a,
+.top-lang-switch .ai-widget-toggle,
+.top-lang-switch .alien-ghost,
+.alien-dropdown-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.worker-auth-user {
+    min-height: 20px;
+    color: #e5e7eb;
+    font-size: 13px;
+    white-space: normal;
+}
+
+#alienMenu .alien-menu-item {
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+#alienMenu .alien-menu-google {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: inherit;
+}
+
+#alienMenu .worker-auth-user {
+    width: 100%;
+    min-height: 0;
+    padding: 2px 4px 0;
+    color: #dbeafe;
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+#alienMenu .worker-auth-user:empty {
+    display: none;
+}
+
+/* ===== MOBILE LAYOUT (max-width: 1024px) ===== */
+@media (max-width: 1024px) {
+    .header-inner {
+        flex-wrap: wrap !important; /* Allow wrapping for mobile navigation on new line */
+        justify-content: space-between !important;
+    }
+
+    .header-social {
+        gap: 10px !important;
+    }
+
+    .social-row {
+        gap: 6px !important;
+    }
+    
+    .top-lang-switch {
+        gap: 8px !important;
+    }
+
+    #alienMenu {
+        min-width: min(280px, calc(100vw - 32px)) !important;
+    }
+    
+    /* Slightly smaller icons on mobile */
+    .header-social img,
+    .top-lang-switch img,
+    .header-cart-icon img,
+    .header-flags img {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    
+    .header-flags img {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    /* BURGER MENU POSITION */
+    .menu-toggle {
+        margin-left: 10px !important;
+    }
+    
+    /* MOBILE MENU BACKGROUND FIX */
+    .mobile-portal-nav {
+        background: #020617 !important;
+        opacity: 1 !important;
+        z-index: 10002 !important;
+    }
+    
+    #mobile-nav-portal {
+        z-index: 10000 !important;
+    }
+}
+
+/* ===== ALIEN DROPDOWN FIX ===== */
+.alien-dropdown-container {
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+#alienMenu {
+    z-index: 10000 !important;
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 0 !important;
+    transform: none !important;
+}
+
+/* Footer Icon Size Restoration */
+.footer-social img {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: none !important;
+}
+
+.footer-social--xl img {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+
+/* Model-viewer wrapper + loading overlay styles */
+.viewer-wrapper {
+  position: relative;
+  display: block;
+}
+.viewer-wrapper model-viewer {
+  display: block;
+}
+
+.model-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: linear-gradient(180deg, rgba(2,6,23,0.55), rgba(2,6,23,0.85));
+  color: #ffffff;
+  pointer-events: auto;
+  border-radius: 12px;
+}
+
+.model-loading-overlay .loader-card {
+  width: min(760px, calc(100% - 40px));
+  padding: 28px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(6px);
+}
+
+.model-loading-overlay .loading-logo img {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.model-loading-overlay .loading-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.model-loading-overlay .loading-subtext {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 6px;
+}
+
+.model-loading-overlay .progress-shell { margin-top: 16px; }
+.model-loading-overlay .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+.model-loading-overlay .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg,#00c2ff,#0077b6); transition: width 260ms linear; }
+.model-loading-overlay.fade-out { opacity: 0; transform: translateY(-6px); transition: opacity 0.45s ease, transform 0.45s ease; pointer-events: none; }
+
+@media (max-width: 768px) {
+  .main-nav {
+    display: flex !important; /* Force visibility on mobile */
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    order: 10 !important; /* Place at the bottom of header flex container */
+    margin-top: 10px !important;
+    padding: 10px 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    flex: none !important; /* Don't grow to fill space between logo/socials */
+  }
+
+  .main-nav a, .main-nav .dropdown-trigger {
+    padding: 6px 10px !important;
+    border: 1px solid rgba(0, 194, 255, 0.3) !important;
+    border-radius: 6px !important;
+    background: rgba(0, 194, 255, 0.1) !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(10px) !important;
+    display: none !important;
+    width: auto !important;
+    min-width: 140px !important;
+    background: #111827 !important;
+    border: 1px solid rgba(0, 194, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    z-index: 10000 !important;
+    opacity: 1 !important;
+  }
+
+  .dropdown.active .dropdown-menu {
+    display: block !important;
+  }
+}
+
+/* ===== HEADER CENTER LOGO LAYOUT ===== */
+.header-inner {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+
+.logo-sub-icons {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  order: 1 !important;
+}
+
+.main-center-logo {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  order: 2 !important;
+  margin: 0 auto !important;
+}
+
+.header-social {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  order: 3 !important;
+  margin-left: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  .logo-sub-icons, .header-social {
+    flex: 1 !important;
+  }
+  .main-center-logo {
+    flex: 0 0 auto !important;
+  }
+}
+
+/* Remove the recurring translucent page underlay used across content pages */
+.glass,
+.glass-box,
+.glass-box--fit,
+.page-wrapper,
+.contact-card,
+.container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.alba-dark-gradient,
+body.alba-dark-gradient {
+  background: radial-gradient(circle at 18% 0%, rgba(0, 194, 255, 0.14) 0%, rgba(0, 194, 255, 0) 42%),
+              radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.10) 0%, rgba(14, 165, 233, 0) 48%),
+              linear-gradient(180deg, #020617 0%, #07143a 100%) !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* =========================
+   CONTENT SPACING BELOW HEADER
+   ========================= */
+
+/* Add minimal spacing below header sufficient for dropdown menus */
+/* Apply to main content containers that don't have their own spacing */
+main:not(.home-main),
+.page,
+.shop-container,
+.cart-page {
+  margin-top: 120px !important; /* Minimal header + dropdown space */
+}
+
+/* Home page content should also start directly below header/dropdown area */
+.home-main {
+  margin-top: 120px !important; /* Minimal spacing for home page */
+}
+
+/* Reduce spacing on mobile */
+@media (max-width: 768px) {
+  main:not(.home-main),
+  .page,
+  .shop-container,
+  .cart-page {
+    margin-top: 0 !important;
+  }
+
+  .home-main {
+    margin-top: 90px !important; /* Minimal mobile spacing for home page */
+  }
+}
+
+/* =====================================================
+   MOBILE ACCOUNT MENU — centered in header, compact buttons
+   ===================================================== */
+@media (max-width: 1023px) {
+  /* Remove relative positioning so #alienMenu anchors to .header-inner instead */
+  .alien-dropdown-container {
+    position: static !important;
+  }
+
+  /* Center the dropdown relative to the full header width */
+  #alienMenu {
+    position: absolute !important;
+    top: calc(100% + 4px) !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    min-width: min(240px, calc(100vw - 32px)) !important;
+    width: min(240px, calc(100vw - 32px)) !important;
+    padding: 8px !important;
+    gap: 6px !important;
+  }
+
+  /* Compact buttons */
+  #alienMenu .alien-menu-item {
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Compact user summary row */
+  .alien-user-summary {
+    padding: 4px 6px !important;
+    gap: 6px !important;
+  }
+
+  .alien-user-summary img,
+  #accountMenuAvatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .alien-user-name {
+    font-size: 12px !important;
+  }
+}
