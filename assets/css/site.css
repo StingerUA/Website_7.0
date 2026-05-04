@@ -2243,7 +2243,7 @@ select, select option {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important; /* desktop: single row */
 }
 
 .logo-sub-icons {
@@ -2334,3 +2334,65 @@ main:not(.home-main),
 }
 
 /* #alienMenu — see dropdown-optimized.css */
+/* ================================================================
+   CART BADGE — clean counter on cart icon
+   ================================================================ */
+.header-cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-cart-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 999px;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(239,68,68,0.5);
+}
+
+/* Hide badge when count is 0 */
+.header-cart-count[data-cart-count="0"],
+.header-cart-count:empty {
+  display: none;
+}
+
+/* ================================================================
+   DESKTOP NAV — prevent wrapping, single row always
+   ================================================================ */
+@media (min-width: 1025px) {
+  .header-inner {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+
+  .main-nav {
+    flex-wrap: nowrap !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .main-nav a,
+  .main-nav .dropdown-trigger {
+    white-space: nowrap !important;
+  }
+}
