@@ -19,13 +19,14 @@
    */
   function init() {
     if (initialized) return;
-    initialized = true;
 
     const nav = document.querySelector('.main-nav');
     if (!nav) {
       requestAnimationFrame(init);
       return;
     }
+
+    initialized = true;
 
     const dropdowns = nav.querySelectorAll('.dropdown');
     if (dropdowns.length === 0) {
@@ -202,5 +203,8 @@
   }
 
   // Export init function for dynamic header loading
-  window.initDropdowns = init;
+  window.initDropdowns = function() {
+    initialized = false; // reset so init() can run again after dynamic header load
+    init();
+  };
 })();
