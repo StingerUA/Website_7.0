@@ -1,16 +1,20 @@
 <header class="site-header" role="banner">
   <div class="header-inner">
 
-    <!-- Left: logo icon + AI assistant + account -->
+    <!-- ── LEFT: logo · AI · account ── -->
     <div class="logo-sub-icons">
+
       <a href="/eng/index.html" class="header-logo-icon" aria-label="Alba Space home page">
         <img src="/assets/images/AlbaLogo.png" alt="Alba Space logo" width="32" height="32">
       </a>
-      <a href="#" class="ai-widget-toggle" aria-label="AI assistant" title="AI">
+
+      <a href="javascript:void(0);" class="ai-widget-toggle" aria-label="AI assistant" title="AI">
         <img src="/assets/images/albamenai.png" alt="AI assistant" width="32" height="32">
       </a>
+
+      <!-- ACCOUNT DROPDOWN -->
       <div class="alien-dropdown-container" data-account-page="/eng/account.html">
-        <a href="#"
+        <a href="javascript:void(0);"
            class="alien-ghost"
            aria-label="Account menu"
            aria-controls="alienMenu"
@@ -18,44 +22,45 @@
            aria-haspopup="true"
            title="Account"
            onclick="toggleAlienMenu(event)">
-          <img id="accountAvatar" class="account-avatar" src="/assets/icons/alien.png" alt="Account" width="32" height="32">
+          <img id="accountAvatar" class="account-avatar" src="/assets/icons/alien.png" alt="Hesap" width="32" height="32">
         </a>
+
         <div id="alienMenu" class="alien-menu" role="menu" hidden>
+          <!-- Logged OUT -->
           <div class="alien-auth-logged-out">
-            <a href="#" class="alien-menu-item open-login" role="menuitem">Sign In</a>
-            <button type="button"
-                    class="alien-menu-item alien-menu-google"
-                    onclick="login({ closeMenu: true, source: 'header-menu' })"
-                    aria-label="Sign in with Google"
-                    role="menuitem">Sign in with Google</button>
-            <a href="#" class="alien-menu-item open-signup" role="menuitem">Sign Up</a>
+            <a href="javascript:void(0);" class="alien-menu-item open-login" role="menuitem">Sign In</a>
+            <button type="button" class="alien-menu-item alien-menu-google"
+                    onclick="login({ closeMenu: true, source: 'header-menu' })" role="menuitem">
+              Sign in with Google
+            </button>
+            <a href="javascript:void(0);" class="alien-menu-item open-signup" role="menuitem">Sign Up</a>
           </div>
+
+          <!-- Logged IN -->
           <div class="alien-auth-logged-in" hidden>
-            <a id="accountMenuLink"
-               href="/eng/account.html"
-               data-account-page="/eng/account.html"
-               class="alien-menu-item alien-menu-account"
-               role="menuitem">
+            <a id="accountMenuLink" href="/eng/account.html" data-account-page="/eng/account.html"
+               class="alien-menu-item alien-menu-account" role="menuitem">
               <img id="accountMenuAvatar" src="/assets/icons/alien.png" alt="" width="28" height="28">
               <span id="accountMenuName" data-default-text="Account">Account</span>
             </a>
-            <button type="button"
-                    class="alien-menu-item"
-                    onclick="logout()">Logout</button>
+            <a href="/eng/account.html" class="alien-menu-item" role="menuitem">Account</a>
+            <a href="/eng/favorites.html" class="alien-menu-item" role="menuitem">Favorites</a>
+            <a href="/eng/orders.html" class="alien-menu-item" role="menuitem">Purchases</a>
+            <button type="button" class="alien-menu-item alien-menu-logout" onclick="logout()">Sign Out</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Center: Alba Space wordmark logo -->
+    <!-- ── CENTER: logo ── -->
     <a href="/eng/index.html" class="header-logo main-center-logo" aria-label="Alba Space">
       <img src="/assets/images/albaspace.png" alt="Alba Space" class="albaspace-img">
     </a>
 
-    <!-- Navigation -->
-    <nav class="main-nav" aria-label="Main navigation">
+    <!-- ── NAV ── -->
+    <nav class="main-nav" aria-label="Main menu">
       <div class="dropdown">
-        <a href="/eng/hizmetler.html" class="dropdown-trigger" aria-expanded="false">SERVICES</a>
+        <a href="/eng/hizmetler.html" class="dropdown-trigger">SERVICES</a>
         <div class="dropdown-menu">
           <a href="/eng/hizmetler.html">SERVICES</a>
           <a href="https://albaspace.com.tr/hyperclub" target="_blank" rel="noopener">Hyper Club</a>
@@ -64,14 +69,14 @@
       </div>
       <a href="/eng/shop.html">SHOP</a>
       <div class="dropdown">
-        <a href="/eng/albamen.html" class="dropdown-trigger" aria-expanded="false">ALBAMAN</a>
+        <a href="/eng/albamen.html" class="dropdown-trigger">ALBAMAN</a>
         <div class="dropdown-menu">
           <a href="/eng/albamen.html">ALBAMAN</a>
           <a href="/eng/atlas.html">ATLAS</a>
         </div>
       </div>
       <div class="dropdown">
-        <a href="/eng/hakkimizda.html" class="dropdown-trigger" aria-expanded="false">ABOUT US</a>
+        <a href="/eng/hakkimizda.html" class="dropdown-trigger">ABOUT US</a>
         <div class="dropdown-menu">
           <a href="/eng/hakkimizda.html">ABOUT US</a>
           <a href="/eng/basindabiz.html">PRESS</a>
@@ -81,52 +86,55 @@
       </div>
     </nav>
 
-    <!-- Right: social icons + language + cart -->
+    <!-- ── RIGHT: social + lang dropdown + cart ── -->
     <div class="header-social">
-      <div class="social-row" aria-label="Social media">
-        <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-track="inst">
-          <img src="/assets/icons/inst.png" alt="Instagram" loading="lazy">
+      <div class="social-row">
+        <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="/assets/icons/inst.png" alt="Instagram" width="22" height="22">
         </a>
-        <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <img src="/assets/icons/linkdin.png" alt="LinkedIn" loading="lazy">
+        <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="/assets/icons/linkdin.png" alt="LinkedIn" width="22" height="22">
         </a>
-        <a href="https://wa.me/905387781018" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" data-track="whatsapp">
-          <img src="/assets/icons/watsupp.png" alt="WhatsApp" loading="lazy">
+        <a href="https://wa.me/905387781018" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <img src="/assets/icons/watsupp.png" alt="WhatsApp" width="22" height="22">
         </a>
-        <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <img src="/assets/icons/youtube.png" alt="YouTube" loading="lazy">
+        <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener" aria-label="YouTube">
+          <img src="/assets/icons/youtube.png" alt="YouTube" width="22" height="22">
         </a>
       </div>
 
-      <!-- Language + cart -->
-      <div class="top-lang-switch">
-        <a href="/index.html"     data-lang="tr" class="lang-flag" aria-label="Türkçe">
-          <img src="/assets/icons/flag-tr.png"  alt="Türkçe"  width="24" height="16" loading="lazy">
-        </a>
-        <a href="/eng/index.html" data-lang="en" class="lang-flag" aria-label="English">
-          <img src="/assets/icons/flag-us.png"  alt="English" width="24" height="16" loading="lazy">
-        </a>
-        <a href="/rus/index.html" data-lang="ru" class="lang-flag" aria-label="Русский">
-          <img src="/assets/icons/flag-rus.png" alt="Русский" width="24" height="16" loading="lazy">
-        </a>
-
-        <a href="/eng/cart.html" class="header-cart-link" aria-label="Cart">
-          <span class="header-cart-icon" aria-hidden="true">
-            <img src="/assets/icons/chart.png" alt="" width="28" height="28">
-            <span class="header-cart-count" data-cart-count aria-label="Cart count">0</span>
-          </span>
-        </a>
+      <!-- LANG DROPDOWN -->
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Language" aria-expanded="false">
+          <img src="/assets/icons/flag-us.png" alt="English" class="lang-flag-icon" width="24" height="16">
+        </button>
+        <div class="lang-dropdown-menu" hidden>
+          <a href="/eng/index.html" data-lang="en" aria-label="Türkçe">
+            <img src="/assets/icons/flag-tr.png" alt="TR" width="24" height="16">
+          </a>
+          <a href="/eng/eng/index.html" data-lang="en" aria-label="English">
+            <img src="/assets/icons/flag-us.png" alt="EN" width="24" height="16">
+          </a>
+          <a href="/rus/eng/index.html" data-lang="ru" aria-label="Русский">
+            <img src="/assets/icons/flag-rus.png" alt="RU" width="24" height="16">
+          </a>
+        </div>
       </div>
+
+      <!-- CART -->
+      <a href="/eng/cart.html" class="header-cart-link" aria-label="Cart">
+        <span class="header-cart-icon" aria-hidden="true">
+          <img src="/assets/icons/cart.png" alt="" width="24" height="24">
+          <span class="header-cart-count" data-cart-count>0</span>
+        </span>
+      </a>
     </div>
 
   </div>
 </header>
 
 <link rel="stylesheet" href="/assets/css/dropdown-optimized.css">
-<link rel="stylesheet" href="/assets/css/model-nav-overrides.css">
-<link rel="stylesheet" href="/assets/css/remove-blog-overlay.css">
-<link rel="stylesheet" href="/assets/css/fix-layout.css">
-<link rel="stylesheet" href="/assets/css/content-z-index-fix.css">
+
 <script src="/assets/js/menu-toggle.js" defer></script>
 <script src="/assets/js/cart.js" defer></script>
 <script src="/assets/js/lang-switch.js" defer></script>
@@ -134,26 +142,26 @@
 <script src="/assets/js/model-nav-loader.js" defer></script>
 <script src="/assets/js/worker-auth.js" defer></script>
 <script src="/assets/js/mobile-header-cart.js" defer></script>
+
 <script>
 (function () {
-      function positionAlienMenu(menu, trigger) {
+
+  /* ── ACCOUNT MENU ── */
+  function positionAlienMenu(menu, trigger) {
     var isMobile = window.innerWidth <= 767;
     if (isMobile) {
-      // На мобильном: прижимаем под хедер, CSS сделает остальное (full-width row)
-      var headerEl = document.querySelector('.site-header') || document.querySelector('header');
-      var headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
-      menu.style.top  = headerBottom + 'px';
+      var headerEl = document.querySelector('.site-header');
+      var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
+      menu.style.top = hb + 'px';
       menu.style.left = '0';
       menu.style.right = '0';
       menu.style.transform = 'none';
     } else {
-      // Десктоп: прямо под кнопкой-триггером
       var rect = trigger.getBoundingClientRect();
-      var menuW = 220;
-      var gap = 6;
+      var menuW = 210;
       var left = rect.left;
       if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-      menu.style.top  = (rect.bottom + gap) + 'px';
+      menu.style.top = (rect.bottom + 6) + 'px';
       menu.style.left = Math.max(8, left) + 'px';
       menu.style.right = 'auto';
       menu.style.transform = 'none';
@@ -168,35 +176,59 @@
     if (menu.hasAttribute('hidden')) {
       positionAlienMenu(menu, trigger);
       menu.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
     } else {
       menu.setAttribute('hidden', '');
+      trigger.setAttribute('aria-expanded', 'false');
     }
   }
 
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     var menu = document.getElementById('alienMenu');
     var trigger = document.querySelector('.alien-ghost');
     if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
   });
 
-  function closeAlienMenu() {
-    const menu = document.getElementById('alienMenu');
-    const trigger = document.querySelector('.alien-ghost');
-    if (menu) menu.setAttribute('hidden', '');
-    if (trigger) trigger.setAttribute('aria-expanded', 'false');
-  }
-
   document.addEventListener('click', function (e) {
-    const container = document.querySelector('.alien-dropdown-container');
-    if (container && !container.contains(e.target)) closeAlienMenu();
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAlienMenu();
+    var container = document.querySelector('.alien-dropdown-container');
+    var menu = document.getElementById('alienMenu');
+    if (menu && container && !container.contains(e.target)) {
+      menu.setAttribute('hidden', '');
+      var trigger = document.querySelector('.alien-ghost');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
   });
 
   window.toggleAlienMenu = toggleAlienMenu;
-}());
-</script>
 
-<div data-include="/assets/includes/signup-modal.html"></div>
+  /* ── LANG DROPDOWN ── */
+  function toggleLangDropdown(e) {
+    if (e) e.preventDefault();
+    var wrap = document.getElementById('langDropdown');
+    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
+    var btn   = wrap ? wrap.querySelector('.lang-dropdown-trigger') : null;
+    if (!panel) return;
+    var isOpen = !panel.hasAttribute('hidden');
+    if (isOpen) {
+      panel.setAttribute('hidden', '');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    } else {
+      panel.removeAttribute('hidden');
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('langDropdown');
+    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
+    if (panel && wrap && !wrap.contains(e.target) && !panel.hasAttribute('hidden')) {
+      panel.setAttribute('hidden', '');
+      var btn = wrap.querySelector('.lang-dropdown-trigger');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  window.toggleLangDropdown = toggleLangDropdown;
+
+})();
+</script>

@@ -624,3 +624,179 @@ html.product-text-black .dropdown-menu button:hover {
   width: 28px;
   height: 28px;
 }
+
+/* ================================================================
+   LANG DROPDOWN — single flag button, expands to 3 on click
+   ================================================================ */
+.lang-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.lang-dropdown-trigger {
+  background: none;
+  border: none;
+  padding: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+.lang-dropdown-trigger:hover { opacity: 0.8; }
+.lang-dropdown-trigger img  { display: block; border-radius: 2px; }
+
+.lang-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(2, 6, 23, 0.97);
+  border: 1px solid rgba(0,194,255,0.2);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  z-index: 2147483647;
+  white-space: nowrap;
+  animation: langFadeIn 0.15s ease;
+}
+@keyframes langFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lang-dropdown-menu[hidden] { display: none !important; }
+
+.lang-dropdown-menu a {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border-radius: 3px;
+  transition: transform 0.15s, opacity 0.15s;
+  opacity: 0.75;
+}
+.lang-dropdown-menu a:hover { opacity: 1; transform: scale(1.1); }
+.lang-dropdown-menu img { border-radius: 2px; display: block; }
+
+
+/* ================================================================
+   ALIEN MENU — position: fixed, desktop column / mobile row
+   ================================================================ */
+#alienMenu {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  background: linear-gradient(160deg, rgba(2,6,23,0.99), rgba(6,12,30,0.99)) !important;
+  border: 1px solid rgba(0,194,255,0.22) !important;
+  border-radius: 14px !important;
+  padding: 10px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 20px rgba(0,194,255,0.07) !important;
+  /* vertical column by default */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-width: 190px !important;
+  width: auto !important;
+}
+#alienMenu[hidden] { display: none !important; }
+
+/* Mobile: horizontal strip pinned under header */
+@media (max-width: 767px) {
+  #alienMenu {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    min-width: unset !important;
+    border-radius: 0 0 12px 12px !important;
+    padding: 8px 14px !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    overflow-x: auto !important;
+  }
+  #alienMenu .alien-auth-logged-out,
+  #alienMenu .alien-auth-logged-in {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+  }
+  #alienMenu .alien-menu-item {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 7px 14px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+  }
+  /* hide duplicate "Hesap/Account/Аккаунт" account link row on mobile logged-in */
+  #alienMenu .alien-menu-account {
+    display: none !important;
+  }
+}
+
+/* User name — always white */
+.alien-user-name, #accountMenuName,
+#alienMenu .alien-user-name, #alienMenu #accountMenuName {
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+/* Avatars — always round */
+#accountMenuAvatar, #accountAvatar,
+.alien-ghost img, .alien-user-summary img {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
+}
+
+/* Logout button accent */
+.alien-menu-logout {
+  color: #fca5a5 !important;
+  background: rgba(239,68,68,0.1) !important;
+  border: 1px solid rgba(239,68,68,0.25) !important;
+}
+.alien-menu-logout:hover {
+  background: rgba(239,68,68,0.22) !important;
+}
+
+
+/* ================================================================
+   NAV DROPDOWN — smaller buttons, opens DOWN
+   ================================================================ */
+@media (max-width: 1023px) {
+  .dropdown-trigger {
+    font-size: 11px !important;
+    padding: 5px 7px !important;
+    font-weight: 600 !important;
+  }
+  .main-nav > a {   /* MAĞAZA plain link */
+    font-size: 11px !important;
+    padding: 5px 7px !important;
+  }
+  .dropdown-menu {
+    top: calc(100% + 4px) !important;
+    bottom: auto !important;
+  }
+  .dropdown-menu a,
+  .dropdown-menu button {
+    font-size: 11px !important;
+    padding: 6px 9px !important;
+  }
+}
+
+/* No stacking context on page containers */
+main, .page, .home-main, .shop-container, section,
+.product-grid, .card-container, .category-card {
+  z-index: auto !important;
+}
