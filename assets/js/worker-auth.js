@@ -1,3 +1,7 @@
+// Guard against double-loading (include.js may re-execute scripts)
+if (typeof window.__workerAuthLoaded === 'undefined') {
+  window.__workerAuthLoaded = true;
+
 const WORKER_BASE_URL = "https://albaspace-api.nncdecdgc.workers.dev";
 const WORKER_AUTH_URL = `${WORKER_BASE_URL}/auth/google`;
 const WORKER_ME_URL = `${WORKER_BASE_URL}/me`;
@@ -72,37 +76,47 @@ function setUserText(text) {
 
 function updateAuthMenu(user) {
   const loggedOutPanel = document.querySelector('.alien-auth-logged-out');
-  const loggedInPanel = document.querySelector('.alien-auth-logged-in');
-  const accountLink = document.getElementById('accountMenuLink');
-  const accountAvatar = document.getElementById('accountMenuAvatar');
-  const accountName = document.getElementById('accountMenuName');
-  const triggerAvatar = document.getElementById('accountAvatar');
-  const trigger = document.querySelector('.alien-ghost');
-  const isLoggedIn = user && (user.name || user.email || user.avatar);
+  const loggedInPanel  = document.querySelector('.alien-auth-logged-in');
+  const accountLink    = document.getElementById('accountMenuLink');
+  const accountAvatar  = document.getElementById('accountMenuAvatar');
+  const accountName    = document.getElementById('accountMenuName');
+  const triggerAvatar  = document.getElementById('accountAvatar');
+  const trigger        = document.querySelector('.alien-ghost');
+  const isLoggedIn     = !!(user && (user.name || user.email || user.avatar));
 
+  // Show/hide logged-in vs logged-out panels
   if (loggedOutPanel && loggedInPanel) {
-    loggedOutPanel.hidden = !isLoggedIn ? false : true;
-    loggedInPanel.hidden = isLoggedIn ? false : true;
+    loggedOutPanel.hidden = isLoggedIn;
+    loggedInPanel.hidden  = !isLoggedIn;
   }
 
   if (accountLink) {
-    const page = accountLink.dataset.accountPage || accountLink.href;
-    accountLink.href = page;
+    accountLink.href = accountLink.dataset.accountPage || '/account.html';
   }
 
+  // Avatar inside dropdown menu
   if (accountAvatar) {
     accountAvatar.src = (user && user.avatar) ? user.avatar : '/assets/icons/alien.png';
+    accountAvatar.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;';
+    if (user && user.avatar) accountAvatar.crossOrigin = 'anonymous';
   }
 
+  // User name inside dropdown menu
   if (accountName) {
-    accountName.textContent = (user && (user.name || user.email)) ? (user.name || user.email) : accountName.dataset.defaultText || 'Account';
+    accountName.textContent = (user && (user.name || user.email))
+      ? (user.name || user.email)
+      : (accountName.dataset.defaultText || 'Hesap');
   }
 
+  // Trigger button avatar (the alien icon in header)
   if (triggerAvatar) {
     triggerAvatar.src = (user && user.avatar) ? user.avatar : '/assets/icons/alien.png';
-    triggerAvatar.classList.toggle('account-avatar', Boolean(isLoggedIn));
+    triggerAvatar.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;';
+    if (user && user.avatar) triggerAvatar.crossOrigin = 'anonymous';
     if (trigger) {
-      trigger.setAttribute('title', isLoggedIn ? 'Account: ' + (user.name || user.email) : 'Account');
+      trigger.setAttribute('title', isLoggedIn
+        ? (user.name || user.email || 'Hesap')
+        : 'Hesap');
     }
   }
 }
@@ -235,3 +249,4 @@ if (document.readyState === 'loading') {
   }
 }
 
+}
