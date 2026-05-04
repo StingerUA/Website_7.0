@@ -1,5 +1,5 @@
 // Unified include.js for Alba Space website (Turkish)
-// Includes: Dynamic Header/Footer, AI Widget (Text+Voice), Analytics (GA4 + Yandex)
+// Includes: Dynamic Header/Footer,   l AI Widget (Text+Voice), Analytics (GA4 + Yandex)
 runAfterDomReady(() => {
   // AI-виджеты включены — используются для текстового и голосового общения
   window.__disableAiWidgets = false;
