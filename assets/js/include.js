@@ -203,6 +203,14 @@ runAfterDomReady(() => {
           };
           await processNestedIncludes(el);
         scripts.forEach((oldScript) => {
+          // Skip external scripts already present in the DOM (prevents double-load SyntaxErrors)
+          if (oldScript.src) {
+            const abs = new URL(oldScript.src, window.location.href).href;
+            if (document.querySelector(`script[src="${abs}"]`) ||
+                document.querySelector(`script[src="${oldScript.src}"]`)) {
+              return; // already loaded — skip
+            }
+          }
           const newScript = document.createElement("script");
           Array.from(oldScript.attributes || []).forEach(({ name, value }) => {
             if (name === "src") {
