@@ -78,7 +78,7 @@
         <div class="dropdown-menu">
           <a href="/hizmetler.html">HİZMETLER</a>
           <a href="https://albaspace.com.tr/hyperclub" target="_blank" rel="noopener">Hyper Club</a>
-          <a href="/kupsat.html">KubeSat</a>
+          <a href="/kubesat.html">KubeSat</a>
         </div>
       </div>
 
@@ -155,48 +155,19 @@
 
 <script>
 (function () {
-      function positionAlienMenu(menu, trigger) {
-    var isMobile = window.innerWidth <= 767;
-    if (isMobile) {
-      // На мобильном: прижимаем под хедер, CSS сделает остальное (full-width row)
-      var headerEl = document.querySelector('.site-header') || document.querySelector('header');
-      var headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
-      menu.style.top  = headerBottom + 'px';
-      menu.style.left = '0';
-      menu.style.right = '0';
-      menu.style.transform = 'none';
-    } else {
-      // Десктоп: прямо под кнопкой-триггером
-      var rect = trigger.getBoundingClientRect();
-      var menuW = 220;
-      var gap = 6;
-      var left = rect.left;
-      if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-      menu.style.top  = (rect.bottom + gap) + 'px';
-      menu.style.left = Math.max(8, left) + 'px';
-      menu.style.right = 'auto';
-      menu.style.transform = 'none';
-    }
-  }
-
   function toggleAlienMenu(e) {
-    if (e) e.preventDefault();
-    var menu = document.getElementById('alienMenu');
-    var trigger = document.querySelector('.alien-ghost');
-    if (!menu || !trigger) return;
+    e.preventDefault();
+    const menu = document.getElementById('alienMenu');
+    const trigger = document.querySelector('.alien-ghost');
+
     if (menu.hasAttribute('hidden')) {
-      positionAlienMenu(menu, trigger);
       menu.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
     } else {
       menu.setAttribute('hidden', '');
+      trigger.setAttribute('aria-expanded', 'false');
     }
   }
-
-  window.addEventListener('resize', function() {
-    var menu = document.getElementById('alienMenu');
-    var trigger = document.querySelector('.alien-ghost');
-    if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
-  });
 
   document.addEventListener('click', function (e) {
     const container = document.querySelector('.alien-dropdown-container');
