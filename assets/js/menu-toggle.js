@@ -12,6 +12,8 @@
   };
 
   let initialized = false;
+  let documentListenersInitialized = false;
+  let resizeListenerInitialized = false;
   let lastWindowWidth = window.innerWidth;
 
   /**
@@ -58,7 +60,11 @@
 
     if (!trigger || !menu) return;
 
-    const isDesktop = window.innerWidth >= CONFIG.desktop_breakpoint;
+    // Avoid binding duplicate listeners when dynamic headers re-initialize dropdowns.
+    // Duplicate handlers toggle the same menu twice on a single tap, which makes
+    // mobile dropdowns appear as if they do not open at all.
+    if (trigger.dataset.dropdownToggleBound === 'true') return;
+    trigger.dataset.dropdownToggleBound = 'true';
 
     // Click to toggle for both desktop and mobile
     trigger.addEventListener('click', e => {
@@ -137,6 +143,9 @@
    * Close dropdowns when clicking outside
    */
   function setupDocumentListeners() {
+    if (documentListenersInitialized) return;
+    documentListenersInitialized = true;
+
     document.addEventListener('click', e => {
       const nav = document.querySelector('.main-nav');
       if (nav && !nav.contains(e.target)) {
@@ -166,6 +175,9 @@
    * Handle window resize
    */
   function setupWindowResize() {
+    if (resizeListenerInitialized) return;
+    resizeListenerInitialized = true;
+
     window.addEventListener('resize', () => {
       const currentWidth = window.innerWidth;
       const wasDesktop = lastWindowWidth >= CONFIG.desktop_breakpoint;

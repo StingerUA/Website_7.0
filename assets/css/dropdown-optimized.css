@@ -800,3 +800,46 @@ main, .page, .home-main, .shop-container, section,
 .product-grid, .card-container, .category-card {
   z-index: auto !important;
 }
+/* ============================================================================
+   MOBILE HEADER DROPDOWN FIX — click-open menus must open downward
+   This block is intentionally last so it wins over earlier mobile overrides.
+   ============================================================================ */
+@media (max-width: 1023px) {
+  .site-header .header-inner .main-nav,
+  .site-header .header-inner .main-nav .dropdown {
+    overflow: visible !important;
+  }
+
+  .site-header .header-inner .main-nav .dropdown {
+    position: relative !important;
+  }
+
+  .site-header .header-inner .main-nav .dropdown-menu {
+    position: absolute !important;
+    top: calc(100% + 6px) !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) translateY(-6px) scale(0.98) !important;
+    transform-origin: top center !important;
+    width: max-content !important;
+    min-width: max(160px, 100%) !important;
+    max-width: min(92vw, 360px) !important;
+    max-height: min(70vh, 420px) !important;
+    grid-template-columns: 1fr !important;
+    z-index: 2147483647 !important;
+  }
+
+  .site-header .header-inner .main-nav .dropdown.active .dropdown-menu {
+    display: grid !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) scale(1) !important;
+  }
+
+  .site-header .header-inner .main-nav .dropdown:not(.active) .dropdown-menu,
+  .site-header .header-inner .main-nav .dropdown:not(.active) .dropdown-menu * {
+    pointer-events: none !important;
+  }
+}
