@@ -2545,3 +2545,58 @@ main:not(.home-main),
 
 .header-cart-count[data-cart-count="0"],
 .header-cart-count:empty { display: none; }
+
+/* ================================================================
+   CART ICON — same size as alien button (32px desktop, 26px mobile)
+   ================================================================ */
+.header-cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px !important;
+  height: 32px !important;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.header-cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.header-cart-icon img {
+  width: 26px !important;
+  height: 26px !important;
+  object-fit: contain;
+  display: block;
+}
+
+/* Mobile: exactly match alien-ghost img size */
+@media (max-width: 767px) {
+  .header-cart-link {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .header-cart-icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .header-cart-icon img {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  /* Alien button on mobile — same size */
+  .alien-ghost,
+  #accountAvatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
+}

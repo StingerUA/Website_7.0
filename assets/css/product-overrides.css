@@ -149,3 +149,34 @@ html.product-text-black .btn-glow {
   color: #000000 !important;
   box-shadow: 0 8px 24px rgba(96,165,250,0.18) !important;
 }
+
+
+
+/* ================================================================
+   PAYMENT ICONS — force small size on ALL product pages
+   Fixes 1280x832 mastercard.png and large visa.png
+   ================================================================ */
+.product-payment-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 4px !important;
+  flex-wrap: nowrap !important;
+}
+
+.product-payment-icons img,
+html.product-text-black .product-payment-icons img,
+html.product-text-black body .product-payment-icons img {
+  height: 20px !important;
+  width: auto !important;
+  max-width: 36px !important;
+  min-width: 0 !important;
+  max-height: 20px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  opacity: 0.9 !important;
+  filter: none !important;
+  fill: unset !important;
+  stroke: unset !important;
+}
