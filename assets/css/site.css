@@ -2197,44 +2197,72 @@ select, select option {
 
 @media (max-width: 768px) {
   .main-nav {
-    display: flex !important; /* Force visibility on mobile */
+    display: flex !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
     width: 100% !important;
-    order: 10 !important; /* Place at the bottom of header flex container */
-    margin-top: 10px !important;
-    padding: 10px 0 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-    flex: none !important; /* Don't grow to fill space between logo/socials */
+    order: 10 !important;
+    margin-top: 8px !important;
+    padding: 8px 0 !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
+    flex: none !important;
   }
 
   .main-nav a, .main-nav .dropdown-trigger {
-    padding: 6px 10px !important;
-    border: 1px solid rgba(0, 194, 255, 0.3) !important;
+    padding: 5px 9px !important;
+    border: 1px solid rgba(0,194,255,0.3) !important;
     border-radius: 6px !important;
-    background: rgba(0, 194, 255, 0.1) !important;
+    background: rgba(0,194,255,0.08) !important;
     font-size: 11px !important;
     white-space: nowrap !important;
   }
 
+  /* Mobile dropdown: use opacity/visibility (consistent with dropdown-optimized.css) */
+  .dropdown {
+    position: relative !important;
+  }
+
   .dropdown-menu {
     position: absolute !important;
-    top: 100% !important;
+    top: calc(100% + 4px) !important;
     left: 50% !important;
-    transform: translateX(-50%) translateY(10px) !important;
-    display: none !important;
+    transform: translateX(-50%) translateY(-4px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
     width: auto !important;
-    min-width: 140px !important;
-    background: #111827 !important;
-    border: 1px solid rgba(0, 194, 255, 0.3) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-    z-index: 10000 !important;
-    opacity: 1 !important;
+    min-width: 130px !important;
+    background: #0d1b35 !important;
+    border: 1px solid rgba(0,194,255,0.25) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+    z-index: 50000 !important;
+    padding: 6px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease !important;
   }
 
   .dropdown.active .dropdown-menu {
-    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+
+  .dropdown-menu a {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    color: #e5e7eb !important;
+    border-radius: 5px !important;
+    white-space: nowrap !important;
+  }
+
+  .dropdown-menu a:hover {
+    background: rgba(0,194,255,0.1) !important;
+    color: #fff !important;
   }
 }
 
@@ -2394,5 +2422,74 @@ main:not(.home-main),
   .main-nav a,
   .main-nav .dropdown-trigger {
     white-space: nowrap !important;
+  }
+}
+
+/* ================================================================
+   MODEL-VIEWER PAGES — header must not clip overflow (dropdowns)
+   ================================================================ */
+.site-header,
+.site-header *,
+.header-inner {
+  overflow: visible !important;
+}
+
+/* Ensure nav on model-viewer pages doesn't push header wider than viewport */
+@media (max-width: 1024px) {
+  .main-nav {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  /* Cart icon in logo-sub-icons — keep small on mobile */
+  .logo-sub-icons .header-cart-link img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+/* ================================================================
+   MOBILE HEADER — prevent overflow, hide socials on small screens
+   ================================================================ */
+@media (max-width: 767px) {
+  .site-header { overflow-x: hidden; }
+
+  /* Hide social icon row on mobile — too many items for 390px */
+  .header-social .social-row { display: none !important; }
+
+  /* Shrink logo and icons on mobile */
+  .logo-sub-icons img,
+  .logo-sub-icons .account-avatar { width: 26px !important; height: 26px !important; }
+
+  .main-center-logo .albaspace-img { height: 22px; width: auto; }
+
+  /* Cart badge compact */
+  .header-cart-link { display: inline-flex; align-items: center; }
+
+  /* Lang flag only, no extra padding */
+  .lang-dropdown-trigger { padding: 2px !important; }
+
+  /* header-inner: left + center + right in one row, nav below */
+  .header-inner {
+    flex-wrap: wrap !important;
+    padding: 8px 10px !important;
+    gap: 6px !important;
+  }
+
+  .logo-sub-icons {
+    gap: 6px !important;
+    order: 1;
+  }
+
+  .main-center-logo { order: 2; flex: 1; text-align: center; }
+
+  .header-social {
+    order: 3;
+    gap: 6px !important;
+  }
+
+  /* Nav goes full-width on second row */
+  .main-nav {
+    order: 10;
+    width: 100% !important;
   }
 }
