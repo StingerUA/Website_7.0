@@ -822,18 +822,19 @@
 
 /* ===== MOBILE HEADER - CART ICON FIX ===== */
 @media (max-width: 1024px) {
-    /* Move the cart icon to absolute top-left */
-    .header-cart-link {
-        position: absolute !important;
-        top: 15px !important;
-        left: 15px !important;
-        margin: 0 !important;
-        z-index: 10005 !important; /* Higher than menu toggle or logo */
+    /* Ensure the cart icon is the first element in the left group */
+    .logo-sub-icons {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin-left: 0 !important;
+        padding-left: 10px !important;
     }
 
-    /* Shift the logo/left icons to make space for the cart */
-    .logo-sub-icons {
-        margin-left: 40px !important;
+    .header-cart-link {
+        position: static !important;
+        order: -1 !important; /* Force it to be first */
     }
 }
 
