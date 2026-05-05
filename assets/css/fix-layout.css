@@ -594,14 +594,14 @@
         align-items: center !important;
         justify-content: center !important;
         width: calc(25% - 8px) !important; /* 4 items per row with gap */
-        min-width: 70px !important;
-        padding: 10px 6px !important;
+        min-width: 60px !important;
+        padding: 10px 4px !important;
         background-color: #00BFFF !important; /* Alien menu color */
         color: #ffffff !important;
         text-decoration: none !important;
         border-radius: 999px !important;
-        font-weight: 600 !important;
-        font-size: clamp(8px, 2.5vw, 12px) !important; /* Responsive font size */
+        font-weight: 700 !important;
+        font-size: clamp(7px, 2.2vw, 11px) !important; /* Slightly smaller for 4 in a row */
         text-transform: uppercase !important;
         transition: all 0.3s ease !important;
         box-shadow: 0 4px 6px rgba(0, 191, 255, 0.2) !important;
@@ -610,6 +610,7 @@
         overflow: hidden !important;
         text-overflow: ellipsis !important;
         box-sizing: border-box !important;
+        flex: 0 0 auto !important;
     }
     
     .header-inner .main-nav .dropdown-menu a:hover {

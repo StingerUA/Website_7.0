@@ -306,56 +306,7 @@
 
 /* ============================================================================
    MOBILE ADJUSTMENTS
-   ============================================================================ */
-
-@media (max-width: 1023px) {
-  .dropdown::after {
-    display: none !important;
-  }
-
-  /* Дропдаун появляется прямо под кнопкой которую нажали */
-  .dropdown-menu {
-    position: absolute !important;
-    top: calc(100% + 6px) !important;
-    left: 50% !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: translateX(-50%) translateY(-4px) !important;
-    z-index: 2147483647 !important;
-
-    /* 4 элемента в одну строку — ширина подстраивается под контент */
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    width: max-content !important;
-    max-width: 96vw !important;
-
-    background: #020617 !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    padding: 6px !important;
-    gap: 4px !important;
-    margin: 0 !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), inset 0 0 0 1px rgba(0, 194, 255, 0.08) !important;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none !important;
-    transition: transform 0.22s cubic-bezier(0.22, 1.0, 0.36, 1), opacity 0.2s ease, visibility 0.2s ease;
-  }
-
-  /* Ссылки в мобильном дропдауне — такой же размер и шрифт как nav кнопки */
-  .dropdown-menu a,
-  .dropdown-menu button {
-    pointer-events: none !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-    padding: 8px 10px !important;
-    white-space: nowrap !important;
-    border-radius: 6px !important;
-    flex: 0 0 auto !important;
+   ============================================================================   flex: 0 0 auto !important;
     text-align: center !important;
     justify-content: center !important;
   }
@@ -799,47 +750,4 @@ html.product-text-black .dropdown-menu button:hover {
 main, .page, .home-main, .shop-container, section,
 .product-grid, .card-container, .category-card {
   z-index: auto !important;
-}
-/* ============================================================================
-   MOBILE HEADER DROPDOWN FIX — click-open menus must open downward
-   This block is intentionally last so it wins over earlier mobile overrides.
-   ============================================================================ */
-@media (max-width: 1023px) {
-  .site-header .header-inner .main-nav,
-  .site-header .header-inner .main-nav .dropdown {
-    overflow: visible !important;
-  }
-
-  .site-header .header-inner .main-nav .dropdown {
-    position: relative !important;
-  }
-
-  .site-header .header-inner .main-nav .dropdown-menu {
-    position: absolute !important;
-    top: calc(100% + 6px) !important;
-    bottom: auto !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) translateY(-6px) scale(0.98) !important;
-    transform-origin: top center !important;
-    width: max-content !important;
-    min-width: max(160px, 100%) !important;
-    max-width: min(92vw, 360px) !important;
-    max-height: min(70vh, 420px) !important;
-    grid-template-columns: 1fr !important;
-    z-index: 2147483647 !important;
-  }
-
-  .site-header .header-inner .main-nav .dropdown.active .dropdown-menu {
-    display: grid !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateX(-50%) translateY(0) scale(1) !important;
-  }
-
-  .site-header .header-inner .main-nav .dropdown:not(.active) .dropdown-menu,
-  .site-header .header-inner .main-nav .dropdown:not(.active) .dropdown-menu * {
-    pointer-events: none !important;
-  }
 }
