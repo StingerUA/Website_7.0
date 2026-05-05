@@ -49,14 +49,15 @@ main * {
   border-color: #e5e7eb !important;
 }
 
-/* Payment icons keep original colors */
+/* Payment icons — small, consistent on product pages */
 .payment-icons img {
   filter: none !important;
-  opacity: 1 !important;
-  height: 24px !important;
+  opacity: 0.85 !important;
+  height: 18px !important;
   width: auto !important;
+  max-width: 40px !important;
   object-fit: contain !important;
-  transition: opacity 0.3s ease !important;
+  transition: opacity 0.2s ease !important;
 }
 
 .payment-icons img:hover {
@@ -148,5 +149,3 @@ html.product-text-black .btn-glow {
   color: #000000 !important;
   box-shadow: 0 8px 24px rgba(96,165,250,0.18) !important;
 }
-
-

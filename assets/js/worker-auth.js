@@ -205,6 +205,10 @@ async function saveAccountProfile(data) {
     result.ok = true;
     result.serverSaved = true;
     result.message = 'Profile saved successfully.';
+    // Re-fetch user and refresh header avatar + menu
+    if (typeof checkUser === 'function') {
+      setTimeout(checkUser, 300);
+    }
     return result;
   } catch (error) {
     result.error = error;
