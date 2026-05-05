@@ -306,11 +306,8 @@
 
 /* ============================================================================
    MOBILE ADJUSTMENTS
-   ============================================================================   flex: 0 0 auto !important;
-    text-align: center !important;
-    justify-content: center !important;
-  }
-
+   ============================================================================ */
+@media (max-width: 1023px) {
   .dropdown-menu a:hover,
   .dropdown-menu button:hover {
     background-color: rgba(0, 194, 255, 0.15) !important;
