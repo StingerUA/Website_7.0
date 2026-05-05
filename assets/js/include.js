@@ -236,7 +236,14 @@ runAfterDomReady(() => {
             ensureModelPreloader();
             ensureModelNavLoader();
             // Re-initialize dropdowns after dynamic header insertion
-            if (window.initDropdowns) window.initDropdowns();
+            // Retry loop handles race condition where menu-toggle.js may still be loading
+            (function tryInitDropdowns(attempts) {
+              if (window.initDropdowns) {
+                window.initDropdowns();
+              } else if (attempts > 0) {
+                setTimeout(function() { tryInitDropdowns(attempts - 1); }, 80);
+              }
+            })(15);
           }
           if (url.includes("footer-")) {
             enhanceFooter(el);
