@@ -139,14 +139,14 @@
   margin-top: 4px;
   position: relative;
   z-index: 2;
-}
-
-.payment-icons img {
-  height: 20px;
+}.payment-icons img {
+  height: 14px;
   width: auto;
-  max-width: 36px;
+  max-width: 28px;
   object-fit: contain;
-  opacity: 0.75;
+  opacity: 0.5;
+  filter: grayscale(0.2);
+}
   display: block;
   pointer-events: none;
 }
@@ -209,8 +209,8 @@
   }
 
   .payment-icons img {
-    height: 16px;
-    max-width: 28px;
+    height: 12px;
+    max-width: 24px;
   }
 }
 
