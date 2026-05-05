@@ -1,0 +1,243 @@
+<header class="site-header" role="banner">
+  <div class="header-inner">
+
+    <!-- ── LEFT: logo · AI · account ── -->
+    <div class="logo-sub-icons">
+
+      <a href="/index.html" class="header-logo-icon" aria-label="Alba Space ana sayfa">
+        <img src="/assets/images/AlbaLogo.png" alt="Alba Space logo" width="32" height="32">
+      </a>
+
+      <a href="javascript:void(0);" class="ai-widget-toggle" aria-label="AI asistan" title="AI">
+        <img src="/assets/images/albamenai.png" alt="AI asistan" width="32" height="32">
+      </a>
+
+      <!-- CART -->
+      <a href="/cart.html" class="header-cart-link" aria-label="Sepet">
+        <span class="header-cart-icon" aria-hidden="true">
+          <img src="/assets/icons/cart.png" alt="" width="26" height="26">
+          <span class="header-cart-count" data-cart-count>0</span>
+        </span>
+      </a>
+
+      <!-- ACCOUNT DROPDOWN -->
+      <div class="alien-dropdown-container" data-account-page="/account.html">
+        <a href="javascript:void(0);"
+           class="alien-ghost"
+           aria-label="Hesap menüsü"
+           aria-controls="alienMenu"
+           aria-expanded="false"
+           aria-haspopup="true"
+           title="Hesap"
+           onclick="toggleAlienMenu(event)">
+          <img id="accountAvatar" class="account-avatar" src="/assets/icons/alien.png" alt="Hesap" width="32" height="32">
+        </a>
+
+        <div id="alienMenu" class="alien-menu" role="menu" hidden>
+          <!-- Logged OUT -->
+          <div class="alien-auth-logged-out">
+            <a href="javascript:void(0);" class="alien-menu-item open-login" role="menuitem">Giriş Yap</a>
+            <button type="button" class="alien-menu-item alien-menu-google"
+                    onclick="login({ closeMenu: true, source: 'header-menu' })" role="menuitem">
+              Google ile Giriş Yap
+            </button>
+            <a href="javascript:void(0);" class="alien-menu-item open-signup" role="menuitem">Kayıt Ol</a>
+          </div>
+
+          <!-- Logged IN -->
+          <div class="alien-auth-logged-in" hidden>
+            <a id="accountMenuLink" href="/account.html" data-account-page="/account.html"
+               class="alien-menu-item alien-menu-account" role="menuitem">
+              <img id="accountMenuAvatar" src="/assets/icons/alien.png" alt="" width="28" height="28">
+              <span id="accountMenuName" data-default-text="Hesap">Hesap</span>
+            </a>
+            <a href="/account.html" class="alien-menu-item" role="menuitem">Hesap</a>
+            <a href="/favorites.html" class="alien-menu-item" role="menuitem">Favoriler</a>
+            <a href="/orders.html" class="alien-menu-item" role="menuitem">Satın Aldıklarım</a>
+            <button type="button" class="alien-menu-item alien-menu-logout" onclick="logout()">Çıkış Yap</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CART -->
+      <a href="/cart.html" class="header-cart-link" aria-label="Sepet">
+        <span class="header-cart-icon" aria-hidden="true">
+          <img src="/assets/icons/cart.png" alt="" width="24" height="24">
+          <span class="header-cart-count" data-cart-count>0</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- ── CENTER: logo ── -->
+    <a href="/index.html" class="header-logo main-center-logo" aria-label="Alba Space">
+      <img src="/assets/images/albaspace.png" alt="Alba Space" class="albaspace-img">
+    </a>
+
+    <!-- ── NAV ── -->
+    <nav class="main-nav" aria-label="Ana menü">
+      <div class="dropdown">
+        <a href="/hizmetler.html" class="dropdown-trigger">HİZMETLER</a>
+        <div class="dropdown-menu">
+          <a href="/hizmetler.html">HİZMETLER</a>
+          <a href="https://albaspace.com.tr/hyperclub" target="_blank" rel="noopener">Hyper Club</a>
+          <a href="/kubesat.html">KubeSat</a>
+        </div>
+      </div>
+      <a href="/shop.html">MAĞAZA</a>
+      <div class="dropdown">
+        <a href="/albamen.html" class="dropdown-trigger">ALBAMEN</a>
+        <div class="dropdown-menu">
+          <a href="/albamen.html">ALBAMEN</a>
+          <a href="/atlas.html">ATLAS</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="/hakkimizda.html" class="dropdown-trigger">HAKKIMIZDA</a>
+        <div class="dropdown-menu">
+          <a href="/hakkimizda.html">HAKKIMIZDA</a>
+          <a href="/basindabiz.html">BASINDA BİZ</a>
+          <a href="/galeri.html">GALERİ</a>
+          <a href="/iletisim.html">İLETİŞİM</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── RIGHT: social + lang dropdown + cart ── -->
+    <div class="header-social">
+      <div class="social-row">
+        <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="/assets/icons/inst.png" alt="Instagram" width="22" height="22">
+        </a>
+        <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="/assets/icons/linkdin.png" alt="LinkedIn" width="22" height="22">
+        </a>
+        <a href="https://wa.me/905387781018" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <img src="/assets/icons/watsupp.png" alt="WhatsApp" width="22" height="22">
+        </a>
+        <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener" aria-label="YouTube">
+          <img src="/assets/icons/youtube.png" alt="YouTube" width="22" height="22">
+        </a>
+      </div>
+
+      <!-- LANG DROPDOWN -->
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Dil seçimi" aria-expanded="false">
+          <img src="/assets/icons/flag-tr.png" alt="Türkçe" class="lang-flag-icon" width="24" height="16">
+        </button>
+        <div class="lang-dropdown-menu" hidden>
+          <a href="/index.html" data-lang="tr" aria-label="Türkçe">
+            <img src="/assets/icons/flag-tr.png" alt="TR" width="24" height="16">
+          </a>
+          <a href="/eng/index.html" data-lang="en" aria-label="English">
+            <img src="/assets/icons/flag-us.png" alt="EN" width="24" height="16">
+          </a>
+          <a href="/rus/index.html" data-lang="ru" aria-label="Русский">
+            <img src="/assets/icons/flag-rus.png" alt="RU" width="24" height="16">
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</header>
+
+<link rel="stylesheet" href="/assets/css/dropdown-optimized.css">
+
+<script src="/assets/js/menu-toggle.js" defer></script>
+<script src="/assets/js/cart.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+<script src="/assets/js/ai-widget.js" defer></script>
+<script src="/assets/js/model-nav-loader.js" defer></script>
+<script src="/assets/js/worker-auth.js" defer></script>
+<script src="/assets/js/mobile-header-cart.js" defer></script>
+
+<script>
+(function () {
+
+  /* ── ACCOUNT MENU ── */
+  function positionAlienMenu(menu, trigger) {
+    var isMobile = window.innerWidth <= 767;
+    if (isMobile) {
+      var headerEl = document.querySelector('.site-header');
+      var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
+      menu.style.top = hb + 'px';
+      menu.style.left = '0';
+      menu.style.right = '0';
+      menu.style.transform = 'none';
+    } else {
+      var rect = trigger.getBoundingClientRect();
+      var menuW = 210;
+      var left = rect.left;
+      if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
+      menu.style.top = (rect.bottom + 6) + 'px';
+      menu.style.left = Math.max(8, left) + 'px';
+      menu.style.right = 'auto';
+      menu.style.transform = 'none';
+    }
+  }
+
+  function toggleAlienMenu(e) {
+    if (e) e.preventDefault();
+    var menu = document.getElementById('alienMenu');
+    var trigger = document.querySelector('.alien-ghost');
+    if (!menu || !trigger) return;
+    if (menu.hasAttribute('hidden')) {
+      positionAlienMenu(menu, trigger);
+      menu.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+    } else {
+      menu.setAttribute('hidden', '');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  window.addEventListener('resize', function () {
+    var menu = document.getElementById('alienMenu');
+    var trigger = document.querySelector('.alien-ghost');
+    if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
+  });
+
+  document.addEventListener('click', function (e) {
+    var container = document.querySelector('.alien-dropdown-container');
+    var menu = document.getElementById('alienMenu');
+    if (menu && container && !container.contains(e.target)) {
+      menu.setAttribute('hidden', '');
+      var trigger = document.querySelector('.alien-ghost');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  window.toggleAlienMenu = toggleAlienMenu;
+
+  /* ── LANG DROPDOWN ── */
+  function toggleLangDropdown(e) {
+    if (e) e.preventDefault();
+    var wrap = document.getElementById('langDropdown');
+    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
+    var btn   = wrap ? wrap.querySelector('.lang-dropdown-trigger') : null;
+    if (!panel) return;
+    var isOpen = !panel.hasAttribute('hidden');
+    if (isOpen) {
+      panel.setAttribute('hidden', '');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    } else {
+      panel.removeAttribute('hidden');
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('langDropdown');
+    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
+    if (panel && wrap && !wrap.contains(e.target) && !panel.hasAttribute('hidden')) {
+      panel.setAttribute('hidden', '');
+      var btn = wrap.querySelector('.lang-dropdown-trigger');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  window.toggleLangDropdown = toggleLangDropdown;
+
+})();
+</script>
