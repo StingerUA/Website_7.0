@@ -820,7 +820,7 @@
 
 /* ===== MOBILE HEADER - CART ICON FIX ===== */
 @media (max-width: 1024px) {
-    /* Ensure the cart icon is the first element in the left group */
+    /* Reposition cart to the right of alien button */
     .logo-sub-icons {
         display: flex !important;
         flex-direction: row !important;
@@ -832,7 +832,12 @@
 
     .header-cart-link {
         position: static !important;
-        order: -1 !important; /* Force it to be first */
+        order: 4 !important; /* Move to the end of logo-sub-icons (right of alien) */
+    }
+
+    .header-cart-icon img {
+        width: 28px !important; /* Match alien button size */
+        height: 28px !important;
     }
 }
 
