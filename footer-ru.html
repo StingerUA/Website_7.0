@@ -1,282 +1,64 @@
-<header class="site-header" role="banner">
-  <div class="header-inner">
+<footer class="footer footer--ru">
 
-    <!-- ── LEFT: logo · AI · account ── -->
-    <div class="logo-sub-icons">
-<a href="/rus/index.html" class="header-logo-icon" aria-label="Главная страница Alba Space">
-        <img src="/assets/images/AlbaLogo.png" alt="Alba Space logo" width="32" height="32">
-      </a>
-
-      <a href="javascript:void(0);" class="ai-widget-toggle" aria-label="AI ассистент" title="AI">
-        <img src="/assets/images/albamenai.png" alt="AI ассистент" width="32" height="32">
-      </a>
-
-      <!-- ACCOUNT DROPDOWN -->
-      <div class="alien-dropdown-container" data-account-page="/rus/account.html">
-        <a href="javascript:void(0);"
-           class="alien-ghost"
-           aria-label="Меню аккаунта"
-           aria-controls="alienMenu"
-           aria-expanded="false"
-           aria-haspopup="true"
-           title="Аккаунт"
-           onclick="toggleAlienMenu(event)">
-          <img id="accountAvatar" class="account-avatar" src="/assets/icons/alien.png" alt="Hesap" width="32" height="32">
-        </a>
-
-        <div id="alienMenu" class="alien-menu" role="menu" hidden>
-          <!-- Logged OUT -->
-          <div class="alien-auth-logged-out">
-            <a href="javascript:void(0);" class="alien-menu-item open-login" role="menuitem">Войти</a>
-            <button type="button" class="alien-menu-item alien-menu-google"
-                    onclick="login({ closeMenu: true, source: 'header-menu' })" role="menuitem">
-              Войти через Google
-            </button>
-            <a href="javascript:void(0);" class="alien-menu-item open-signup" role="menuitem">Регистрация</a>
-          </div>
-
-          <!-- Logged IN -->
-          <div class="alien-auth-logged-in" hidden>
-            <a id="accountMenuLink" href="/rus/account.html" data-account-page="/rus/account.html"
-               class="alien-menu-item alien-menu-account" role="menuitem">
-              <img id="accountMenuAvatar" src="/assets/icons/alien.png" alt="" width="28" height="28">
-              <span id="accountMenuName" data-default-text="Аккаунт">Аккаунт</span>
-            </a>
-            <a href="/rus/account.html" class="alien-menu-item" role="menuitem">Аккаунт</a>
-            <a href="/rus/favorites.html" class="alien-menu-item" role="menuitem">Избранное</a>
-            <a href="/rus/orders.html" class="alien-menu-item" role="menuitem">Покупки</a>
-            <button type="button" class="alien-menu-item alien-menu-logout" onclick="logout()">Выйти</button>
-          </div>
-        </div>
+  <div class="footer-grid footer-grid--3">
+    <!-- LEFT: Logo + Social -->
+    <div class="footer-left">
+      <div class="footer-logo" style="display:inline-flex; flex-direction:column; align-items:flex-start; text-align:left;">
+        <img src="/assets/images/albaspace.png" alt="Alba Space" class="albaspace-img">
+        <p>Перенесите свое будущее в космос!</p>
       </div>
-
-      <!-- CART -->
-      <a href="/cart.html" class="header-cart-link" aria-label="Корзина">
-        <span class="header-cart-icon" aria-hidden="true">
-          <img src="/assets/icons/cart.png" alt="" width="26" height="26">
-          <span class="header-cart-count" data-cart-count>0</span>
-        </span>
-      </a>
-
+      <div class="footer-social footer-social--row footer-social--xl">
+        <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <img src="/assets/icons/inst.png" alt="Instagram">
+        </a>
+        <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <img src="/assets/icons/linkdin.png" alt="LinkedIn">
+        </a>
+        <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <img src="/assets/icons/youtube.png" alt="YouTube">
+        </a>
+        <a href="https://wa.me/905387781018" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <img src="/assets/icons/watsupp.png" alt="WhatsApp">
+        </a>
+      </div>
     </div>
 
-    <!-- ── CENTER: logo ── -->
-    <a href="/rus/index.html" class="header-logo main-center-logo" aria-label="Alba Space">
-      <img src="/assets/images/albaspace.png" alt="Alba Space" class="albaspace-img">
-    </a>
-
-    <!-- ── NAV ── -->
-    <nav class="main-nav" aria-label="Навигация">
-      <div class="dropdown">
-        <a href="/rus/hizmetler.html" class="dropdown-trigger">УСЛУГИ</a>
-        <div class="dropdown-menu">
-          <a href="/rus/hizmetler.html">УСЛУГИ</a>
-          <a href="https://albaspace.com.tr/hyperclub" target="_blank" rel="noopener">Hyper Club</a>
-          <a href="/rus/kupsat.html">КубСат</a>
-        </div>
-      </div>
-      <a href="/rus/shop.html">МАГАЗИН</a>
-      <div class="dropdown">
-        <a href="/rus/albamen.html" class="dropdown-trigger">АЛЬБАМЕН</a>
-        <div class="dropdown-menu">
-          <a href="/rus/albamen.html">АЛЬБАМЕН</a>
-          <a href="/rus/atlas.html">АТЛАС</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <a href="/rus/hakkimizda.html" class="dropdown-trigger">О НАС</a>
-        <div class="dropdown-menu">
-          <a href="/rus/hakkimizda.html">О НАС</a>
-          <a href="/rus/basindabiz.html">ПРЕССА</a>
-          <a href="/rus/galeri.html">ГАЛЕРЕЯ</a>
-          <a href="/rus/iletisim.html">КОНТАКТЫ</a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ── RIGHT: social + lang dropdown + cart ── -->
-    <div class="header-social">
-      <div class="social-row">
-        <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener" aria-label="Instagram">
-          <img src="/assets/icons/inst.png" alt="Instagram" width="22" height="22">
-        </a>
-        <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <img src="/assets/icons/linkdin.png" alt="LinkedIn" width="22" height="22">
-        </a>
-        <a href="https://wa.me/905387781018" target="_blank" rel="noopener" aria-label="WhatsApp">
-          <img src="/assets/icons/watsupp.png" alt="WhatsApp" width="22" height="22">
-        </a>
-        <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener" aria-label="YouTube">
-          <img src="/assets/icons/youtube.png" alt="YouTube" width="22" height="22">
-        </a>
-      </div>
-
-      <!-- LANG DROPDOWN -->
-      <div class="lang-dropdown" id="langDropdown">
-        <button class="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Выбор языка" aria-expanded="false">
-          <img src="/assets/icons/flag-rus.png" alt="Русский" class="lang-flag-icon" width="24" height="16">
-        </button>
-        <div class="lang-dropdown-menu" hidden>
-          <a href="/rus/index.html" data-lang="ru" aria-label="Türkçe">
-            <img src="/assets/icons/flag-tr.png" alt="TR" width="24" height="16">
-          </a>
-          <a href="/eng/rus/index.html" data-lang="en" aria-label="English">
-            <img src="/assets/icons/flag-us.png" alt="EN" width="24" height="16">
-          </a>
-          <a href="/rus/rus/index.html" data-lang="ru" aria-label="Русский">
-            <img src="/assets/icons/flag-rus.png" alt="RU" width="24" height="16">
-          </a>
-        </div>
-      </div>
-
+    <!-- MIDDLE: Contact buttons -->
+    <div class="footer-actions footer-actions--contact">
+      <a class="footer-action" href="tel:+905387781018">
+        <span class="footer-action__title">Телефон</span>
+        <span class="footer-action__value">+905387781018</span>
+        <span class="footer-action__hint">Позвоните нам</span>
+      </a>
+      <a class="footer-action" href="mailto:hello@albaspace.com.tr">
+        <span class="footer-action__title">E-mail</span>
+        <span class="footer-action__value">hello@albaspace.com.tr</span>
+        <span class="footer-action__hint">Напишите нам</span>
+      </a>
     </div>
 
+    <!-- RIGHT: Office buttons -->
+    <div class="footer-actions footer-actions--offices">
+      <a class="footer-action"
+         href="https://www.google.com/maps/search/?api=1&query=%C3%87ukurova%20%C3%9Cniversitesi%20Teknokent%20No%3AB207%20Sar%C4%B1%C3%A7am%20Adana"
+         target="_blank" rel="noopener noreferrer">
+        <span class="footer-action__title" aria-label="Location">📍</span>
+        <span class="footer-action__value">Çukurova Teknokent</span>
+        <span class="footer-action__hint">Показать на карте</span>
+      </a>
+    </div>
   </div>
-</header>
 
-<link rel="stylesheet" href="/assets/css/dropdown-optimized.css">
+  <!-- === ИЗМЕНЕННЫЙ БЛОК === -->
+  <div class="footer-bottom">
+    <div class="footer-legal-links">
+      <a href="/rus/teslimat-ve-iade-sartlari.html">Условия доставки и возврата</a>
+      <a href="/rus/gizlilik-sozlesmesi.html">Политика конфиденциальности</a>
+    </div>
+    <p>© 2026 Alba Space. All rights reserved.</p>
+  </div>
+  <!-- === КОНЕЦ ИЗМЕНЕННОГО БЛОКА === -->
 
-<script src="/assets/js/menu-toggle.js" defer></script>
-<script src="/assets/js/cart.js" defer></script>
-<script src="/assets/js/lang-switch.js" defer></script>
-<script src="/assets/js/ai-widget.js" defer></script>
-<script src="/assets/js/model-nav-loader.js" defer></script>
-<script src="/assets/js/worker-auth.js" defer></script>
-<script src="/assets/js/mobile-header-cart.js" defer></script>
+</footer>
 
-<script>
-(function () {
-
-  /* ── Белый фон: shop, cart, product-* ── */
-  function isWhiteBgPage() {
-    var path = window.location.pathname.toLowerCase();
-    return (
-      document.documentElement.classList.contains('product-text-black') ||
-      /\/(shop|cart)(\.html|\/)?(\?|#|$)/.test(path) ||
-      /\/product-[^/]+(\.html)?(\?|#|$)/.test(path)
-    );
-  }
-
-  /* ── Оверлей ── */
-  function getOrCreateOverlay() {
-    var ov = document.getElementById('alienMenuOverlay');
-    if (!ov) {
-      ov = document.createElement('div');
-      ov.id = 'alienMenuOverlay';
-      document.body.appendChild(ov);
-    }
-    return ov;
-  }
-
-  /* ── Позиционирование ── */
-  function positionAlienMenu(menu, trigger) {
-    var white = isWhiteBgPage();
-    var isMobile = window.innerWidth <= 767;
-
-    // Сбрасываем inline-стили позиции
-    menu.style.top = menu.style.left = menu.style.right = menu.style.transform = menu.style.width = '';
-
-    if (white) {
-      // Модальный режим — центр экрана
-      menu.classList.add('modal-mode');
-      var ov = getOrCreateOverlay();
-      ov.style.display = 'block';
-    } else {
-      menu.classList.remove('modal-mode');
-      var ov = document.getElementById('alienMenuOverlay');
-      if (ov) ov.style.display = 'none';
-
-      if (isMobile) {
-        var headerEl = document.querySelector('.site-header');
-        var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
-        menu.style.top = hb + 'px';
-        menu.style.left = '0';
-        menu.style.right = '0';
-        menu.style.width = '100vw';
-        menu.style.transform = 'none';
-      } else {
-        var rect = trigger.getBoundingClientRect();
-        var menuW = 210;
-        var left = rect.left;
-        if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-        menu.style.top = (rect.bottom + 6) + 'px';
-        menu.style.left = Math.max(8, left) + 'px';
-        menu.style.transform = 'none';
-      }
-    }
-  }
-
-  function closeAlienMenu() {
-    var menu = document.getElementById('alienMenu');
-    var trigger = document.querySelector('.alien-ghost');
-    var ov = document.getElementById('alienMenuOverlay');
-    if (menu) { menu.setAttribute('hidden', ''); menu.classList.remove('modal-mode'); }
-    if (trigger) { trigger.setAttribute('aria-expanded', 'false'); }
-    if (ov) { ov.style.display = 'none'; }
-  }
-
-  function toggleAlienMenu(e) {
-    if (e) e.preventDefault();
-    var menu = document.getElementById('alienMenu');
-    var trigger = document.querySelector('.alien-ghost');
-    if (!menu || !trigger) return;
-    if (menu.hasAttribute('hidden')) {
-      positionAlienMenu(menu, trigger);
-      menu.removeAttribute('hidden');
-      trigger.setAttribute('aria-expanded', 'true');
-    } else {
-      closeAlienMenu();
-    }
-  }
-
-  window.addEventListener('resize', function () {
-    var menu = document.getElementById('alienMenu');
-    var trigger = document.querySelector('.alien-ghost');
-    if (menu && trigger && !menu.hasAttribute('hidden')) positionAlienMenu(menu, trigger);
-  });
-
-  document.addEventListener('click', function (e) {
-    var container = document.querySelector('.alien-dropdown-container');
-    var menu = document.getElementById('alienMenu');
-    if (menu && !menu.hasAttribute('hidden') && container && !container.contains(e.target)) {
-      closeAlienMenu();
-    }
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeAlienMenu();
-  });
-
-  window.toggleAlienMenu = toggleAlienMenu;
-
-  /* ── LANG DROPDOWN ── */
-  function toggleLangDropdown(e) {
-    if (e) e.preventDefault();
-    var wrap = document.getElementById('langDropdown');
-    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
-    var btn   = wrap ? wrap.querySelector('.lang-dropdown-trigger') : null;
-    if (!panel) return;
-    var isOpen = !panel.hasAttribute('hidden');
-    if (isOpen) {
-      panel.setAttribute('hidden', '');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-    } else {
-      panel.removeAttribute('hidden');
-      if (btn) btn.setAttribute('aria-expanded', 'true');
-    }
-  }
-
-  document.addEventListener('click', function (e) {
-    var wrap = document.getElementById('langDropdown');
-    var panel = wrap ? wrap.querySelector('.lang-dropdown-menu') : null;
-    if (panel && wrap && !wrap.contains(e.target) && !panel.hasAttribute('hidden')) {
-      panel.setAttribute('hidden', '');
-      var btn = wrap.querySelector('.lang-dropdown-trigger');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  window.toggleLangDropdown = toggleLangDropdown;
-
-})();
-</script>
+<link rel="stylesheet" href="/assets/css/product-final-overrides.css">
