@@ -147,26 +147,72 @@
 <script>
 (function () {
 
-  /* ── ACCOUNT MENU ── */
-  function positionAlienMenu(menu, trigger) {
-    var isMobile = window.innerWidth <= 767;
-    if (isMobile) {
-      var headerEl = document.querySelector('.site-header');
-      var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
-      menu.style.top = hb + 'px';
-      menu.style.left = '0';
-      menu.style.right = '0';
-      menu.style.transform = 'none';
-    } else {
-      var rect = trigger.getBoundingClientRect();
-      var menuW = 210;
-      var left = rect.left;
-      if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-      menu.style.top = (rect.bottom + 6) + 'px';
-      menu.style.left = Math.max(8, left) + 'px';
-      menu.style.right = 'auto';
-      menu.style.transform = 'none';
+  /* ── Белый фон: shop, cart, product-* ── */
+  function isWhiteBgPage() {
+    var path = window.location.pathname.toLowerCase();
+    return (
+      document.documentElement.classList.contains('product-text-black') ||
+      /\/(shop|cart)(\.html|\/)?(\?|#|$)/.test(path) ||
+      /\/product-[^/]+(\.html)?(\?|#|$)/.test(path)
+    );
+  }
+
+  /* ── Оверлей ── */
+  function getOrCreateOverlay() {
+    var ov = document.getElementById('alienMenuOverlay');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'alienMenuOverlay';
+      document.body.appendChild(ov);
     }
+    return ov;
+  }
+
+  /* ── Позиционирование ── */
+  function positionAlienMenu(menu, trigger) {
+    var white = isWhiteBgPage();
+    var isMobile = window.innerWidth <= 767;
+
+    // Сбрасываем inline-стили позиции
+    menu.style.top = menu.style.left = menu.style.right = menu.style.transform = menu.style.width = '';
+
+    if (white) {
+      // Модальный режим — центр экрана
+      menu.classList.add('modal-mode');
+      var ov = getOrCreateOverlay();
+      ov.style.display = 'block';
+    } else {
+      menu.classList.remove('modal-mode');
+      var ov = document.getElementById('alienMenuOverlay');
+      if (ov) ov.style.display = 'none';
+
+      if (isMobile) {
+        var headerEl = document.querySelector('.site-header');
+        var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
+        menu.style.top = hb + 'px';
+        menu.style.left = '0';
+        menu.style.right = '0';
+        menu.style.width = '100vw';
+        menu.style.transform = 'none';
+      } else {
+        var rect = trigger.getBoundingClientRect();
+        var menuW = 210;
+        var left = rect.left;
+        if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
+        menu.style.top = (rect.bottom + 6) + 'px';
+        menu.style.left = Math.max(8, left) + 'px';
+        menu.style.transform = 'none';
+      }
+    }
+  }
+
+  function closeAlienMenu() {
+    var menu = document.getElementById('alienMenu');
+    var trigger = document.querySelector('.alien-ghost');
+    var ov = document.getElementById('alienMenuOverlay');
+    if (menu) { menu.setAttribute('hidden', ''); menu.classList.remove('modal-mode'); }
+    if (trigger) { trigger.setAttribute('aria-expanded', 'false'); }
+    if (ov) { ov.style.display = 'none'; }
   }
 
   function toggleAlienMenu(e) {
@@ -179,8 +225,7 @@
       menu.removeAttribute('hidden');
       trigger.setAttribute('aria-expanded', 'true');
     } else {
-      menu.setAttribute('hidden', '');
-      trigger.setAttribute('aria-expanded', 'false');
+      closeAlienMenu();
     }
   }
 
@@ -193,11 +238,13 @@
   document.addEventListener('click', function (e) {
     var container = document.querySelector('.alien-dropdown-container');
     var menu = document.getElementById('alienMenu');
-    if (menu && container && !container.contains(e.target)) {
-      menu.setAttribute('hidden', '');
-      var trigger = document.querySelector('.alien-ghost');
-      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    if (menu && !menu.hasAttribute('hidden') && container && !container.contains(e.target)) {
+      closeAlienMenu();
     }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAlienMenu();
   });
 
   window.toggleAlienMenu = toggleAlienMenu;

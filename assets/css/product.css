@@ -38,7 +38,7 @@
 }
 
 /* ── Image column ── */
-.product-image-col { position: sticky; top: 24px; }
+.product-image-col { position: relative; /* sticky removed: created stacking context */ }
 
 .product-main-image-wrap {
   border-radius: 20px;
