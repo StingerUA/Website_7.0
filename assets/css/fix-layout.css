@@ -437,17 +437,14 @@
         display: none !important;
     }
 
-    /* Show cart in logo-sub-icons and style it properly on mobile */
+    /* Show cart in logo-sub-icons — flows naturally after alien button */
     .logo-sub-icons > .header-cart-link {
-        position: absolute !important;
-        top: 12px !important;
-        left: 12px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         margin: 0 !important;
         padding: 0 !important;
-        z-index: 150 !important;
+        order: 4 !important; /* after AlbaLogo(1), AI(2), alien(3) */
     }
 
     /* Style cart icon image on mobile */
