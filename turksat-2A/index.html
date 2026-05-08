@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TÜRKSAT 2A – Alba Space</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.0/model-viewer.min.js" crossorigin="anonymous"></script>
@@ -35,7 +35,18 @@
   <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/menu-toggle.js" defer></script>
   <script src="/assets/js/model-viewer-debug.js" defer></script>
-</head>
+<style>
+    html, body {
+      overflow-x: hidden !important;
+      width: 100% !important;
+      position: relative !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    * {
+      box-sizing: border-box !important;
+    }
+    </style></head>
 <body>
   <div data-include="/header-tr.html"></div>
 

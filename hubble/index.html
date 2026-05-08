@@ -2,18 +2,40 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hubble – Alba Space</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.0/model-viewer.min.js" crossorigin="anonymous"></script>
 
-  <style> :root { --header-bg: #020617; --accent: #00c2ff; } * { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: Arial, sans-serif; background-size: cover; color: #fff; opacity: 0; animation: fadeInBody 0.8s ease-out forwards; } @keyframes fadeInBody { to { opacity: 1; } } /* HEADER */    .header-logo img { width: 40px; height: 40px; border-radius: 999px; padding: 4px; } .header-logo span { font-weight: 600; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; }  .main-nav a { color: #d1d5db; text-decoration: none; position: relative; padding-bottom: 2px; } .main-nav a:hover { color: #ffffff; } .main-nav a.active::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 2px; border-radius: 999px; }  .social-icon-svg { width: 22px; height: 22px; fill: none; stroke: #e5e7eb; stroke-width: 1.6; transition: stroke 0.2s, transform 0.15s; } .header-social a:hover .social-icon-svg { stroke: #ffffff; transform: translateY(-1px); } .top-lang-switch { display: flex; gap: 6px; align-items: center; font-size: 13px; } .top-lang-switch a { padding: 4px 10px; border-radius: 999px; border: 1px solid #4b5563; color: #e5e7eb; text-decoration: none; } .top-lang-switch a.active { color: #020617; font-weight: 600; } /* КОНТЕНТ СТРАНИЦЫ */ h1 { text-align: center; margin-top: 100px; margin-bottom: 15px; font-size: 32px; text-shadow: 0 0 15px #000; } .container { width: 90%; max-width: 1200px; margin: auto; padding-bottom: 50px; backdrop-filter: blur(2px); } p { text-align: center; font-size: 18px; text-shadow: 0 0 8px #000; max-width: 900px; margin: 20px auto; } model-viewer { width: 100%; height: 600px; margin-top: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); } @media (max-width: 768px) { h1 { font-size: 26px; margin-top: 90px; } model-viewer { height: 420px; } } </style>
+  <style> :root { --header-bg: #020617; --accent: #00c2ff; } * { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: Arial, sans-serif; background-size: cover; color: #fff; opacity: 0; animation: fadeInBody 0.8s ease-out forwards; } @keyframes fadeInBody { to { opacity: 1; } } /* HEADER */    .header-logo img { width: 40px; height: 40px; border-radius: 999px; padding: 4px; } .header-logo span { font-weight: 600; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; }  .main-nav a { color: #d1d5db; text-decoration: none; position: relative; padding-bottom: 2px; } .main-nav a:hover { color: #ffffff; } .main-nav a.active::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 2px; border-radius: 999px; }  .social-icon-svg { width: 22px; height: 22px; fill: none; stroke: #e5e7eb; stroke-width: 1.6; transition: stroke 0.2s, transform 0.15s; } .header-social a:hover .social-icon-svg { stroke: #ffffff; transform: translateY(-1px); } .top-lang-switch { display: flex; gap: 6px; align-items: center; font-size: 13px; } .top-lang-switch a { padding: 4px 10px; border-radius: 999px; border: 1px solid #4b5563; color: #e5e7eb; text-decoration: none; } .top-lang-switch a.active { color: #020617; font-weight: 600; } /* КОНТЕНТ СТРАНИЦЫ */ h1 { text-align: center; margin-top: 100px; margin-bottom: 15px; font-size: 32px; text-shadow: 0 0 15px #000; } .container { width: 90%; max-width: 1200px; margin: auto; padding-bottom: 50px; backdrop-filter: blur(2px); } p { text-align: center; font-size: 18px; text-shadow: 0 0 8px #000; max-width: 900px; margin: 20px auto; } model-viewer { width: 100%; height: 600px; margin-top: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); } @media (max-width: 768px) { h1 { font-size: 26px; margin-top: 90px; } model-viewer { height: 420px; } } 
+    html, body {
+      overflow-x: hidden !important;
+      width: 100% !important;
+      position: relative !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    * {
+      box-sizing: border-box !important;
+    }
+    </style>
 
   <!-- Глобальные стили + include -->
   <link rel="stylesheet" href="/assets/css/site.css" />
 
   <!-- ДОП. СТИЛИ ИМЕННО ДЛЯ ФУТЕРА, ЧТОБЫ ПЕРЕБИТЬ site.css -->
-  <style> footer.site-footer { color: #e5e7eb; border-top: 1px solid #0b1120; padding: 24px 0 28px; } .site-footer .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; } .site-footer .footer-left { display: flex; align-items: center; gap: 10px; } .site-footer .footer-left img { width: 44px; height: 44px; border-radius: 999px; box-shadow: 0 0 16px rgba(0, 194, 255, 0.7); } .site-footer .footer-tagline { font-size: 14px; color: #d1d5db; } .site-footer .footer-center, .site-footer .footer-right { font-size: 14px; color: #d1d5db; } .site-footer .footer-right { text-align: right; } .site-footer a { color: #e5e7eb; text-decoration: none; } .site-footer a:hover { color: #ffffff; text-decoration: underline; } .site-footer .footer-social { display: flex; gap: 14px; margin-top: 6px; justify-content: center; } .site-footer .footer-social svg { width: 22px; height: 22px; stroke: #e5e7eb; fill: none; transition: stroke 0.2s, transform 0.15s; } .site-footer .footer-social a:hover svg { stroke: #ffffff; transform: translateY(-1px); } @media (max-width: 900px) { .site-footer .footer-inner { flex-direction: column; align-items: center; text-align: center; } .site-footer .footer-right { text-align: center; } } </style>
+  <style> footer.site-footer { color: #e5e7eb; border-top: 1px solid #0b1120; padding: 24px 0 28px; } .site-footer .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; } .site-footer .footer-left { display: flex; align-items: center; gap: 10px; } .site-footer .footer-left img { width: 44px; height: 44px; border-radius: 999px; box-shadow: 0 0 16px rgba(0, 194, 255, 0.7); } .site-footer .footer-tagline { font-size: 14px; color: #d1d5db; } .site-footer .footer-center, .site-footer .footer-right { font-size: 14px; color: #d1d5db; } .site-footer .footer-right { text-align: right; } .site-footer a { color: #e5e7eb; text-decoration: none; } .site-footer a:hover { color: #ffffff; text-decoration: underline; } .site-footer .footer-social { display: flex; gap: 14px; margin-top: 6px; justify-content: center; } .site-footer .footer-social svg { width: 22px; height: 22px; stroke: #e5e7eb; fill: none; transition: stroke 0.2s, transform 0.15s; } .site-footer .footer-social a:hover svg { stroke: #ffffff; transform: translateY(-1px); } @media (max-width: 900px) { .site-footer .footer-inner { flex-direction: column; align-items: center; text-align: center; } .site-footer .footer-right { text-align: center; } } 
+    html, body {
+      overflow-x: hidden !important;
+      width: 100% !important;
+      position: relative !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    * {
+      box-sizing: border-box !important;
+    }
+    </style>
 
   <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/menu-toggle.js" defer></script>

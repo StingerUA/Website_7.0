@@ -838,6 +838,20 @@
     }
 }
 
+/* Global fix for horizontal scroll and blue background */
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #020617 !important; /* Ensure dark background */
+}
+
+* {
+    box-sizing: border-box !important;
+}
+
 /* ===== MOBILE BACKDROP - Block clicks outside dropdown menu ===== */
 @media (max-width: 1023px) {
     /* When dropdown is active, create a full-screen invisible overlay */

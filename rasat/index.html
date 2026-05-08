@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rasat – Alba Space</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.0/model-viewer.min.js" crossorigin="anonymous"></script>
@@ -11,7 +11,18 @@
   <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/menu-toggle.js" defer></script>
 
-  <style> body { margin: 0; font-family: Arial, sans-serif; background-size: cover; color: #fff; opacity: 0; animation: fadeIn 0.8s ease-out forwards; } @keyframes fadeIn { to { opacity: 1; } } h1 { text-align: center; margin-top: 110px; margin-bottom: 15px; font-size: 32px; text-shadow: 0 0 15px #000; } .container { width: 90%; max-width: 1200px; margin: auto; padding-bottom: 50px; backdrop-filter: blur(2px); } p { text-align: center; font-size: 18px; text-shadow: 0 0 8px #000; max-width: 900px; margin: 20px auto; } model-viewer { width: 100%; height: 600px; margin-top: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(0,150,255,0.5); } @media (max-width: 768px) { h1 { font-size: 26px; margin-top: 100px; } model-viewer { height: 420px; } }   </style>
+  <style> body { margin: 0; font-family: Arial, sans-serif; background-size: cover; color: #fff; opacity: 0; animation: fadeIn 0.8s ease-out forwards; } @keyframes fadeIn { to { opacity: 1; } } h1 { text-align: center; margin-top: 110px; margin-bottom: 15px; font-size: 32px; text-shadow: 0 0 15px #000; } .container { width: 90%; max-width: 1200px; margin: auto; padding-bottom: 50px; backdrop-filter: blur(2px); } p { text-align: center; font-size: 18px; text-shadow: 0 0 8px #000; max-width: 900px; margin: 20px auto; } model-viewer { width: 100%; height: 600px; margin-top: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(0,150,255,0.5); } @media (max-width: 768px) { h1 { font-size: 26px; margin-top: 100px; } model-viewer { height: 420px; } }   
+    html, body {
+      overflow-x: hidden !important;
+      width: 100% !important;
+      position: relative !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    * {
+      box-sizing: border-box !important;
+    }
+    </style>
   <script src="/assets/js/model-viewer-debug.js" defer></script>
 </head>
 <body>
