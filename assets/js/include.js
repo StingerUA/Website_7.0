@@ -929,13 +929,12 @@ function injectBackgroundFix() {
   const style = document.createElement('style');
   style.id = 'alba-bg-fix-style';
   style.textContent = `
-    /* Применяем только в Safari/iOS (webkit-особенность) */
-    @supports (-webkit-touch-callout: none) {
-      html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-      }
-      /* Перебиваем background-attachment: fixed из inline-стиля body */
+    /* Prevent horizontal overflow in ALL browsers on mobile */
+    html, body {
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+    }
+    @media (max-width: 1024px) {
       body {
         background-attachment: scroll !important;
       }
@@ -2075,3 +2074,4 @@ function injectUnifiedAiWidget() {
     });
   }
 }
+
