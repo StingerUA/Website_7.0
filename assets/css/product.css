@@ -13,7 +13,7 @@
   --accent:       #0099cc;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 24px 80px;
+  padding: 10px 24px 80px;
   color: var(--p-text);
 }
 
