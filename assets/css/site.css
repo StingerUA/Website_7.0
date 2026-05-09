@@ -2470,8 +2470,9 @@ main:not(.home-main),
 @media (max-width: 767px) {
   .site-header { overflow-x: hidden; }
 
-  /* Hide social icon row on mobile — too many items for 390px */
-  .header-social .social-row { display: none !important; }
+  /* Social icons — visible on mobile, smaller size */
+  .header-social .social-row { display: flex !important; gap: 6px !important; }
+  .header-social .social-row img { width: 18px !important; height: 18px !important; }
 
   /* Shrink logo and icons on mobile */
   .logo-sub-icons img,

@@ -208,6 +208,11 @@
 
   function toggleAlienMenu(e) {
     if (e) e.preventDefault();
+    // На мобильных — переход на страницу меню
+    if (window.innerWidth <= 767) {
+      window.location.href = '/eng/account-menu.html';
+      return;
+    }
     var menu = document.getElementById('alienMenu');
     var trigger = document.querySelector('.alien-ghost');
     if (!menu || !trigger) return;
