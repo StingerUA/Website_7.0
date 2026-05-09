@@ -929,15 +929,12 @@ function injectBackgroundFix() {
   const style = document.createElement('style');
   style.id = 'alba-bg-fix-style';
   style.textContent = `
-    /* Prevent horizontal overflow in ALL browsers on mobile */
-    html, body {
-      max-width: 100% !important;
-      overflow-x: hidden !important;
-    }
+    /* Prevent horizontal overflow — use clip on html (safe for position:fixed) */
+    html { overflow-x: clip; }
+    body { overflow-x: hidden !important; max-width: 100vw !important; }
+    model-viewer { max-width: 100% !important; box-sizing: border-box !important; }
     @media (max-width: 1024px) {
-      body {
-        background-attachment: scroll !important;
-      }
+      body { background-attachment: scroll !important; }
     }
   `;
   document.head.appendChild(style);
