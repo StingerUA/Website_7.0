@@ -2311,10 +2311,11 @@ select, select option {
     align-items: center !important;
     width: 100% !important;
     flex: none !important;
-    padding: 6px 0 !important;
+    padding: 5px 0 !important;
     border-top: 1px solid rgba(255,255,255,0.07) !important;
-    margin: 4px 0 0 0 !important;
+    margin: 0 !important;
     gap: 4px !important;
+    flex-wrap: nowrap !important;
   }
 }
 

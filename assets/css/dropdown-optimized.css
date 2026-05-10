@@ -82,9 +82,9 @@
   z-index: 1001;
   margin-top: 8px;
   /* opaque gradient used, no backdrop filter for contrast */
-  display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   align-items: stretch;
 }
 
@@ -97,23 +97,22 @@
 /* Desktop-specific flyouts: match all language variants using href$= selector */
 @media (min-width: 1024px) {
   .main-nav .dropdown > .dropdown-trigger[href$="hizmetler.html"] + .dropdown-menu {
-    left: auto;
-    right: -25px;
-    top: calc(100% + 10%);
+    left: 0;
+    right: auto;
+    top: calc(100% + 6px);
     transform: none;
-    transform-origin: top right;
-    min-width: auto;
+    transform-origin: top left;
+    min-width: 180px;
     width: auto;
     display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
     padding: 8px;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     background: #020617 !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
-    opacity: 1;
     z-index: 2147483647 !important;
   }
 
