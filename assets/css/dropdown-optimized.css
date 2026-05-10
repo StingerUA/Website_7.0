@@ -167,22 +167,21 @@
 
   /* ALBAMEN: horizontal dropdown like other menus, centered between hizmetler and hakkimizda */
   .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu {
-    left: 50% !important;
+    left: 0 !important;
     right: auto !important;
-    transform: translateX(-50%) !important;
-    top: 100% !important;
-    min-width: auto !important;
+    transform: none !important;
+    top: calc(100% + 6px) !important;
+    min-width: 160px !important;
     width: auto !important;
     display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 4px !important;
     padding: 8px !important;
     border-radius: 8px !important;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
     background: #020617 !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
-    opacity: 1 !important;
     z-index: 2147483647 !important;
   }
 
@@ -193,13 +192,14 @@
 
   .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu a,
   .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu button {
-    width: auto;
+    width: 100%;
     white-space: nowrap;
-    display: inline-flex;
-    padding: 8px 12px;
+    display: flex;
+    padding: 8px 14px;
     font-size: 13px;
     pointer-events: auto !important;
     z-index: 10050 !important;
+    border-radius: 6px;
   }
 
   /* Ensure header dropdown items are clickable */
@@ -746,4 +746,31 @@ html.product-text-black .dropdown-menu button:hover {
 main, .page, .home-main, .shop-container, section,
 .product-grid, .card-container, .category-card {
   z-index: auto !important;
+}
+
+/* ================================================================
+   DESKTOP NAV DROPDOWNS — horizontal single line on all pages
+   ================================================================ */
+@media (min-width: 768px) {
+  .main-nav .dropdown-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    width: auto !important;
+    min-width: unset !important;
+    gap: 4px !important;
+    padding: 6px 8px !important;
+  }
+
+  .main-nav .dropdown-menu a,
+  .main-nav .dropdown-menu button {
+    white-space: nowrap !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+  }
 }

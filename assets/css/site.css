@@ -2442,6 +2442,25 @@ main:not(.home-main),
   }
 }
 
+
+/* ── Nav items uniform alignment — fixes MAĞAZA offset ── */
+.main-nav > a,
+.main-nav > .dropdown > .dropdown-trigger {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 32px !important;
+  line-height: 1 !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+.main-nav > .dropdown {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 32px !important;
+}
+
 /* ================================================================
    MODEL-VIEWER PAGES — header must not clip overflow (dropdowns)
    ================================================================ */
