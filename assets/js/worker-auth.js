@@ -243,12 +243,12 @@ window.logout = logout;
 // Only attempt if header contains auth user element
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.worker-auth-user')) {
+    if (document.querySelector('.worker-auth-user') || document.getElementById('accountAvatar') || document.querySelector('.alien-ghost')) {
       setTimeout(checkUser, 100);
     }
   }, { once: true });
 } else {
-  if (document.querySelector('.worker-auth-user')) {
+  if (document.querySelector('.worker-auth-user') || document.getElementById('accountAvatar') || document.querySelector('.alien-ghost')) {
     setTimeout(checkUser, 100);
   }
 }
