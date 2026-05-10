@@ -534,11 +534,9 @@ select, select option {
 
   font-size:13px;
 
-  flex:1;
-
   justify-content:center;
 
-  margin:0 10px;
+  margin:0;
 
   position: relative;
 
@@ -2266,43 +2264,57 @@ select, select option {
   }
 }
 
-/* ===== HEADER CENTER LOGO LAYOUT ===== */
-.header-inner {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-wrap: nowrap !important; /* desktop: single row */
-}
-
-.logo-sub-icons {
-  flex: 1 !important;
-  display: flex !important;
-  justify-content: flex-start !important;
-  order: 1 !important;
-}
-
-.main-center-logo {
-  flex: 0 0 auto !important;
-  display: flex !important;
-  justify-content: center !important;
-  order: 2 !important;
-  margin: 0 auto !important;
-}
-
-.header-social {
-  flex: 1 !important;
-  display: flex !important;
-  justify-content: flex-end !important;
-  order: 3 !important;
-  margin-left: 0 !important;
-}
-
-@media (max-width: 1024px) {
-  .logo-sub-icons, .header-social {
-    flex: 1 !important;
+/* ===== HEADER DESKTOP — GRID LAYOUT =====
+   Row 1: [icons] [AlbaSpace logo centered] [social]
+   Row 2: [nav spanning full width]
+   ======================================== */
+@media (min-width: 768px) {
+  .header-inner {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    grid-template-rows: auto auto !important;
+    align-items: center !important;
+    padding: 8px 20px 0 !important;
+    gap: 0 !important;
   }
+
+  .logo-sub-icons {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+  }
+
   .main-center-logo {
-    flex: 0 0 auto !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 0 20px !important;
+  }
+
+  .header-social {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+  }
+
+  .main-nav {
+    grid-column: 1 / -1 !important;  /* span all 3 columns */
+    grid-row: 2 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    flex: none !important;
+    padding: 6px 0 !important;
+    border-top: 1px solid rgba(255,255,255,0.07) !important;
+    margin: 4px 0 0 0 !important;
+    gap: 4px !important;
   }
 }
 
@@ -2425,17 +2437,7 @@ main:not(.home-main),
    DESKTOP NAV — prevent wrapping, single row always
    ================================================================ */
 @media (min-width: 1025px) {
-  .header-inner {
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-  }
-
-  .main-nav {
-    flex-wrap: nowrap !important;
-    flex-shrink: 1 !important;
-    min-width: 0 !important;
-  }
-
+  /* Grid layout handles desktop — these rules are now no-ops */
   .main-nav a,
   .main-nav .dropdown-trigger {
     white-space: nowrap !important;
@@ -2477,6 +2479,7 @@ main:not(.home-main),
   }
 
   .header-inner {
+    display: flex !important;  /* reset grid → flex for mobile */
     flex-wrap: wrap !important;
     padding: 6px 10px 0 !important;
     gap: 0 !important;
