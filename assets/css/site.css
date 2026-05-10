@@ -2465,49 +2465,88 @@ main:not(.home-main),
 }
 
 /* ================================================================
-   MOBILE HEADER — prevent overflow, hide socials on small screens
+   MOBILE HEADER — 2-row layout
+   Row 1: [AlbaLogo · AI · alien · cart] ——— [lang · inst · li · wa · yt]
+   Row 2: AlbaSpace logo centered
+   Then: nav (full width, drops down)
    ================================================================ */
 @media (max-width: 767px) {
-  .site-header { overflow-x: hidden; }
+  .site-header {
+    overflow-x: hidden;
+    padding: 0 !important;
+  }
 
-  /* Social icons — visible on mobile, smaller size */
-  .header-social .social-row { display: flex !important; gap: 6px !important; }
-  .header-social .social-row img { width: 18px !important; height: 18px !important; }
-
-  /* Shrink logo and icons on mobile */
-  .logo-sub-icons img,
-  .logo-sub-icons .account-avatar { width: 26px !important; height: 26px !important; }
-
-  .main-center-logo .albaspace-img { height: 22px; width: auto; }
-
-  /* Cart badge compact */
-  .header-cart-link { display: inline-flex; align-items: center; }
-
-  /* Lang flag only, no extra padding */
-  .lang-dropdown-trigger { padding: 2px !important; }
-
-  /* header-inner: left + center + right in one row, nav below */
   .header-inner {
     flex-wrap: wrap !important;
-    padding: 8px 10px !important;
-    gap: 6px !important;
+    padding: 6px 10px 0 !important;
+    gap: 0 !important;
+    align-items: center;
   }
 
+  /* ── ROW 1 left: AlbaLogo · AI · alien · cart ── */
   .logo-sub-icons {
-    gap: 6px !important;
-    order: 1;
+    order: 1 !important;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 0 !important;
   }
 
-  .main-center-logo { order: 2; flex: 1; text-align: center; }
+  .logo-sub-icons img,
+  .logo-sub-icons .account-avatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
 
+  .header-cart-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  /* ── ROW 1 right: lang + social icons ── */
   .header-social {
-    order: 3;
-    gap: 6px !important;
+    order: 2 !important;
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    padding: 0 !important;
   }
 
-  /* Nav goes full-width on second row */
+  .header-social .social-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .header-social .social-row img { width: 18px !important; height: 18px !important; }
+  .lang-dropdown-trigger { padding: 0 !important; }
+  .lang-dropdown-trigger img { width: 20px !important; height: 14px !important; }
+
+  /* ── ROW 2: AlbaSpace logo centered, full width ── */
+  .main-center-logo {
+    order: 3 !important;
+    width: 100% !important;
+    flex: none !important;
+    text-align: center !important;
+    padding: 6px 0 !important;
+  }
+
+  .main-center-logo .albaspace-img { height: 22px !important; width: auto; }
+
+  /* Extra bottom padding under logo on white-bg and model-viewer pages */
+  html.product-text-black .main-center-logo,
+  html.alba-dark-gradient .main-center-logo {
+    padding-bottom: 14px !important;
+  }
+
+  /* ── NAV: full width, drops below ── */
   .main-nav {
-    order: 10;
+    order: 10 !important;
     width: 100% !important;
   }
 }

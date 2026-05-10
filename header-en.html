@@ -85,9 +85,28 @@
       </div>
     </nav>
 
-    <!-- ── RIGHT: social + lang dropdown + cart ── -->
+    <!-- ── RIGHT: lang + social ── -->
     <div class="header-social">
       <div class="social-row">
+
+        <!-- LANG DROPDOWN — слева от Instagram -->
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Language" aria-expanded="false">
+            <img src="/assets/icons/flag-us.png" alt="English" class="lang-flag-icon" width="22" height="16">
+          </button>
+          <div class="lang-dropdown-menu" hidden>
+            <a href="/eng/index.html" data-lang="tr" aria-label="Türkçe">
+              <img src="/assets/icons/flag-tr.png" alt="TR" width="22" height="16">
+            </a>
+            <a href="/eng/index.html" data-lang="en" aria-label="English">
+              <img src="/assets/icons/flag-us.png" alt="EN" width="22" height="16">
+            </a>
+            <a href="/rus/index.html" data-lang="ru" aria-label="Русский">
+              <img src="/assets/icons/flag-rus.png" alt="RU" width="22" height="16">
+            </a>
+          </div>
+        </div>
+
         <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener" aria-label="Instagram">
           <img src="/assets/icons/inst.png" alt="Instagram" width="22" height="22">
         </a>
@@ -101,25 +120,6 @@
           <img src="/assets/icons/youtube.png" alt="YouTube" width="22" height="22">
         </a>
       </div>
-
-      <!-- LANG DROPDOWN -->
-      <div class="lang-dropdown" id="langDropdown">
-        <button class="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Language" aria-expanded="false">
-          <img src="/assets/icons/flag-us.png" alt="English" class="lang-flag-icon" width="24" height="16">
-        </button>
-        <div class="lang-dropdown-menu" hidden>
-          <a href="/eng/index.html" data-lang="tr" aria-label="Türkçe">
-            <img src="/assets/icons/flag-tr.png" alt="TR" width="24" height="16">
-          </a>
-          <a href="/eng/eng/index.html" data-lang="en" aria-label="English">
-            <img src="/assets/icons/flag-us.png" alt="EN" width="24" height="16">
-          </a>
-          <a href="/rus/eng/index.html" data-lang="ru" aria-label="Русский">
-            <img src="/assets/icons/flag-rus.png" alt="RU" width="24" height="16">
-          </a>
-        </div>
-      </div>
-
     </div>
 
   </div>
