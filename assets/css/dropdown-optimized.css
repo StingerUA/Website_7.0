@@ -166,41 +166,6 @@
   }
 
   /* ALBAMEN: horizontal dropdown like other menus, centered between hizmetler and hakkimizda */
-  .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu {
-    left: 0 !important;
-    right: auto !important;
-    transform: none !important;
-    top: calc(100% + 6px) !important;
-    min-width: 160px !important;
-    width: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 4px !important;
-    padding: 8px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
-    background: #020617 !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
-    z-index: 2147483647 !important;
-  }
-
-  .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu::before,
-  .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu::after {
-    display: none;
-  }
-
-  .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu a,
-  .main-nav .dropdown > .dropdown-trigger[href$="albamen.html"] + .dropdown-menu button {
-    width: 100%;
-    white-space: nowrap;
-    display: flex;
-    padding: 8px 14px;
-    font-size: 13px;
-    pointer-events: auto !important;
-    z-index: 10050 !important;
-    border-radius: 6px;
-  }
 
   /* Ensure header dropdown items are clickable */
   .main-nav .dropdown .dropdown-menu a,
@@ -749,10 +714,14 @@ main, .page, .home-main, .shop-container, section,
 }
 
 /* ================================================================
-   DESKTOP NAV DROPDOWNS — horizontal single line on all pages
+   DESKTOP NAV DROPDOWNS — horizontal row, opens BELOW the button
    ================================================================ */
 @media (min-width: 768px) {
   .main-nav .dropdown-menu {
+    position: absolute !important;
+    top: calc(100% + 6px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
@@ -761,6 +730,8 @@ main, .page, .home-main, .shop-container, section,
     min-width: unset !important;
     gap: 4px !important;
     padding: 6px 8px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
   }
 
   .main-nav .dropdown-menu a,
