@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr" class="product-text-black">
+<head>
+  <link rel="icon" type="image/png" href="/assets/icons/AlbaLogo.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/AlbaLogo.png" sizes="180x180">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#020617">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AR 3D Models — Alba Space</title>
+  <meta name="description" content="Albamen ve Lara kitabının dijital PDF versiyonu — anında indirme.">
+  <meta property="og:title" content="Kitap PDF — Albamen ve Lara – Alba Space">
+  <meta property="og:description" content="Albamen ve Lara kitabının dijital PDF versiyonu — anında indirme.">
+  <meta property="og:image" content="/assets/images/albamenvelara1.png">
+  <meta property="og:type" content="product">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/fix-layout.css">
+  <link rel="stylesheet" href="/assets/css/product.css">
+  <link rel="stylesheet" href="/assets/css/product-overrides.css">
+  <link rel="stylesheet" href="/assets/css/product-text-black.css">
+
+  <style>
+    :root { --header-bg: #020617; }
+    body { background: #ffffff; margin: 0; }
+  </style>
+  <script src="/assets/js/include.js" defer></script>
+  <script src="/assets/js/menu-toggle.js" defer></script>
+  <script src="/assets/js/cart.js" defer></script>
+</head>
+<body>
+  <div data-include="/header-tr-black"></div>
+  <main class="product-page-wrap">
+    <nav class="product-breadcrumb">
+      <a href="/shop.html">Mağaza</a><span>/</span>
+      <a href="/shop.html">3D Models</a><span>/</span>
+      AR 3D Models
+    </nav>
+    <div class="product-main-grid">
+      <div class="product-image-col p-reveal">
+        <div class="product-main-image-wrap">
+          <img id="mainImage" src="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png" alt="Kitap PDF — Albamen ve Lara">
+        </div>
+        <div class="product-thumbs">
+          <button class="thumb-btn active" onclick="changeImage(this,'/assets/images/albamenvelara1.png')" aria-label="Görsel 1">
+            <img src="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png" alt="Kitap PDF" loading="lazy">
+          </button>
+          <button class="thumb-btn" onclick="changeImage(this,'/assets/images/albamenvelara2.png')" aria-label="Görsel 2">
+            <img src="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png" alt="Kitap 2" loading="lazy">
+          </button>
+          <button class="thumb-btn" onclick="changeImage(this,'/assets/images/albamenvelara3.png')" aria-label="Görsel 3">
+            <img src="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png" alt="Kitap 3" loading="lazy">
+          </button>
+          <button class="thumb-btn" onclick="changeImage(this,'/assets/images/albamenvelara4.png')" aria-label="Görsel 4">
+            <img src="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png" alt="Kitap 4" loading="lazy">
+          </button>
+        </div>
+      </div>
+      <div class="product-info-col p-reveal" style="transition-delay:0.12s">
+        <h1 class="product-title">AR 3D Models</h1>
+        <div class="product-price-block">
+          <span class="product-price-current">50,00 ₺</span>
+        </div>
+        <div class="product-features-card">
+          <h3>Özellikler</h3>
+          <ul class="product-features-list">
+            <li><span class="feature-dot"></span>AR 3D Models</li>
+            <li><span class="feature-dot"></span>Dijital 3D Models</li>
+            <li><span class="feature-dot"></span>AR 3D Models</li>
+            <li><span class="feature-dot"></span>AR 3D Models</li>
+          </ul>
+        </div>
+
+        <div class="product-payment-icons">
+          <img src="/assets/icons/mastercard.png" alt="Mastercard">
+          <img src="/assets/icons/visa.png" alt="Visa">
+        </div>
+        <div class="product-cta-row">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="updateQty(-1)">−</button>
+            <input type="number" id="qtyInput" class="qty-input" value="1" min="1">
+            <button class="qty-btn" onclick="updateQty(1)">+</button>
+          </div>
+          <button id="addToCartBtn" class="btn-add-cart"
+            data-product-id="albamenvelara-pdf"
+            data-product-name="Kitap PDF — Albamen ve Lara"
+            data-product-price="50.00"
+            data-product-image="/assets/images/Gemini_Generated_Image_yk5xbwyk5xbwyk5x.png"
+            data-add-label="SEPETE EKLE"
+            data-added-label="✓ EKLENDİ!">
+            SEPETE EKLE
+          </button>
+          <a href="https://www.shopier.com/albaspaceshop/464945698654" target="_blank" rel="noopener noreferrer" class="btn-buy-now">
+            HEMEN AL
+          </a>
+        </div>
+      </div>
+    </div>
+    <section class="related-section p-reveal">
+      <h2>Bunları da beğenebilirsiniz</h2>
+      <div class="related-accent-line"></div>
+      <div id="related-products-container"></div>
+    </section>
+  </main>
+  <div data-include="/footer-tr-black"></div>
+  <script>
+    function changeImage(btn,src){
+      document.getElementById('mainImage').src=src;
+      document.querySelectorAll('.thumb-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    function updateQty(d){
+      const i=document.getElementById('qtyInput');
+      i.value=Math.max(1,parseInt(i.value||1)+d);
+    }
+    function selectSize(btn){
+      document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.08});
+    document.querySelectorAll('.p-reveal').forEach(el=>obs.observe(el));
+    document.getElementById('addToCartBtn').addEventListener('click',function(){
+      const btn=this,qty=parseInt(document.getElementById('qtyInput').value||1,10);
+      if(typeof cartManager!=='undefined')cartManager.addItem({
+        id:btn.dataset.productId,name:btn.dataset.productName,
+        price:Number(btn.dataset.productPrice),image:btn.dataset.productImage,
+        url:window.location.pathname,qty
+      });
+      btn.classList.add('added');btn.textContent=btn.dataset.addedLabel||'✓ EKLENDİ!';btn.disabled=true;
+      setTimeout(()=>{btn.classList.remove('added');btn.textContent=btn.dataset.addLabel||'SEPETE EKLE';btn.disabled=false},1600);
+    });
+  </script>
+  <script src="/assets/js/related-products.js" defer></script>
+</body>
+</html>
+
