@@ -3,7 +3,7 @@
 
     <!-- ── LEFT: logo · AI · account ── -->
     <div class="logo-sub-icons">
-<a href="/rus/atlas.html" class="header-logo-icon" aria-label="Главная страница Alba Space">
+<a href="/rus/index.html" class="header-logo-icon" aria-label="Главная страница Alba Space">
         <img src="/assets/images/AlbaLogo.png" alt="Alba Space logo" width="32" height="32">
       </a>
 
@@ -117,16 +117,16 @@
         </div>
 
         <a href="https://www.instagram.com/albaspace_/" target="_blank" rel="noopener" aria-label="Instagram">
-          <img src="/assets/icons/instblack.png" alt="Instagram" width="22" height="22">
+          <img src="/assets/icons/inst.png" alt="Instagram" width="22" height="22">
         </a>
         <a href="https://www.linkedin.com/in/idrisalbayrak/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <img src="/assets/icons/linkdinblack.png" alt="LinkedIn" width="22" height="22">
+          <img src="/assets/icons/linkdin.png" alt="LinkedIn" width="22" height="22">
         </a>
         <a href="https://wa.me/905387781018" target="_blank" rel="noopener" aria-label="WhatsApp">
-          <img src="/assets/icons/watsuppblack.png" alt="WhatsApp" width="22" height="22">
+          <img src="/assets/icons/watsupp.png" alt="WhatsApp" width="22" height="22">
         </a>
         <a href="https://www.youtube.com/@AlbaSpaceTr" target="_blank" rel="noopener" aria-label="YouTube">
-          <img src="/assets/icons/youtubeblack.png" alt="YouTube" width="22" height="22">
+          <img src="/assets/icons/youtube.png" alt="YouTube" width="22" height="22">
         </a>
       </div>
     </div>
@@ -148,78 +148,70 @@
 (function () {
 
   /* ── Белый фон: shop, cart, product-* ── */
-  function isWhiteBgPage() {
-    var path = window.location.pathname.toLowerCase();
-    return (
-      document.documentElement.classList.contains('product-text-black') ||
-      /\/(shop|cart)(\.html|\/)?(\?|#|$)/.test(path) ||
-      /\/product-[^/]+(\.html)?(\?|#|$)/.test(path)
-    );
+    /* ── Определяем цвет фона хедера ── */
+  function getHeaderBg() {
+    var header = document.querySelector('.site-header');
+    if (!header) return 'rgba(2,6,23,0.99)';
+    var bg = window.getComputedStyle(header).backgroundColor;
+    // Если прозрачный — берём тёмный дефолт
+    if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+      return document.documentElement.classList.contains('product-text-black')
+        ? '#ffffff' : 'rgba(2,6,23,0.99)';
+    }
+    return bg;
   }
 
-  /* ── Оверлей ── */
-  function getOrCreateOverlay() {
-    var ov = document.getElementById('alienMenuOverlay');
-    if (!ov) {
-      ov = document.createElement('div');
-      ov.id = 'alienMenuOverlay';
-      document.body.appendChild(ov);
-    }
-    return ov;
+  function isWhiteBgPage() {
+    return (
+      document.documentElement.classList.contains('product-text-black') ||
+      /\/(shop|cart)(\.html|\/)?/.test(window.location.pathname.toLowerCase()) ||
+      /\/product-[^/]+/.test(window.location.pathname.toLowerCase())
+    );
   }
 
   /* ── Позиционирование ── */
   function positionAlienMenu(menu, trigger) {
-    var white = isWhiteBgPage();
     var isMobile = window.innerWidth <= 767;
+    var headerEl = document.querySelector('.site-header');
+    var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
 
-    // Сбрасываем inline-стили позиции
-    menu.style.top = menu.style.left = menu.style.right = menu.style.transform = menu.style.width = '';
-
-    if (white) {
-      // Модальный режим — центр экрана
-      menu.classList.add('modal-mode');
-      var ov = getOrCreateOverlay();
-      ov.style.display = 'block';
-    } else {
-      menu.classList.remove('modal-mode');
-      var ov = document.getElementById('alienMenuOverlay');
-      if (ov) ov.style.display = 'none';
-
-      if (isMobile) {
-        var headerEl = document.querySelector('.site-header');
-        var hb = headerEl ? headerEl.getBoundingClientRect().bottom : 60;
-        menu.style.top = hb + 'px';
-        menu.style.left = '0';
-        menu.style.right = '0';
-        menu.style.width = '100vw';
-        menu.style.transform = 'none';
-      } else {
-        var rect = trigger.getBoundingClientRect();
-        var menuW = 210;
-        var left = rect.left;
-        if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
-        menu.style.top = (rect.bottom + 6) + 'px';
-        menu.style.left = Math.max(8, left) + 'px';
-        menu.style.transform = 'none';
-      }
+    // На мобильном — мобильное меню
+    if (isMobile) {
+      menu.style.top = hb + 'px';
+      menu.style.left = '0';
+      menu.style.right = '0';
+      menu.style.width = '100vw';
+      menu.style.transform = 'none';
+      return;
     }
+
+    // Десктоп: горизонтальная полоса под хедером, от левого края
+    menu.style.top = hb + 'px';
+    menu.style.left = '0';
+    menu.style.right = '0';
+    menu.style.width = '100%';
+    menu.style.transform = 'none';
+
+    // Цвет фона — как у хедера
+    var isWhite = isWhiteBgPage();
+    menu.style.background = isWhite ? '#ffffff' : 'rgba(2,6,23,0.99)';
+    menu.style.color = isWhite ? '#111827' : '#ffffff';
+    menu.style.borderTop = isWhite
+      ? '1px solid rgba(0,0,0,0.1)'
+      : '1px solid rgba(0,194,255,0.15)';
   }
 
   function closeAlienMenu() {
     var menu = document.getElementById('alienMenu');
     var trigger = document.querySelector('.alien-ghost');
-    var ov = document.getElementById('alienMenuOverlay');
-    if (menu) { menu.setAttribute('hidden', ''); menu.classList.remove('modal-mode'); }
-    if (trigger) { trigger.setAttribute('aria-expanded', 'false'); }
-    if (ov) { ov.style.display = 'none'; }
+    if (menu) menu.setAttribute('hidden', '');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
   }
 
   function toggleAlienMenu(e) {
     if (e) e.preventDefault();
-    // На мобильных — переход на страницу меню
     if (window.innerWidth <= 767) {
-      window.location.href = '/rus/account-menu.html';
+      window.location.href = '/account-menu.html';
       return;
     }
     var menu = document.getElementById('alienMenu');

@@ -2229,17 +2229,20 @@ select, select option {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-    width: auto !important;
-    min-width: 130px !important;
+    width: max-content !important;
+    max-width: calc(100vw - 24px) !important;
+    min-width: unset !important;
+    overflow-x: auto !important;
     background: #0d1b35 !important;
     border: 1px solid rgba(0,194,255,0.25) !important;
     border-radius: 8px !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
     z-index: 50000 !important;
     padding: 6px !important;
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 2px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease !important;
   }
 
@@ -2853,5 +2856,45 @@ body.alba-dark-gradient p {
   html.alba-dark-gradient,
   body.alba-dark-gradient {
     background-attachment: scroll !important;
+  }
+}
+
+/* ================================================================
+   CART PAGE — mobile overflow fix
+   ================================================================ */
+@media (max-width: 767px) {
+  .cart-page,
+  .cart-page * {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  .cart-page input,
+  .cart-page select,
+  .cart-page button,
+  .cart-page .btn-primary {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Shipping form layout — stack vertically */
+  .cart-page form,
+  .cart-page .shipping-form,
+  .cart-page .form-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* Payment icons — smaller on mobile */
+  .cart-page .payment-icons img,
+  .cart-page img[src*="visa"],
+  .cart-page img[src*="mastercard"],
+  .cart-page img[src*="iyzico"] {
+    max-height: 32px !important;
+    width: auto !important;
+    max-width: 80px !important;
   }
 }
