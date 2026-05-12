@@ -2898,3 +2898,93 @@ body.alba-dark-gradient p {
     max-width: 80px !important;
   }
 }
+
+/* ================================================================
+   #alienMenu — ЕДИНЫЙ СТИЛЬ: горизонтальная полоса под хедером
+   Позиционируется через JS (top = header.bottom, left=0, width=100%)
+   Фон задаётся через JS в зависимости от типа страницы
+   ================================================================ */
+#alienMenu {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  left: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  padding: 10px 24px !important;
+  background: rgba(2, 6, 23, 0.99) !important;
+  color: #ffffff !important;
+  border-top: 1px solid rgba(0, 194, 255, 0.15) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  animation: alienStripIn 0.18s ease forwards !important;
+}
+
+@keyframes alienStripIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#alienMenu[hidden] { display: none !important; }
+
+#alienMenu .alien-auth-logged-out,
+#alienMenu .alien-auth-logged-in {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+}
+
+#alienMenu .alien-menu-item {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  padding: 8px 18px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  letter-spacing: 0.02em !important;
+}
+
+#alienMenu .alien-menu-account {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 14px !important;
+  margin-right: 8px !important;
+  border-right: 1px solid rgba(255,255,255,0.12) !important;
+}
+
+#accountMenuAvatar, #accountAvatar, .alien-ghost img {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+}
+
+.alien-user-name, #accountMenuName {
+  color: inherit !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.alien-menu-logout {
+  margin-left: auto !important;
+  color: #fca5a5 !important;
+  background: rgba(239,68,68,0.1) !important;
+  border: 1px solid rgba(239,68,68,0.25) !important;
+}
+
+@media (max-width: 767px) {
+  #alienMenu {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 8px 14px !important;
+  }
+}
