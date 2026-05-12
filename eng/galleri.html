@@ -1,124 +1,301 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<!-- Универсальный favicon-блок -->
-<link href="/assets/icons/AlbaLogo.png" rel="icon" sizes="32x32" type="image/png"/>
-<link href="/assets/icons/AlbaLogo.png" rel="icon" sizes="32x32" type="image/png"/>
-<link href="/assets/icons/AlbaLogo.png" rel="apple-touch-icon" sizes="180x180"/>
-<link href="/manifest.json" rel="manifest"/>
-<meta content="#020617" name="theme-color"/>
-<meta content="#020617" name="msapplication-TileColor"/>
-<meta content="/favicon.png" name="msapplication-TileImage"/>
-<meta charset="utf-8"/>
-<title>Alba Space – Galery</title>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<link href="/assets/css/site.css" rel="stylesheet">
-<link href="/assets/css/fix-layout.css" rel="stylesheet"/>
-<script defer="" src="/assets/js/include.js"></script>
-<script defer="" src="/assets/js/menu-toggle.js"></script>
-<style> :root { --header-bg: #020617; --accent: #00c2ff; } body{ margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background-size:cover; color:#ffffff; } .page-wrapper{ max-width:1100px; margin:70px auto 80px; padding:0 20px 40px; } .page-title{ font-size:32px; margin-bottom:4px; text-align:center; } .page-sub{ font-size:14px; color:#e5e7eb; margin-bottom:24px; text-align:center; } .folders{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; } .folder{ border-radius:18px; border:1px solid rgba(31,41,55,1); overflow:hidden; display:flex; flex-direction:column; box-shadow:0 12px 30px rgba(0,0,0,0.6); } .folder-header{ padding:12px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; color:#e5e7eb; } .folder-title{ font-size:14px; font-weight:600; } .folder-count{ font-size:12px; color:#9ca3af; } .folder-toggle-icon{ width:18px;height:18px; border-radius:999px; border:1px solid #4b5563; display:flex; align-items:center; justify-content:center; font-size:11px; margin-left:10px; } .folder.open .folder-toggle-icon{ border-color:var(--accent); color:#020617; } .folder-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; } .thumb-grid{ padding:14px 12px 16px; display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; } .thumb{ border-radius:12px; padding:6px; box-shadow:0 6px 16px rgba(0,0,0,0.7); display:flex; flex-direction:column; align-items:center; justify-content:flex-start; cursor:pointer; border:1px solid rgba(31,41,55,1); transition:transform .15s ease-out, box-shadow .15s ease-out, border-color .15s ease-out; } .thumb:hover{ transform:translateY(-3px); border-color:rgba(56,189,248,0.9); box-shadow: 0 0 22px rgba(56,189,248,0.55), 0 10px 26px rgba(0,0,0,0.9); } .thumb img{ width:100%; border-radius:10px; display:block; } .thumb span{ font-size:12px; margin-top:4px; color:#d1d5db; } @media(max-width:900px){ .page-wrapper{ margin-top:90px; } } .lightbox-overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999; } .lightbox-overlay.active{ display:flex; } .lightbox-inner{ position:relative; max-width:90vw; max-height:90vh; display:flex; flex-direction:column; align-items:center; } .lightbox-image{ max-width:100%; max-height:80vh; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,0.9); } .lightbox-caption{ margin-top:10px; font-size:14px; color:#e5e7eb; text-align:center; text-shadow:0 0 10px rgba(0,0,0,1); } .lightbox-close{ position:absolute; top:-40px; right:0; font-size:24px; color:#e5e7eb; cursor:pointer; padding:6px 10px; border-radius:999px; border:1px solid rgba(148,163,184,0.7); } .lightbox-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:40px;height:40px; border-radius:999px; border:1px solid rgba(148,163,184,0.7); color:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:22px; cursor:pointer; user-select:none; } .lightbox-arrow-left{ left:-60px; } .lightbox-arrow-right{ right:-60px; } @media(max-width:700px){ .lightbox-arrow-left{ left:10px; } .lightbox-arrow-right{ right:10px; } .lightbox-close{ top:10px; right:10px; } } user-select:none; transition:transform .15s ease, filter .15s ease; font-size:13px; letter-spacing:.03em; } </style>
-</link></head>
+    <!-- Универсальный favicon-блок -->
+    <link href="/assets/icons/AlbaLogo.png" rel="icon" sizes="32x32" type="image/png"/>
+    <link href="/assets/icons/AlbaLogo.png" rel="icon" sizes="32x32" type="image/png"/>
+    <link href="/assets/icons/AlbaLogo.png" rel="apple-touch-icon" sizes="180x180"/>
+    <link href="/manifest.json" rel="manifest"/>
+    <meta content="#020617" name="theme-color"/>
+    <meta content="#020617" name="msapplication-TileColor"/>
+    <meta content="/favicon.png" name="msapplication-TileImage"/>
+    <meta charset="utf-8"/>
+    <title>Alba Space – Galeri</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="/assets/css/site.css" rel="stylesheet">
+    <link href="/assets/css/fix-layout.css" rel="stylesheet"/>
+    <script defer="" src="/assets/js/include.js"></script>
+    <script defer="" src="/assets/js/menu-toggle.js"></script>
+    <style> 
+        :root { 
+            --header-bg: #020617; 
+            --accent: #00c2ff; 
+        } 
+        body { 
+            margin:0; 
+            font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; 
+            background-size:cover; 
+            color:#ffffff; 
+        } 
+        .page-wrapper { 
+            max-width:1100px; 
+            margin:70px auto 80px; 
+            padding:0 20px 40px; 
+        } 
+        .page-title { 
+            font-size:32px; 
+            margin-bottom:4px; 
+            text-align:center; 
+        } 
+        .page-sub { 
+            font-size:14px; 
+            color:#e5e7eb; 
+            margin-bottom:24px; 
+            text-align:center; 
+        } 
+        .folders { 
+            display:grid; 
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); 
+            gap:18px; 
+        } 
+        .folder { 
+            border-radius:18px; 
+            border:1px solid rgba(31,41,55,1); 
+            overflow:hidden; 
+            display:flex; 
+            flex-direction:column; 
+            box-shadow:0 12px 30px rgba(0,0,0,0.6); 
+        } 
+        .folder-header { 
+            padding:12px 16px; 
+            display:flex; 
+            align-items:center; 
+            justify-content:space-between; 
+            cursor:pointer; 
+            color:#e5e7eb; 
+        } 
+        .folder-title { 
+            font-size:14px; 
+            font-weight:600; 
+        } 
+        .folder-count { 
+            font-size:12px; 
+            color:#9ca3af; 
+        } 
+        .folder-toggle-icon { 
+            width:18px;height:18px; 
+            border-radius:999px; 
+            border:1px solid #4b5563; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            font-size:11px; 
+            margin-left:10px; 
+        } 
+        .folder.open .folder-toggle-icon { 
+            border-color:var(--accent); 
+            color:var(--accent); 
+        } 
+        .folder-body { 
+            max-height:0; 
+            overflow:hidden; 
+            transition:max-height .3s ease; 
+        } 
+        .thumb-grid { 
+            padding:14px 12px 16px; 
+            display:grid; 
+            grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); 
+            gap:10px; 
+        } 
+        .thumb { 
+            border-radius:12px; 
+            padding:6px; 
+            box-shadow:0 6px 16px rgba(0,0,0,0.7); 
+            display:flex; 
+            flex-direction:column; 
+            align-items:center; 
+            justify-content:flex-start; 
+            cursor:pointer; 
+            border:1px solid rgba(31,41,55,1); 
+            transition:transform .15s ease-out, box-shadow .15s ease-out, border-color .15s ease-out; 
+        } 
+        .thumb:hover { 
+            transform:translateY(-3px); 
+            border-color:rgba(56,189,248,0.9); 
+            box-shadow: 0 0 22px rgba(56,189,248,0.55), 0 10px 26px rgba(0,0,0,0.9); 
+        } 
+        .thumb img { 
+            width:100%; 
+            border-radius:10px; 
+            display:block; 
+        } 
+        .thumb span { 
+            font-size:12px; 
+            margin-top:4px; 
+            color:#d1d5db; 
+        } 
+        @media(max-width:900px){ 
+            .page-wrapper { margin-top:90px; } 
+        } 
+        .lightbox-overlay { 
+            position:fixed; 
+            inset:0; 
+            display:none; 
+            align-items:center; 
+            justify-content:center; 
+            z-index:9999; 
+            background: rgba(0,0,0,0.8);
+        } 
+        .lightbox-overlay.active { 
+            display:flex; 
+        } 
+        .lightbox-inner { 
+            position:relative; 
+            max-width:90vw; 
+            max-height:90vh; 
+            display:flex; 
+            flex-direction:column; 
+            align-items:center; 
+        } 
+        .lightbox-image { 
+            max-width:100%; 
+            max-height:80vh; 
+            border-radius:14px; 
+            box-shadow:0 20px 60px rgba(0,0,0,0.9); 
+        } 
+        .lightbox-caption { 
+            margin-top:10px; 
+            font-size:14px; 
+            color:#e5e7eb; 
+            text-align:center; 
+            text-shadow:0 0 10px rgba(0,0,0,1); 
+        } 
+        .lightbox-close { 
+            position:absolute; 
+            top:-40px; 
+            right:0; 
+            font-size:24px; 
+            color:#e5e7eb; 
+            cursor:pointer; 
+            padding:6px 10px; 
+            border-radius:999px; 
+            border:1px solid rgba(148,163,184,0.7); 
+            background: none;
+        } 
+        .lightbox-arrow { 
+            position:absolute; 
+            top:50%; 
+            transform:translateY(-50%); 
+            width:40px;height:40px; 
+            border-radius:999px; 
+            border:1px solid rgba(148,163,184,0.7); 
+            color:#e5e7eb; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            font-size:22px; 
+            cursor:pointer; 
+            user-select:none; 
+        } 
+        .lightbox-arrow-left { left:-60px; } 
+        .lightbox-arrow-right { right:-60px; } 
+        @media(max-width:700px){ 
+            .lightbox-arrow-left { left:10px; } 
+            .lightbox-arrow-right { right:10px; } 
+            .lightbox-close { top:10px; right:10px; } 
+        } 
+    </style>
+</head>
 <body>
 <div data-include="/header-en.html"></div>
 <div class="page-wrapper">
-<h1 class="page-title">Gallery</h1>
-<p class="page-sub">
-      Photos from our stratospheric flights, VR workshops, and events.
-    </p>
-<div class="folders">
-<!-- 1 -->
-<div class="folder open">
-<div class="folder-header">
-<div>
-<div class="folder-title">Stratospheric Flights</div>
-<div class="folder-count">14 photos</div>
+    <h1 class="page-title">Gallery</h1>
+    <p class="page-sub">Photos from our stratospheric flights, VR workshops, and events.</p>
+    <div class="folders">
+        <!-- 1 -->
+        <div class="folder open">
+            <div class="folder-header">
+                <div>
+                    <div class="folder-title">Stratospheric Flights</div>
+                    <div class="folder-count">14 photos</div>
+                </div>
+                <div class="folder-toggle-icon">−</div>
+            </div>
+            <div class="folder-body">
+                <div class="thumb-grid">
+                    <div class="thumb"><img alt="1" src="/assets/images/1.jpg"/><span>1</span></div>
+                    <div class="thumb"><img alt="2" src="/assets/images/2.jpg"/><span>2</span></div>
+                    <div class="thumb"><img alt="3" src="/assets/images/3.jpg"/><span>3</span></div>
+                    <div class="thumb"><img alt="4" src="/assets/images/4.jpg"/><span>4</span></div>
+                    <div class="thumb"><img alt="5" src="/assets/images/5.jpg"/><span>5</span></div>
+                    <div class="thumb"><img alt="6" src="/assets/images/6.jpg"/><span>6</span></div>
+                    <div class="thumb"><img alt="7" src="/assets/images/2025-12-08_21-01-19.png"/><span>7</span></div>
+                    <div class="thumb"><img alt="8" src="/assets/images/8.jpg"/><span>8</span></div>
+                    <div class="thumb"><img alt="9" src="/assets/images/9.jpg"/><span>9</span></div>
+                    <div class="thumb"><img alt="10" src="/assets/images/10.jpg"/><span>10</span></div>
+                    <div class="thumb"><img alt="11" src="/assets/images/11.jpg"/><span>11</span></div>
+                    <div class="thumb"><img alt="12" src="/assets/images/12.jpg"/><span>12</span></div>
+                    <div class="thumb"><img alt="13" src="/assets/images/13.jpg"/><span>13</span></div>
+                    <div class="thumb"><img alt="14" src="/assets/images/14.jpg"/><span>14</span></div>
+                </div>
+            </div>
+        </div>
+        <!-- 2 -->
+        <div class="folder">
+            <div class="folder-header">
+                <div>
+                    <div class="folder-title">VR</div>
+                    <div class="folder-count">2 photos</div>
+                </div>
+                <div class="folder-toggle-icon">+</div>
+            </div>
+            <div class="folder-body">
+                <div class="thumb-grid">
+                    <div class="thumb"><img alt="VR 1" src="/assets/images/vr.jpg"/><span>VR 1</span></div>
+                    <div class="thumb"><img alt="VR 2" src="/assets/images/vr1.jpg"/><span>VR 2</span></div>
+                </div>
+            </div>
+        </div>
+        <!-- 3 -->
+        <div class="folder">
+            <div class="folder-header">
+                <div>
+                    <div class="folder-title">Education &amp; Events</div>
+                    <div class="folder-count">4 photos</div>
+                </div>
+                <div class="folder-toggle-icon">+</div>
+            </div>
+            <div class="folder-body">
+                <div class="thumb-grid">
+                    <div class="thumb"><img alt="15" src="/assets/images/15.jpg"/><span>15</span></div>
+                    <div class="thumb"><img alt="16" src="/assets/images/16.jpg"/><span>16</span></div>
+                    <div class="thumb"><img alt="17" src="/assets/images/17.jpg"/><span>17</span></div>
+                    <div class="thumb"><img alt="18" src="/assets/images/18.jpg"/><span>18</span></div>
+                </div>
+            </div>
+        </div>
+        <!-- 4 -->
+        <div class="folder">
+            <div class="folder-header">
+                <div>
+                    <div class="folder-title">Press &amp; Other Clips</div>
+                    <div class="folder-count">5 photos</div>
+                </div>
+                <div class="folder-toggle-icon">+</div>
+            </div>
+            <div class="folder-body">
+                <div class="thumb-grid">
+                    <div class="thumb"><img alt="19" src="/assets/images/19.jpg"/><span>19</span></div>
+                    <div class="thumb"><img alt="20" src="/assets/images/20.jpg"/><span>20</span></div>
+                    <div class="thumb"><img alt="21" src="/assets/images/21.jpg"/><span>21</span></div>
+                    <div class="thumb"><img alt="22" src="/assets/images/22.jpg"/><span>22</span></div>
+                    <div class="thumb"><img alt="23" src="/assets/images/23.jpg"/><span>23</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="folder-toggle-icon">−</div>
-</div>
-<div class="folder-body">
-<div class="thumb-grid">
-<div class="thumb"><img alt="1" src="/assets/images/1.jpg"/><span>1</span></div>
-<div class="thumb"><img alt="2" src="/assets/images/2.jpg"/><span>2</span></div>
-<div class="thumb"><img alt="3" src="/assets/images/3.jpg"/><span>3</span></div>
-<div class="thumb"><img alt="4" src="/assets/images/4.jpg"/><span>4</span></div>
-<div class="thumb"><img alt="5" src="/assets/images/5.jpg"/><span>5</span></div>
-<div class="thumb"><img alt="6" src="/assets/images/6.jpg"/><span>6</span></div>
-<div class="thumb"><img alt="7" src="/assets/images/2025-12-08_21-01-19.png"/><span>7</span></div>
-<div class="thumb"><img alt="8" src="/assets/images/8.jpg"/><span>8</span></div>
-<div class="thumb"><img alt="9" src="/assets/images/9.jpg"/><span>9</span></div>
-<div class="thumb"><img alt="10" src="/assets/images/10.jpg"/><span>10</span></div>
-<div class="thumb"><img alt="11" src="/assets/images/11.jpg"/><span>11</span></div>
-<div class="thumb"><img alt="12" src="/assets/images/12.jpg"/><span>12</span></div>
-<div class="thumb"><img alt="13" src="/assets/images/13.jpg"/><span>13</span></div>
-<div class="thumb"><img alt="14" src="/assets/images/14.jpg"/><span>14</span></div>
-</div>
-</div>
-</div>
-<!-- 2 -->
-<div class="folder">
-<div class="folder-header">
-<div>
-<div class="folder-title">VR</div>
-<div class="folder-count">2 photos</div>
-</div>
-<div class="folder-toggle-icon">+</div>
-</div>
-<div class="folder-body">
-<div class="thumb-grid">
-<div class="thumb"><img alt="VR 1" src="/assets/images/vr.jpg"/><span>VR 1</span></div>
-<div class="thumb"><img alt="VR 2" src="/assets/images/vr1.jpg"/><span>VR 2</span></div>
-</div>
-</div>
-</div>
-<!-- 3 -->
-<div class="folder">
-<div class="folder-header">
-<div>
-<div class="folder-title">Education &amp; Events</div>
-<div class="folder-count">4 photos</div>
-</div>
-<div class="folder-toggle-icon">+</div>
-</div>
-<div class="folder-body">
-<div class="thumb-grid">
-<div class="thumb"><img alt="15" src="/assets/images/15.jpg"/><span>15</span></div>
-<div class="thumb"><img alt="16" src="/assets/images/16.jpg"/><span>16</span></div>
-<div class="thumb"><img alt="17" src="/assets/images/17.jpg"/><span>17</span></div>
-<div class="thumb"><img alt="18" src="/assets/images/18.jpg"/><span>18</span></div>
-</div>
-</div>
-</div>
-<!-- 4 -->
-<div class="folder">
-<div class="folder-header">
-<div>
-<div class="folder-title">Press &amp; Other Clips</div>
-<div class="folder-count">5 photos</div>
-</div>
-<div class="folder-toggle-icon">+</div>
-</div>
-<div class="folder-body">
-<div class="thumb-grid">
-<div class="thumb"><img alt="19" src="/assets/images/19.jpg"/><span>19</span></div>
-<div class="thumb"><img alt="20" src="/assets/images/20.jpg"/><span>20</span></div>
-<div class="thumb"><img alt="21" src="/assets/images/21.jpg"/><span>21</span></div>
-<div class="thumb"><img alt="22" src="/assets/images/22.jpg"/><span>22</span></div>
-<div class="thumb"><img alt="23" src="/assets/images/23.jpg"/><span>23</span></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <div class="lightbox-overlay" id="lightbox">
-<div class="lightbox-inner">
-<div class="lightbox-arrow lightbox-arrow-left" id="lightboxPrev">❮</div>
-<img alt="" class="lightbox-image" id="lightboxImage" src=""/>
-<div class="lightbox-arrow lightbox-arrow-right" id="lightboxNext">❯</div>
-<button class="lightbox-close" id="lightboxClose">×</button>
-<div class="lightbox-caption" id="lightboxCaption"></div>
+    <div class="lightbox-inner">
+        <div class="lightbox-arrow lightbox-arrow-left" id="lightboxPrev">❮</div>
+        <img alt="" class="lightbox-image" id="lightboxImage" src=""/>
+        <div class="lightbox-arrow lightbox-arrow-right" id="lightboxNext">❯</div>
+        <button class="lightbox-close" id="lightboxClose">×</button>
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
 </div>
-</div>
+
 <script>
     document.querySelectorAll('.folder').forEach(function(folder){
       const header = folder.querySelector('.folder-header');
@@ -218,11 +395,12 @@
       else if (e.key === 'ArrowRight') showNext();
       else if (e.key === 'ArrowLeft') showPrev();
     });
-  </script>
+</script>
+
 <div data-include="/footer-en.html"></div>
+
 <script>
     const revealItems = document.querySelectorAll('.reveal');
-
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -240,37 +418,23 @@
       item.style.setProperty('--reveal-delay', `${delay}s`);
       observer.observe(item);
     });
-  </script>
-<script>
-      // Sayfa Yüklendiğinde Popup Kontrolü
-      document.addEventListener("DOMContentLoaded", function() {
-          // localStorage kontrolü: Kullanıcı daha önce "kabul ettim" dedi mi?
-          if (!localStorage.getItem("albaCookieSeen")) {
-              document.getElementById("cookie-overlay").style.display = "flex";
-          }
-      });
 
-      const acceptBtn = document.getElementById("btnAccept");
-      const settingsBtn = document.getElementById("btnSettings");
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!localStorage.getItem("albaCookieSeen")) {
+            const cookieOverlay = document.getElementById("cookie-overlay");
+            if(cookieOverlay) cookieOverlay.style.display = "flex";
+        }
+    });
 
-      // Üst buton: Animasyon ve Kapatma
-      if(acceptBtn) {
-          acceptBtn.addEventListener("click", function() {
-              // Butona basıldığını hissettirmek için ufak bir bekleme (opsiyonel)
-              setTimeout(() => {
-                  document.getElementById("cookie-overlay").style.display = "none";
-                  // Kullanıcının gördüğünü tarayıcıya kaydet
-                  localStorage.setItem("albaCookieSeen", "true");
-              }, 200);
-          });
-      }
-
-      // Alt buton: Çerez politikası sayfasına yönlendirir
-      if(settingsBtn) {
-          settingsBtn.addEventListener("click", function() {
-               window.location.href = "cerez-politikasi.html";
-          });
-      }
-  </script>
+    const acceptBtn = document.getElementById("btnAccept");
+    if(acceptBtn) {
+        acceptBtn.addEventListener("click", function() {
+            setTimeout(() => {
+                document.getElementById("cookie-overlay").style.display = "none";
+                localStorage.setItem("albaCookieSeen", "true");
+            }, 200);
+        });
+    }
+</script>
 </body>
 </html>
