@@ -4,29 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hesap – Alba Space</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
+  
+  <link rel="icon" type="image/png" href="/assets/icons/AlbaLogo.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/AlbaLogo.png" sizes="180x180">
+  
   <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/fix-layout.css">
+  
   <script src="/assets/js/include.js" defer></script>
-  <!-- worker-auth.js загружается из header-tr.html, здесь не дублируем -->
+  <script src="/assets/js/menu-toggle.js" defer></script>
+  <script src="/assets/js/mobile-header-cart.js" defer></script>
+
   <style>
     html, body {
       margin: 0; padding: 0;
       min-height: 100vh;
-      background: #020617;
+      background: #020617; /* Темный фон как на главной */
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
     }
 
+    /* ВАЖНО: Добавлен margin-top, чтобы контент не заезжал ПОД фиксированный хедер.
+       На главной у вас 120px, здесь ставим столько же для единообразия.
+    */
     .am-page {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 100px; /* Отступ под хедер */
       padding: 0 0 60px;
     }
 
     /* ── Top bar (кнопка Geri + заголовок) ── */
     .am-topbar {
       width: 100%;
+      max-width: 1100px; /* Ограничим ширину для красоты на десктопе */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -44,7 +56,7 @@
     .am-title  { font-size: 16px; font-weight: 600; color: #fff; }
     .am-placeholder { width: 48px; }
 
-    /* ── Показ/скрытие секций ── */
+    /* ── Стили секций ── */
     .am-section-logged-in,
     .am-section-logged-out { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .am-section-logged-in[hidden],
@@ -89,42 +101,30 @@
     .am-item.logout:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); }
     .am-item.logout svg { stroke: #f87171; }
 
-    /* ── Незалогинен ── */
-    .am-logged-out-inner {
-      width: 100%; max-width: 400px; padding: 32px 16px 0;
-      box-sizing: border-box; text-align: center;
-    }
-    .am-avatar-placeholder {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15);
-      margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
-    }
-    .am-avatar-placeholder svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.5; }
-    .am-logged-out-inner h2 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #fff; }
-    .am-logged-out-inner p  { font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px; }
-
+    /* ── Кнопки входа ── */
     .am-btn {
       display: block; width: 100%; max-width: 400px; padding: 14px 20px;
       border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none;
       transition: opacity 0.2s, transform 0.15s; text-align: center; text-decoration: none; box-sizing: border-box;
       font-family: inherit;
     }
-    .am-btn:active { transform: scale(0.98); }
     .am-btn-primary   { background: #00c2ff; color: #020617; }
     .am-btn-secondary { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
     .am-btn-google    { background: #fff; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .am-btn-google img { width: 20px; height: 20px; }
     .am-btn-group {
       display: flex; flex-direction: column; gap: 10px;
-      width: 100%; max-width: 400px; padding: 0 16px; box-sizing: border-box;
+      width: 100%; max-width: 400px; padding: 20px 16px 0; box-sizing: border-box;
+    }
+
+    /* Адаптив для хедера на мобилках */
+    @media (max-width: 900px) {
+      .am-page { margin-top: 80px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════
-       ХЕДЕР — такой же как на главной
-  ════════════════════════════════════════════════ -->
   <div data-include="/header-tr.html"></div>
 
   <div class="am-page">
@@ -138,15 +138,10 @@
       <div class="am-placeholder"></div>
     </div>
 
-    <!-- ══════════════════════════════════════════
-         ЗАЛОГИНЕН — управляется inline-скриптом
-    ═══════════════════════════════════════════════ -->
     <div class="am-section-logged-in" id="amSectionLoggedIn" hidden>
-
       <div class="am-user-card">
-        <!-- id уникальные, не конфликтуют с header-tr.html -->
         <img id="amPageAvatar" class="am-avatar" src="/assets/icons/alien.png" alt="">
-        <div class="am-name"  id="amPageName">Kullanıcı</div>
+        <div class="am-name" id="amPageName">Kullanıcı</div>
         <div class="am-email" id="amPageEmail"></div>
       </div>
 
@@ -171,50 +166,32 @@
           <span class="am-item-label">Çıkış Yap</span>
         </button>
       </div>
+    </div>
 
-    </div><!-- /amSectionLoggedIn -->
-
-
-    <!-- ══════════════════════════════════════════
-         НЕ ЗАЛОГИНЕН — управляется inline-скриптом
-    ═══════════════════════════════════════════════ -->
     <div class="am-section-logged-out" id="amSectionLoggedOut">
-
-      <div class="am-logged-out-inner">
-        <div class="am-avatar-placeholder">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <div class="am-logged-out-inner" style="text-align: center; padding-top: 32px;">
+        <div class="am-avatar-placeholder" style="width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.08); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
-        <h2>Giriş Yapın</h2>
-        <p>Hesabınıza erişmek için giriş yapın</p>
+        <h2 style="font-size: 20px; margin-bottom: 8px;">Giriş Yapın</h2>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 28px;">Hesabınıza erişmek için giriş yapın</p>
       </div>
 
       <div class="am-btn-group">
-        <button class="am-btn am-btn-google" onclick="login({ source: 'account-menu' })">
+        <button class="am-btn am-btn-google" onclick="if(typeof login === 'function') login({ source: 'account-menu' })">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
           Google ile Giriş Yap
         </button>
         <a href="javascript:void(0);" class="am-btn am-btn-primary open-login">Giriş Yap</a>
         <a href="javascript:void(0);" class="am-btn am-btn-secondary open-signup">Kayıt Ol</a>
       </div>
+    </div>
 
-    </div><!-- /amSectionLoggedOut -->
-
-  </div><!-- /am-page -->
+  </div>
 
   <div data-include="/footer-tr.html"></div>
 
 <script>
-/*
- * Управление страницей аккаунта.
- *
- * worker-auth.js (загружается из header-tr.html) уже вызывает checkUser()
- * и обновляет хедер (alien icon, dropdown). Нам нужно дополнительно обновить
- * собственные элементы страницы: #amPageAvatar, #amPageName, #amPageEmail
- * и показать/скрыть #amSectionLoggedIn / #amSectionLoggedOut.
- *
- * Мы делаем отдельный fetch /me — браузер кэширует его (same request),
- * поэтому дополнительного сетевого трафика нет.
- */
 (function () {
   'use strict';
 
@@ -248,7 +225,6 @@
       .catch(function () { applyUser(null); });
   }
 
-  /* Кнопка выхода — logout() из worker-auth + редирект на главную */
   function bindLogout() {
     var btn = document.getElementById('amLogoutBtn');
     if (!btn) return;
@@ -260,12 +236,8 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     bindLogout();
-    /*
-     * worker-auth.js загружается через defer из header-tr.html.
-     * После DOMContentLoaded все defer-скрипты уже выполнились,
-     * но checkUser() — async. Даём ему 800 мс, потом свой fetch.
-     */
-    setTimeout(fetchAndApply, 800);
+    // Даем небольшую задержку, чтобы основные скрипты хедера успели инициализироваться
+    setTimeout(fetchAndApply, 600);
   });
 }());
 </script>
