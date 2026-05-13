@@ -70,51 +70,175 @@ body, html {
     color: #000000 !important;
 }
 
-/* ── MOBILE OVERFLOW FIX ── */
+/* ── MOBILE LAYOUT FIX ── */
 @media (max-width: 767px) {
+
+  /* Страница: убрать горизонтальный скролл */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+  }
+
   .cart-page {
     padding: 0 12px !important;
     box-sizing: border-box !important;
+    width: 100% !important;
     max-width: 100vw !important;
     overflow-x: hidden !important;
+    margin-top: 100px !important;
   }
 
-  .cart-page * {
+  /* Каждый item — вертикальная карточка */
+  .cart-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 14px 0 !important;
+    width: 100% !important;
     box-sizing: border-box !important;
+  }
+
+  /* Картинка товара — фиксированная высота, полная ширина */
+  .cart-item > img,
+  .cart-item img {
+    width: 100% !important;
+    height: 200px !important;
     max-width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Блок с названием/ценой — полная ширина */
+  .cart-item-main,
+  .cart-item .item-info {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .cart-item-main h2,
+  .cart-item .item-name {
+    font-size: 15px !important;
+    margin: 0 0 4px !important;
+    line-height: 1.3 !important;
+  }
+
+  .cart-item-main p {
+    font-size: 13px !important;
+    margin: 0 0 4px !important;
+  }
+
+  .cart-item-price,
+  .cart-item-main .cart-item-price {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+  }
+
+  /* Блок действий: количество + удалить + итог */
+  .cart-item-actions,
+  .cart-item .cart-qty-controls {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Счётчик количества */
+  .qty-control {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .qty-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    font-size: 18px !important;
+    border-radius: 8px !important;
+  }
+
+  .qty-input {
+    width: 44px !important;
+    text-align: center !important;
+    font-size: 15px !important;
+    padding: 4px !important;
+  }
+
+  /* Кнопка удаления */
+  .cart-remove {
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Итог по позиции */
+  .cart-item-total {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Форма расчёта доставки */
+  .shipping-estimate form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .shipping-estimate label {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    font-size: 13px !important;
   }
 
   .cart-page input,
   .cart-page select,
-  .cart-page button,
-  .cart-page .btn-primary,
   .cart-page textarea {
     width: 100% !important;
-    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px !important;
+    font-size: 14px !important;
   }
 
-  /* Shipping estimate form — column layout */
-  .shipping-estimate .form-row,
-  .shipping-estimate form,
-  .cart-page .form-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
+  .cart-page .btn-primary,
+  .cart-page .btn-secondary,
+  .checkout-btn,
+  .whatsapp-btn {
     width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 14px !important;
+    font-size: 15px !important;
   }
 
-  /* Payment icons row */
-  .cart-page .payment-icons {
+  /* Итоговая строка */
+  .cart-total-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 16px !important;
+    padding: 12px 0 !important;
+  }
+
+  /* Payment icons */
+  .chart-payment-bar .payment-icons {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 8px !important;
+    gap: 10px !important;
     justify-content: center !important;
   }
 
-  .cart-page .payment-icons img {
-    max-height: 28px !important;
+  .chart-payment-bar .payment-icons img {
+    height: 28px !important;
     width: auto !important;
-    max-width: 70px !important;
+    max-width: 64px !important;
     object-fit: contain !important;
   }
 }
