@@ -6,12 +6,13 @@
   <title>Аккаунт – Alba Space</title>
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/worker-auth.js" defer></script>
   <style>
     html, body {
       margin: 0; padding: 0;
       min-height: 100vh;
-      background: linear-gradient(160deg, #020617 0%, #07143a 100%);
+      background: #020617;
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
     }
@@ -20,8 +21,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      padding: 0 0 40px;
+      min-height: calc(100vh - 400px); /* Adjust based on footer height */
+      padding: 0 0 60px;
     }
 
     /* ── Top bar ── */
@@ -273,13 +274,15 @@
   <div class="am-btn-group" id="amLoginBtns">
     <button class="am-btn am-btn-google" onclick="login({ source: 'account-menu' })">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      Google ile Giriş Yap
+      Войти через Google
     </button>
     <a href="javascript:void(0);" class="am-btn am-btn-primary open-login">Войти</a>
     <a href="javascript:void(0);" class="am-btn am-btn-secondary open-signup">Регистрация</a>
   </div>
 
 </div>
+
+<div data-include="/footer-ru.html"></div>
 
 <script>
 // Update UI when auth state is known
@@ -295,7 +298,10 @@ function updateAccountMenuPage(user) {
     var avatar = document.getElementById('amAvatar');
     var name = document.getElementById('amName');
     var email = document.getElementById('amEmail');
-    if (avatar) avatar.src = user.avatar || '/assets/icons/alien.png';
+    if (avatar) {
+      avatar.src = user.avatar || '/assets/icons/alien.png';
+      if (user.avatar) avatar.crossOrigin = 'anonymous';
+    }
     if (name) name.textContent = user.name || user.email || 'Пользователь';
     if (email) email.textContent = user.email || '';
   }

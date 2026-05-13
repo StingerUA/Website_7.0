@@ -298,7 +298,10 @@ function updateAccountMenuPage(user) {
     var avatar = document.getElementById('amAvatar');
     var name = document.getElementById('amName');
     var email = document.getElementById('amEmail');
-    if (avatar) avatar.src = user.avatar || '/assets/icons/alien.png';
+    if (avatar) {
+      avatar.src = user.avatar || '/assets/icons/alien.png';
+      if (user.avatar) avatar.crossOrigin = 'anonymous';
+    }
     if (name) name.textContent = user.name || user.email || 'Kullanıcı';
     if (email) email.textContent = user.email || '';
   }
