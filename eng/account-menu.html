@@ -68,6 +68,8 @@
       max-width: 400px;
       box-sizing: border-box;
     }
+    /* Fix: ensure hidden attribute works even with display:flex */
+    .am-user-card[hidden] { display: none !important; }
 
     .am-avatar {
       width: 80px;
@@ -102,6 +104,7 @@
       flex-direction: column;
       gap: 10px;
     }
+    .am-menu[hidden] { display: none !important; }
 
     .am-item {
       display: flex;
@@ -160,6 +163,7 @@
       box-sizing: border-box;
       text-align: center;
     }
+    .am-logged-out[hidden] { display: none !important; }
 
     .am-logged-out .am-avatar-placeholder {
       width: 80px; height: 80px;
@@ -219,6 +223,7 @@
       padding: 0 16px;
       box-sizing: border-box;
     }
+    .am-btn-group[hidden] { display: none !important; }
   </style>
 </head>
 <body>

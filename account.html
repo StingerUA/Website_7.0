@@ -10,9 +10,10 @@
   <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/menu-toggle.js" defer></script>
   <script src="/assets/js/mobile-header-cart.js" defer></script>
+  <script src="/assets/js/worker-auth.js" defer></script>
   <style>
     body.account-page { background: #020617; color: #e5e7eb; }
-    .account-main { max-width: 760px; margin: 120px auto 60px; padding: 0 20px; }
+    .account-main { max-width: 760px; margin: 120px auto 60px; padding: 0 20px; min-height: calc(100vh - 500px); }
     .account-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 24px; padding: 30px 28px; box-shadow: 0 20px 80px rgba(0,0,0,0.25); }
     .account-card h1 { margin-bottom: 14px; font-size: 32px; }
     .account-card p { margin-bottom: 24px; color: #9ca3af; }
@@ -22,7 +23,7 @@
     .account-field textarea { min-height: 120px; resize: vertical; }
     .account-actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
     .account-message { margin-top: 16px; color: #7dd3fc; }
-    .btn-primary { background: #00c2ff; color: #020617; border: none; }
+    .btn-primary { background: #00c2ff; color: #020617; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; }
     .account-section { margin-top: 32px; }
     .account-section h2 { margin-bottom: 12px; font-size: 24px; }
     .account-section p { margin-bottom: 16px; color: #9ca3af; }
@@ -67,10 +68,13 @@
 
     <section id="purchased" class="account-card account-section">
       <h2>Satın Aldıklarım</h2>
-      <p>Satın aldığınız ürünlerin veya hizmetlerin kısa bir listesini burada görebilirsiniz.</p>
+      <p>Satın aldığınız ürünlerin veya hizmetlerin kısa bir listesini здесь görebilirsiniz.</p>
       <div class="account-section-content">Henüz satın alma geçmişiniz görünmüyor.</div>
     </section>
   </main>
+  
+  <div data-include="/footer-tr.html"></div>
+
   <script>
     const API_BASE = "https://albaspace-api.nncdecdgc.workers.dev";
     const form = document.getElementById('accountForm');
