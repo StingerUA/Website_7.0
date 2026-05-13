@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Универсальный favicon-блок -->
+  <link rel="icon" type="image/png" href="/assets/icons/AlbaLogo.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/AlbaLogo.png" sizes="180x180">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#020617">
+  <meta name="msapplication-TileColor" content="#020617">
+  <meta name="msapplication-TileImage" content="/favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sepet – Alba Space</title>
+
+  <!-- Site genel stilleri -->
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/fix-layout.css">
+  <link rel="stylesheet" href="/assets/css/shop.css">
+
+  <!-- İkinci sayfadan gelen özel stiller -->
+  <style> :root { --header-bg: #020617; --accent: #00c2ff; --page-bg: #050b27; --text-main: #ffffff; --text-muted: #9ca3af; } /* Arka plan görseli entegrasyonu */ /* Ödeme ikonları stilleri */ .chart-payment-bar { display:flex; justify-content:center; margin-top: 20px; margin-bottom:18px; } .chart-payment-bar .payment-icons { position:relative; display: flex; gap:24px; justify-content:center; align-items:center; padding:6px 12px; border-radius:10px; z-index:3; /* Okunurluk için hafif arka plan */ } .chart-payment-bar .payment-icons img { width:52px; height:auto; opacity:0.95; } .chart-payment-bar .payment-icons-link { display:block !important; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:calc(100% + 36px); height:72px; background: transparent !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-radius:10px; z-index:2; cursor:pointer; } /* WhatsApp butonu için ek stil */ .whatsapp-btn { display: inline-block; margin-top: 10px; width: 100%; text-align: center; background-color: #25D366; color: white; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; } .whatsapp-btn:hover { background-color: #128C7E; } </style>
+    <style>
+      /* Override default site stylesheet background for cart page */
+      body{ background-color: var(--page-bg) !important; color: var(--text-main) !important; }
+      html{ background-color: var(--page-bg) !important; }
+    </style>
+
+  <style>
+    /* Remove white cookie/modal bg on cart page */
+    .cookie-modal { background-color: transparent !important; color: #ffffff !important; box-shadow: none !important; border: none !important; }
+    .cookie-header, .cookie-text, .cookie-link { color: #e5e7eb !important; }
+    .btn-settings { background-color: transparent !important; color: #ffffff !important; border-color: rgba(255,255,255,0.12) !important; }
+    .btn-accept { background-color: #000 !important; color: #fff !important; }
+  </style>
+
+  <!-- Scriptler -->
+  <script src="/assets/js/menu-toggle.js" defer></script>
+  <script src="/assets/js/include.js" defer></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/cart-white.css">
+</head>
+
+<body>
+
+  <!-- Türkçe Header -->
+  <div data-include="/header-tr.html"></div>
+
+  <main class="cart-page">
+    <h1>Sepet</h1>
+
+    <!-- Sepet ürünleri konteyneri -->
+    <section id="cartItems"></section>
+
+    <!-- Sepet özeti ve kargo hesaplama -->
+    <section class="cart-summary" id="cartSummary">
+      <div class="cart-total-row">
+        <span>Toplam:</span>
+        <span id="cartTotal">TL0.00</span>
+      </div>
+
+      <div class="shipping-estimate">
+        <h2>Tahmini Kargo ve İşlem Ücreti</h2>
+        <form>
+          <label>
+            Ülke
+            <select>
+              <option value="Türkiye">Türkiye</option>
+              <option value="United States">Amerika Birleşik Devletleri</option>
+              <option value="United Kingdom">Birleşik Krallık</option>
+              <option value="Ukraine">Ukrayna</option>
+              <option value="Russia">Rusya</option>
+            </select>
+          </label>
+
+          <label>
+            Eyalet / İl
+            <input type="text" placeholder="Eyalet veya İl">
+          </label>
+
+          <label>
+            Posta Kodu
+            <input type="text" placeholder="Posta Kodu">
+          </label>
+
+          <button type="button" class="btn-secondary">Hesapla</button>
+        </form>
+      </div>
+
+      <!-- Standart Checkout Butonu -->
+      <button class="btn-primary checkout-btn" type="button">ÖDEME YAP</button>
+      
+      <!-- WhatsApp ödemeye yönlendiren buton (dinamik mesaj oluşturulacak) -->
+      <a id="whatsappBtn" class="whatsapp-btn" href="#" rel="noopener">WHATSAPP İLE ÖDE</a>
+
+      <!-- İkinci sayfadan gelen Ödeme İkonları -->
+      <div class="chart-payment-bar">
+        <div class="payment-icons" aria-hidden="true">
+          <!-- Link mantığı korundu -->
+          <span class="payment-icons-link" onclick="location.href='/chart.html';" onkeydown="if(event.key==='Enter'){location.href='/chart.html';}" role="link" tabindex="0"></span>
+          <img alt="mastercard" src="/assets/icons/mastercard.png"/>
+          <img alt="visa" src="/assets/icons/visa.png"/>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Sepet boş mesajı -->
+    <p id="emptyCartMessage" class="cart-empty" hidden>Sepetiniz boş.</p>
+  </main>
+
+  <!-- Türkçe Footer -->
+  <div data-include="/footer-tr.html"></div>
+
+  <script>
+    /**
+     * Sepet içeriğini Türkçe olarak render eden fonksiyon.
+     */
+    function renderCartTR() {
+      const container = document.getElementById('cartItems');
+      const summary = document.getElementById('cartSummary');
+      const emptyMsg = document.getElementById('emptyCartMessage');
+      const totalEl = document.getElementById('cartTotal');
+      
+      const cart = cartManager.load();
+
+      if (!cart.length) {
+        container.innerHTML = '';
+        summary.style.display = 'none';
+        emptyMsg.hidden = false;
+        return;
+      }
+
+      emptyMsg.hidden = true;
+      summary.style.display = '';
+
+      let total = 0;
+
+      container.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        
+        return `
+          <article class="cart-item" data-index="${index}">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-main">
+              <h2>${item.name}</h2>
+              <p>${item.color ? item.color : ''}${item.size ? ' / ' + item.size : ''}</p>
+              <div class="cart-item-price">TL${item.price.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-actions">
+              <div class="qty-control" data-qty>
+                <button type="button" class="qty-btn" data-qty-minus>&minus;</button>
+                <input type="number" min="1" value="${item.qty}" class="qty-input" data-qty-input>
+                <button type="button" class="qty-btn" data-qty-plus>&plus;</button>
+              </div>
+              <!-- 'Remove' metni 'Kaldır' olarak değiştirildi -->
+              <button type="button" class="cart-remove" data-remove>Kaldır</button>
+              <div class="cart-item-total">TL${itemTotal.toFixed(2)}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Para birimi gösterimi TL olarak güncellendi
+      totalEl.textContent = 'TL' + total.toFixed(2);
+
+      // Event handler'ları bağla
+      container.querySelectorAll('.cart-item').forEach(row => {
+        const index = Number(row.dataset.index);
+        const input = row.querySelector('[data-qty-input]');
+
+        row.querySelector('[data-qty-minus]').addEventListener('click', () => {
+          const value = Math.max(1, Number(input.value || '1') - 1);
+          input.value = value;
+          cartManager.updateQty(index, value);
+          renderCartTR();
+        });
+
+        row.querySelector('[data-qty-plus]').addEventListener('click', () => {
+          const value = Number(input.value || '1') + 1;
+          input.value = value;
+          cartManager.updateQty(index, value);
+          renderCartTR();
+        });
+
+        row.querySelector('[data-remove]').addEventListener('click', () => {
+          cartManager.remove(index);
+          renderCartTR();
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCartTR);
+  </script>
+
+  <script>
+    // Oluşturulmuş sepete göre WhatsApp mesajı üreten ve açan fonksiyon (Türkçe)
+    (function() {
+      const phone = '48452462064';
+
+      function buildMessageTR(cart) {
+        const lines = ['Merhaba, sepetimdeki ürünler:'];
+        let total = 0;
+        cart.forEach(item => {
+          const itemTotal = (Number(item.price) || 0) * (Number(item.qty) || 0);
+          total += itemTotal;
+          const attrs = [(item.color || ''), (item.size || '')].filter(Boolean).join(' / ');
+          lines.push(`- ${item.name}${attrs ? ' (' + attrs + ')' : ''} x${item.qty}: TL${itemTotal.toFixed(2)}`);
+        });
+        lines.push(`Toplam: TL${total.toFixed(2)}`);
+        return lines.join('\n');
+      }
+
+      function openWhatsAppTR(e) {
+        e && e.preventDefault();
+        const cart = window.cartManager ? window.cartManager.load() : [];
+        if (!cart || !cart.length) {
+          alert('Sepetiniz boş.');
+          return;
+        }
+        const text = encodeURIComponent(buildMessageTR(cart));
+        const url = `https://wa.me/${phone}?text=${text}`;
+        window.open(url, '_blank');
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('whatsappBtn');
+        if (btn) btn.addEventListener('click', openWhatsAppTR);
+      });
+    })();
+  </script>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.18,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealItems.forEach((item, index) => {
+      const delay = item.dataset.direction === 'left' ? index * 0.025 : index * 0.03;
+      item.style.setProperty('--reveal-delay', `${delay}s`);
+      observer.observe(item);
+    });
+  </script>
+
+  <script>
+      // Sayfa Yüklendiğinde Popup Kontrolü
+      document.addEventListener("DOMContentLoaded", function() {
+          // localStorage kontrolü: Kullanıcı daha önce "kabul ettim" dedi mi?
+          if (!localStorage.getItem("albaCookieSeen")) {
+              document.getElementById("cookie-overlay").style.display = "flex";
+          }
+      });
+
+      const acceptBtn = document.getElementById("btnAccept");
+      const settingsBtn = document.getElementById("btnSettings");
+
+      // Üst buton: Animasyon ve Kapatma
+      if(acceptBtn) {
+          acceptBtn.addEventListener("click", function() {
+              // Butona basıldığını hissettirmek için ufak bir bekleme (opsiyonel)
+              setTimeout(() => {
+                  document.getElementById("cookie-overlay").style.display = "none";
+                  // Kullanıcının gördüğünü tarayıcıya kaydet
+                  localStorage.setItem("albaCookieSeen", "true");
+              }, 200);
+          });
+      }
+
+      // Alt buton: Çerez politikası sayfasına yönlendirir
+      if(settingsBtn) {
+          settingsBtn.addEventListener("click", function() {
+               window.location.href = "cerez-politikasi.html";
+          });
+      }
+  </script>
+</body>
+</html>
