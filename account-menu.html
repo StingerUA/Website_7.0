@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script src="/assets/js/include.js" defer></script>
-  <script src="/assets/js/worker-auth.js" defer></script>
+  <!-- worker-auth.js загружается из header-tr.html, здесь не дублируем -->
   <style>
     html, body {
       margin: 0; padding: 0;
@@ -16,14 +16,15 @@
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
     }
+
     .am-page {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: calc(100vh - 400px);
       padding: 0 0 60px;
     }
-    /* top bar */
+
+    /* ── Top bar (кнопка Geri + заголовок) ── */
     .am-topbar {
       width: 100%;
       display: flex;
@@ -40,12 +41,16 @@
     }
     .am-back:hover { color: #fff; }
     .am-back svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
-    .am-title { font-size: 16px; font-weight: 600; color: #fff; }
+    .am-title  { font-size: 16px; font-weight: 600; color: #fff; }
     .am-placeholder { width: 48px; }
-    /* auth wrappers — worker-auth.js ставит/снимает hidden */
-    .am-auth-logged-in[hidden],
-    .am-auth-logged-out[hidden] { display: none !important; }
-    /* avatar card */
+
+    /* ── Показ/скрытие секций ── */
+    .am-section-logged-in,
+    .am-section-logged-out { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .am-section-logged-in[hidden],
+    .am-section-logged-out[hidden]  { display: none !important; }
+
+    /* ── Карточка пользователя ── */
     .am-user-card {
       display: flex; flex-direction: column; align-items: center;
       gap: 12px; padding: 32px 20px 24px;
@@ -56,9 +61,10 @@
       border: 2px solid rgba(0,194,255,0.5);
       box-shadow: 0 0 24px rgba(0,194,255,0.2);
     }
-    .am-name { font-size: 20px; font-weight: 600; color: #fff; text-align: center; }
+    .am-name  { font-size: 20px; font-weight: 600; color: #fff; text-align: center; }
     .am-email { font-size: 13px; color: rgba(255,255,255,0.5); text-align: center; margin-top: -6px; }
-    /* menu */
+
+    /* ── Меню ── */
     .am-menu {
       width: 100%; max-width: 400px; padding: 0 16px;
       box-sizing: border-box; display: flex; flex-direction: column; gap: 10px;
@@ -82,28 +88,31 @@
     }
     .am-item.logout:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); }
     .am-item.logout svg { stroke: #f87171; }
-    /* logged-out */
-    .am-logged-out {
+
+    /* ── Незалогинен ── */
+    .am-logged-out-inner {
       width: 100%; max-width: 400px; padding: 32px 16px 0;
       box-sizing: border-box; text-align: center;
     }
-    .am-logged-out .am-avatar-placeholder {
+    .am-avatar-placeholder {
       width: 80px; height: 80px; border-radius: 50%;
       background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15);
       margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
     }
-    .am-logged-out .am-avatar-placeholder svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.5; }
-    .am-logged-out h2 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #fff; }
-    .am-logged-out p  { font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px; }
+    .am-avatar-placeholder svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.5; }
+    .am-logged-out-inner h2 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #fff; }
+    .am-logged-out-inner p  { font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px; }
+
     .am-btn {
       display: block; width: 100%; max-width: 400px; padding: 14px 20px;
       border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none;
       transition: opacity 0.2s, transform 0.15s; text-align: center; text-decoration: none; box-sizing: border-box;
+      font-family: inherit;
     }
     .am-btn:active { transform: scale(0.98); }
-    .am-btn-primary  { background: #00c2ff; color: #020617; }
+    .am-btn-primary   { background: #00c2ff; color: #020617; }
     .am-btn-secondary { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
-    .am-btn-google   { background: #fff; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .am-btn-google    { background: #fff; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .am-btn-google img { width: 20px; height: 20px; }
     .am-btn-group {
       display: flex; flex-direction: column; gap: 10px;
@@ -112,97 +121,131 @@
   </style>
 </head>
 <body>
-<div class="am-page">
 
-  <div class="am-topbar">
-    <a href="javascript:history.back()" class="am-back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Geri
-    </a>
-    <span class="am-title">Hesap</span>
-    <div class="am-placeholder"></div>
-  </div>
+  <!-- ═══════════════════════════════════════════
+       ХЕДЕР — такой же как на главной
+  ════════════════════════════════════════════════ -->
+  <div data-include="/header-tr.html"></div>
 
-  <!-- ЗАЛОГИНЕН: class="alien-auth-logged-in" — worker-auth.js убирает hidden при входе -->
-  <div class="alien-auth-logged-in am-auth-logged-in" hidden>
+  <div class="am-page">
 
-    <div class="am-user-card">
-      <!-- id="accountAvatar"  → worker-auth обновит аватар + запустит checkUser() -->
-      <!-- id="accountMenuName" → worker-auth обновит имя/никнейм пользователя -->
-      <img id="accountAvatar" class="am-avatar" src="/assets/icons/alien.png" alt="">
-      <div class="am-name" id="accountMenuName" data-default-text="Kullanıcı">Kullanıcı</div>
-      <div class="am-email" id="amEmail"></div>
+    <div class="am-topbar">
+      <a href="javascript:history.back()" class="am-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Geri
+      </a>
+      <span class="am-title">Hesap</span>
+      <div class="am-placeholder"></div>
     </div>
 
-    <div class="am-menu">
-      <a href="/account.html" class="am-item">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        <span class="am-item-label">Hesap</span>
-        <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      <a href="/favorites.html" class="am-item">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        <span class="am-item-label">Favoriler</span>
-        <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      <a href="/orders.html" class="am-item">
-        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        <span class="am-item-label">Satın Aldıklarım</span>
-        <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      <button class="am-item logout" id="amLogoutBtn">
-        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span class="am-item-label">Çıkış Yap</span>
-      </button>
-    </div>
+    <!-- ══════════════════════════════════════════
+         ЗАЛОГИНЕН — управляется inline-скриптом
+    ═══════════════════════════════════════════════ -->
+    <div class="am-section-logged-in" id="amSectionLoggedIn" hidden>
 
-  </div><!-- /alien-auth-logged-in -->
-
-
-  <!-- НЕ ЗАЛОГИНЕН: class="alien-auth-logged-out" — worker-auth.js скрывает при входе -->
-  <div class="alien-auth-logged-out am-auth-logged-out">
-
-    <div class="am-logged-out">
-      <div class="am-avatar-placeholder">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <div class="am-user-card">
+        <!-- id уникальные, не конфликтуют с header-tr.html -->
+        <img id="amPageAvatar" class="am-avatar" src="/assets/icons/alien.png" alt="">
+        <div class="am-name"  id="amPageName">Kullanıcı</div>
+        <div class="am-email" id="amPageEmail"></div>
       </div>
-      <h2>Giriş Yapın</h2>
-      <p>Hesabınıza erişmek için giriş yapın</p>
-    </div>
 
-    <div class="am-btn-group">
-      <button class="am-btn am-btn-google" onclick="login({ source: 'account-menu' })">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-        Google ile Giriş Yap
-      </button>
-      <a href="javascript:void(0);" class="am-btn am-btn-primary open-login">Giriş Yap</a>
-      <a href="javascript:void(0);" class="am-btn am-btn-secondary open-signup">Kayıt Ol</a>
-    </div>
+      <div class="am-menu">
+        <a href="/account.html" class="am-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span class="am-item-label">Hesap</span>
+          <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="/favorites.html" class="am-item">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="am-item-label">Favoriler</span>
+          <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="/orders.html" class="am-item">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="am-item-label">Satın Aldıklarım</span>
+          <svg class="am-item-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <button class="am-item logout" id="amLogoutBtn">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="am-item-label">Çıkış Yap</span>
+        </button>
+      </div>
 
-  </div><!-- /alien-auth-logged-out -->
+    </div><!-- /amSectionLoggedIn -->
 
-</div><!-- /am-page -->
 
-<div data-include="/footer-tr.html"></div>
+    <!-- ══════════════════════════════════════════
+         НЕ ЗАЛОГИНЕН — управляется inline-скриптом
+    ═══════════════════════════════════════════════ -->
+    <div class="am-section-logged-out" id="amSectionLoggedOut">
+
+      <div class="am-logged-out-inner">
+        <div class="am-avatar-placeholder">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h2>Giriş Yapın</h2>
+        <p>Hesabınıza erişmek için giriş yapın</p>
+      </div>
+
+      <div class="am-btn-group">
+        <button class="am-btn am-btn-google" onclick="login({ source: 'account-menu' })">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+          Google ile Giriş Yap
+        </button>
+        <a href="javascript:void(0);" class="am-btn am-btn-primary open-login">Giriş Yap</a>
+        <a href="javascript:void(0);" class="am-btn am-btn-secondary open-signup">Kayıt Ol</a>
+      </div>
+
+    </div><!-- /amSectionLoggedOut -->
+
+  </div><!-- /am-page -->
+
+  <div data-include="/footer-tr.html"></div>
 
 <script>
+/*
+ * Управление страницей аккаунта.
+ *
+ * worker-auth.js (загружается из header-tr.html) уже вызывает checkUser()
+ * и обновляет хедер (alien icon, dropdown). Нам нужно дополнительно обновить
+ * собственные элементы страницы: #amPageAvatar, #amPageName, #amPageEmail
+ * и показать/скрыть #amSectionLoggedIn / #amSectionLoggedOut.
+ *
+ * Мы делаем отдельный fetch /me — браузер кэширует его (same request),
+ * поэтому дополнительного сетевого трафика нет.
+ */
 (function () {
   'use strict';
 
-  var WORKER_ME_URL = 'https://albaspace-api.nncdecdgc.workers.dev/me';
+  var ME_URL = 'https://albaspace-api.nncdecdgc.workers.dev/me';
 
-  /* Обновляем поле email — worker-auth его не заполняет */
-  function applyEmail(user) {
-    var el = document.getElementById('amEmail');
-    if (el) el.textContent = (user && user.email) ? user.email : '';
+  function applyUser(user) {
+    var isLoggedIn = !!(user && (user.name || user.email || user.avatar));
+
+    var secIn  = document.getElementById('amSectionLoggedIn');
+    var secOut = document.getElementById('amSectionLoggedOut');
+    if (secIn)  secIn.hidden  = !isLoggedIn;
+    if (secOut) secOut.hidden =  isLoggedIn;
+
+    if (isLoggedIn) {
+      var avatar = document.getElementById('amPageAvatar');
+      var name   = document.getElementById('amPageName');
+      var email  = document.getElementById('amPageEmail');
+      if (avatar) {
+        avatar.src = user.avatar || '/assets/icons/alien.png';
+        if (user.avatar) avatar.crossOrigin = 'anonymous';
+      }
+      if (name)  name.textContent  = user.name  || user.email || 'Kullanıcı';
+      if (email) email.textContent = user.email || '';
+    }
   }
 
-  /* Отдельный fetch /me — браузер кэширует, дублирования трафика нет */
-  function fetchEmail() {
-    fetch(WORKER_ME_URL, { credentials: 'include', mode: 'cors' })
+  function fetchAndApply() {
+    fetch(ME_URL, { credentials: 'include', mode: 'cors' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(applyEmail)
-      .catch(function () {});
+      .then(applyUser)
+      .catch(function () { applyUser(null); });
   }
 
   /* Кнопка выхода — logout() из worker-auth + редирект на главную */
@@ -217,17 +260,12 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     bindLogout();
-
     /*
-     * worker-auth.js (defer) запустит checkUser() сам, потому что на странице
-     * теперь есть id="accountAvatar". Он обновит:
-     *   - .alien-auth-logged-in / .alien-auth-logged-out (показать/скрыть)
-     *   - #accountAvatar src (аватар Google)
-     *   - #accountMenuName textContent (имя пользователя)
-     *
-     * Нам остаётся только дополнить email чуть позже.
+     * worker-auth.js загружается через defer из header-tr.html.
+     * После DOMContentLoaded все defer-скрипты уже выполнились,
+     * но checkUser() — async. Даём ему 800 мс, потом свой fetch.
      */
-    setTimeout(fetchEmail, 700);
+    setTimeout(fetchAndApply, 800);
   });
 }());
 </script>
