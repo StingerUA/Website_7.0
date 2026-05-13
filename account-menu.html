@@ -4,127 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hesap – Alba Space</title>
-  
+
   <link rel="icon" type="image/png" href="/assets/icons/AlbaLogo.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/assets/icons/AlbaLogo.png" sizes="180x180">
-  
+
   <link rel="stylesheet" href="/assets/css/site.css">
   <link rel="stylesheet" href="/assets/css/fix-layout.css">
-  
+
   <script src="/assets/js/include.js" defer></script>
   <script src="/assets/js/menu-toggle.js" defer></script>
   <script src="/assets/js/mobile-header-cart.js" defer></script>
 
   <style>
-    html, body {
-      margin: 0; padding: 0;
-      min-height: 100vh;
-      background: #020617; /* Темный фон как на главной */
-      color: #fff;
-      font-family: 'Inter', system-ui, sans-serif;
-    }
+    html, body { margin: 0; padding: 0; min-height: 100vh; background: #020617; color: #fff; font-family: 'Inter', system-ui, sans-serif; }
 
-    /* ВАЖНО: Добавлен margin-top, чтобы контент не заезжал ПОД фиксированный хедер.
-       На главной у вас 120px, здесь ставим столько же для единообразия.
-    */
     .am-page {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 100px; /* Отступ под хедер */
-      padding: 0 0 60px;
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: 100px; padding: 0 0 60px;
     }
+    @media (max-width: 900px) { .am-page { margin-top: 80px; } }
 
-    /* ── Top bar (кнопка Geri + заголовок) ── */
     .am-topbar {
-      width: 100%;
-      max-width: 1100px; /* Ограничим ширину для красоты на десктопе */
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-sizing: border-box;
+      width: 100%; max-width: 1100px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;
     }
-    .am-back {
-      display: flex; align-items: center; gap: 6px;
-      color: rgba(255,255,255,0.7); text-decoration: none;
-      font-size: 15px; font-weight: 500; transition: color 0.2s;
-    }
+    .am-back { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s; }
     .am-back:hover { color: #fff; }
     .am-back svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
-    .am-title  { font-size: 16px; font-weight: 600; color: #fff; }
+    .am-title { font-size: 16px; font-weight: 600; color: #fff; }
     .am-placeholder { width: 48px; }
 
-    /* ── Стили секций ── */
-    .am-section-logged-in,
+    /* ── секции управляются через JS style.display, не через hidden ── */
+    .am-section-logged-in  { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .am-section-logged-out { width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .am-section-logged-in[hidden],
-    .am-section-logged-out[hidden]  { display: none !important; }
 
-    /* ── Карточка пользователя ── */
-    .am-user-card {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 12px; padding: 32px 20px 24px;
-      width: 100%; max-width: 400px; box-sizing: border-box;
-    }
-    .am-avatar {
-      width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-      border: 2px solid rgba(0,194,255,0.5);
-      box-shadow: 0 0 24px rgba(0,194,255,0.2);
-    }
+    /* карточка пользователя */
+    .am-user-card { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 32px 20px 24px; width: 100%; max-width: 400px; box-sizing: border-box; }
+    .am-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0,194,255,0.5); box-shadow: 0 0 24px rgba(0,194,255,0.2); }
     .am-name  { font-size: 20px; font-weight: 600; color: #fff; text-align: center; }
     .am-email { font-size: 13px; color: rgba(255,255,255,0.5); text-align: center; margin-top: -6px; }
 
-    /* ── Меню ── */
-    .am-menu {
-      width: 100%; max-width: 400px; padding: 0 16px;
-      box-sizing: border-box; display: flex; flex-direction: column; gap: 10px;
-    }
-    .am-item {
-      display: flex; align-items: center; gap: 14px; padding: 16px 18px;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px; color: #fff; text-decoration: none;
-      font-size: 16px; font-weight: 500;
-      transition: background 0.18s, border-color 0.18s, transform 0.15s;
-    }
-    .am-item:hover, .am-item:active {
-      background: rgba(0,194,255,0.1); border-color: rgba(0,194,255,0.3); transform: translateX(2px);
-    }
+    /* меню */
+    .am-menu { width: 100%; max-width: 400px; padding: 0 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; }
+    .am-item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: #fff; text-decoration: none; font-size: 16px; font-weight: 500; transition: background 0.18s, border-color 0.18s, transform 0.15s; }
+    .am-item:hover, .am-item:active { background: rgba(0,194,255,0.1); border-color: rgba(0,194,255,0.3); transform: translateX(2px); }
     .am-item svg { width: 22px; height: 22px; flex-shrink: 0; stroke: #00c2ff; fill: none; stroke-width: 1.8; }
     .am-item-label { flex: 1; }
     .am-item-arrow { width: 16px; height: 16px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 2; flex-shrink: 0; }
-    .am-item.logout {
-      background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); color: #fca5a5;
-      cursor: pointer; width: 100%; font-family: inherit; border-width: 1px; border-style: solid;
-    }
+    .am-item.logout { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); color: #fca5a5; cursor: pointer; width: 100%; font-family: inherit; border-width: 1px; border-style: solid; }
     .am-item.logout:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); }
     .am-item.logout svg { stroke: #f87171; }
 
-    /* ── Кнопки входа ── */
-    .am-btn {
-      display: block; width: 100%; max-width: 400px; padding: 14px 20px;
-      border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none;
-      transition: opacity 0.2s, transform 0.15s; text-align: center; text-decoration: none; box-sizing: border-box;
-      font-family: inherit;
-    }
+    /* незалогинен */
+    .am-logged-out-inner { text-align: center; padding-top: 32px; }
+    .am-avatar-placeholder { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; }
+    .am-avatar-placeholder svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.5; }
+    .am-logged-out-inner h2 { font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #fff; }
+    .am-logged-out-inner p  { font-size: 14px; color: rgba(255,255,255,0.5); margin: 0 0 28px; }
+
+    /* кнопки */
+    .am-btn { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 400px; padding: 14px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.15s; text-align: center; text-decoration: none; box-sizing: border-box; font-family: inherit; gap: 10px; }
+    .am-btn:active { transform: scale(0.98); }
     .am-btn-primary   { background: #00c2ff; color: #020617; }
     .am-btn-secondary { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
-    .am-btn-google    { background: #fff; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .am-btn-google    { background: #fff; color: #333; }
     .am-btn-google img { width: 20px; height: 20px; }
-    .am-btn-group {
-      display: flex; flex-direction: column; gap: 10px;
-      width: 100%; max-width: 400px; padding: 20px 16px 0; box-sizing: border-box;
-    }
+    .am-btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 400px; padding: 20px 16px 0; box-sizing: border-box; }
 
-    /* Адаптив для хедера на мобилках */
-    @media (max-width: 900px) {
-      .am-page { margin-top: 80px; }
-    }
+    /* спиннер пока идёт запрос */
+    .am-spinner { width: 100%; display: flex; justify-content: center; padding: 60px 0; }
+    .am-spinner::after { content: ''; width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #00c2ff; border-radius: 50%; animation: am-spin 0.7s linear infinite; }
+    @keyframes am-spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
+  <!-- Хедер такой же как на главной -->
   <div data-include="/header-tr.html"></div>
 
   <div class="am-page">
@@ -138,13 +94,16 @@
       <div class="am-placeholder"></div>
     </div>
 
-    <div class="am-section-logged-in" id="amSectionLoggedIn" hidden>
+    <!-- спиннер: виден пока идёт запрос /me -->
+    <div class="am-spinner" id="amSpinner"></div>
+
+    <!-- ЗАЛОГИНЕН: скрыт по умолчанию -->
+    <div class="am-section-logged-in" id="amSectionIn" style="display:none">
       <div class="am-user-card">
         <img id="amPageAvatar" class="am-avatar" src="/assets/icons/alien.png" alt="">
-        <div class="am-name" id="amPageName">Kullanıcı</div>
+        <div class="am-name"  id="amPageName">Kullanıcı</div>
         <div class="am-email" id="amPageEmail"></div>
       </div>
-
       <div class="am-menu">
         <a href="/account.html" class="am-item">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
@@ -168,17 +127,17 @@
       </div>
     </div>
 
-    <div class="am-section-logged-out" id="amSectionLoggedOut">
-      <div class="am-logged-out-inner" style="text-align: center; padding-top: 32px;">
-        <div class="am-avatar-placeholder" style="width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.08); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-          <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    <!-- НЕ ЗАЛОГИНЕН: скрыт по умолчанию, показывается только после ответа /me -->
+    <div class="am-section-logged-out" id="amSectionOut" style="display:none">
+      <div class="am-logged-out-inner">
+        <div class="am-avatar-placeholder">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
-        <h2 style="font-size: 20px; margin-bottom: 8px;">Giriş Yapın</h2>
-        <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 28px;">Hesabınıza erişmek için giriş yapın</p>
+        <h2>Giriş Yapın</h2>
+        <p>Hesabınıza erişmek için giriş yapın</p>
       </div>
-
       <div class="am-btn-group">
-        <button class="am-btn am-btn-google" onclick="if(typeof login === 'function') login({ source: 'account-menu' })">
+        <button class="am-btn am-btn-google" id="amGoogleBtn">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
           Google ile Giriş Yap
         </button>
@@ -187,7 +146,7 @@
       </div>
     </div>
 
-  </div>
+  </div><!-- /am-page -->
 
   <div data-include="/footer-tr.html"></div>
 
@@ -197,48 +156,81 @@
 
   var ME_URL = 'https://albaspace-api.nncdecdgc.workers.dev/me';
 
+  var spinner  = document.getElementById('amSpinner');
+  var secIn    = document.getElementById('amSectionIn');
+  var secOut   = document.getElementById('amSectionOut');
+  var avatar   = document.getElementById('amPageAvatar');
+  var nameEl   = document.getElementById('amPageName');
+  var emailEl  = document.getElementById('amPageEmail');
+  var logoutBtn= document.getElementById('amLogoutBtn');
+  var googleBtn= document.getElementById('amGoogleBtn');
+
+  /* ── Показ/скрытие секций через style.display (без hidden-атрибута) ── */
+  function show(el) { if (el) el.style.display = 'flex'; }
+  function hide(el) { if (el) el.style.display = 'none'; }
+
+  /* ── Применить данные пользователя к DOM ── */
   function applyUser(user) {
-    var isLoggedIn = !!(user && (user.name || user.email || user.avatar));
+    hide(spinner);
+    var loggedIn = !!(user && (user.name || user.email));
 
-    var secIn  = document.getElementById('amSectionLoggedIn');
-    var secOut = document.getElementById('amSectionLoggedOut');
-    if (secIn)  secIn.hidden  = !isLoggedIn;
-    if (secOut) secOut.hidden =  isLoggedIn;
+    if (loggedIn) {
+      show(secIn);
+      hide(secOut);
 
-    if (isLoggedIn) {
-      var avatar = document.getElementById('amPageAvatar');
-      var name   = document.getElementById('amPageName');
-      var email  = document.getElementById('amPageEmail');
       if (avatar) {
-        avatar.src = user.avatar || '/assets/icons/alien.png';
-        if (user.avatar) avatar.crossOrigin = 'anonymous';
+        if (user.avatar) {
+          avatar.src = user.avatar;
+          avatar.crossOrigin = 'anonymous';
+        } else {
+          avatar.src = '/assets/icons/alien.png';
+        }
       }
-      if (name)  name.textContent  = user.name  || user.email || 'Kullanıcı';
-      if (email) email.textContent = user.email || '';
+      if (nameEl)  nameEl.textContent  = user.name  || user.email || 'Kullanıcı';
+      if (emailEl) emailEl.textContent = user.email || '';
+
+    } else {
+      hide(secIn);
+      show(secOut);
     }
   }
 
-  function fetchAndApply() {
+  /* ── Запрос /me ── */
+  function checkAuth() {
     fetch(ME_URL, { credentials: 'include', mode: 'cors' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(applyUser)
       .catch(function () { applyUser(null); });
   }
 
-  function bindLogout() {
-    var btn = document.getElementById('amLogoutBtn');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
+  /* ── Кнопка «Google ile Giriş Yap» ── */
+  if (googleBtn) {
+    googleBtn.addEventListener('click', function () {
+      if (typeof window.login === 'function') {
+        window.login({ source: 'account-menu' });
+      }
+    });
+  }
+
+  /* ── Кнопка выхода ── */
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function () {
       if (typeof window.logout === 'function') window.logout();
       setTimeout(function () { window.location.href = '/'; }, 600);
     });
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    bindLogout();
-    // Даем небольшую задержку, чтобы основные скрипты хедера успели инициализироваться
-    setTimeout(fetchAndApply, 600);
-  });
+  /*
+   * Запускаем checkAuth() сразу когда DOM готов.
+   * Не ждём worker-auth.js — делаем свой fetch.
+   * worker-auth.js занимается только хедером (alien icon, dropdown).
+   */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  } else {
+    checkAuth();
+  }
+
 }());
 </script>
 </body>
