@@ -3039,7 +3039,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
    FIXES: avatar round + mobile header logo size + cart buttons
    ================================================================ */
 
-/* ── 1. Avatar always round, everywhere ── */
+/* ── 1. Avatar always round + neon glow, everywhere ── */
 #accountAvatar,
 #accountMenuAvatar,
 .alien-ghost img,
@@ -3048,6 +3048,9 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
 .logo-sub-icons #accountAvatar {
   border-radius: 50% !important;
   object-fit: cover !important;
+  overflow: hidden !important;
+  box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.85),
+              0 0 10px rgba(0, 194, 255, 0.55) !important;
 }
 
 /* ── 2. Mobile header: fix logo size, nav buttons, override atlas inline CSS ── */
@@ -3108,8 +3111,6 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
   }
 
   /* ─ Neutral override: kill atlas-page inline .header-logo img rule ─ */
-  /* That rule: .header-logo img { width:40px; height:40px; border-radius:999px; padding:4px }
-     targets BOTH the small icon AND wordmark. We split them here. */
   .header-logo:not(.main-center-logo) img {
     width: 32px !important;
     height: 32px !important;
@@ -3117,7 +3118,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     padding: 0 !important;
   }
 
-  /* ─ Nav buttons: pill style matching main page ─ */
+  /* ─ Nav: centred, pill buttons ─ */
   .main-nav {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -3125,9 +3126,10 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     gap: 6px !important;
     width: 100% !important;
     order: 10 !important;
-    margin-top: 6px !important;
+    margin: 6px 0 0 0 !important;    /* reset shop.css margin-left:40px */
     padding: 8px 8px !important;
     border-top: 1px solid rgba(255,255,255,0.1) !important;
+    background: transparent !important;
   }
 
   .main-nav a,
@@ -3148,6 +3150,24 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     transition: background 0.18s, border-color 0.18s !important;
     line-height: 1 !important;
     height: auto !important;
+    /* Kill browser focus rectangle */
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /* Active / focus state: underline only, no rectangle */
+  .main-nav a:focus,
+  .main-nav a:active,
+  .main-nav .dropdown-trigger:focus,
+  .main-nav .dropdown-trigger:active {
+    outline: none !important;
+    border-color: rgba(0,194,255,0.35) !important; /* keep the pill border */
+    background: rgba(0,194,255,0.10) !important;
+    box-shadow: none !important;
+    /* underline via text-decoration on the span/text */
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    text-decoration-color: rgba(0,194,255,0.7) !important;
   }
 
   .main-nav a:hover,
@@ -3155,6 +3175,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     background: rgba(0,194,255,0.22) !important;
     border-color: rgba(0,194,255,0.6) !important;
     color: #fff !important;
+    outline: none !important;
   }
 
   /* Arrow chevron inside dropdown triggers */
@@ -3163,6 +3184,23 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     width: 10px !important;
     height: 10px !important;
     flex-shrink: 0 !important;
+  }
+}
+
+/* ── 3. Remove focus rectangle from nav on ALL screen sizes ── */
+.main-nav a:focus-visible,
+.main-nav .dropdown-trigger:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  text-decoration-color: rgba(0,194,255,0.8) !important;
+}
+
+/* ── 4. shop.css sets .main-nav { margin-left: 40px } — reset on mobile ── */
+@media (max-width: 1023px) {
+  .main-nav {
+    margin-left: 0 !important;
   }
 }
 
