@@ -2833,15 +2833,17 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════
-   MODEL-VIEWER PAGES — centering fix (safe, no flex-body)
-   Covers: atlas-*, turksat-*, gokturk-*, voyager*, etc.
+   MODEL-VIEWER PAGES — centering fix
+   Only fixes pages where h1 is a DIRECT child of body
+   (turksat-*, rasat, etc.) — NOT atlas- pages which have
+   their own correct inline styles and must not be touched.
    ═══════════════════════════════════════════════════════ */
 
-/* h1 direct child of body: centre text, add top padding for fixed header */
+/* Non-atlas pages: h1 is direct child of body, needs top padding for fixed header */
 body:has(model-viewer) > h1 {
   text-align: center !important;
-  padding: 130px 20px 0 !important;
-  margin: 0 auto 12px !important;
+  padding: 130px 20px 16px !important;
+  margin: 0 auto !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -2853,34 +2855,22 @@ body:has(model-viewer) > h1 {
   }
 }
 
-/* .container: block, centred with auto margins, full width */
-.container {
-  display: block !important;
-  width: 100% !important;
-  max-width: 1100px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  box-sizing: border-box !important;
-  text-align: center !important;
-}
-
-/* description paragraph inside .container */
-.container > p {
+/* Non-atlas pages: body > p (description, direct child of body) */
+body:has(model-viewer) > p {
   text-align: center !important;
   max-width: 780px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  margin-bottom: 16px !important;
+  padding: 0 20px 16px !important;
   box-sizing: border-box !important;
 }
 
-/* model-viewer: explicit dimensions so it never collapses to 0 */
-model-viewer {
+/* Non-atlas pages: model-viewer direct child of body */
+body:has(model-viewer) > model-viewer,
+body:has(model-viewer) > .viewer-wrapper model-viewer {
   display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: calc(100% - 40px) !important;
+  max-width: 960px !important;
   height: 60vh !important;
   min-height: 340px !important;
   margin: 0 auto 0 !important;
@@ -2890,21 +2880,14 @@ model-viewer {
 }
 
 @media (max-width: 768px) {
-  model-viewer {
+  body:has(model-viewer) > model-viewer,
+  body:has(model-viewer) > .viewer-wrapper model-viewer {
     height: 44vh !important;
     min-height: 260px !important;
-    border-radius: 10px !important;
   }
 }
 
-@media (max-width: 480px) {
-  model-viewer {
-    height: 55vw !important;
-    min-height: 220px !important;
-  }
-}
-
-/* add-to-cart block below model-viewer */
+/* add-to-cart block — works for ALL model-viewer pages */
 .mv-add-cart-wrap {
   display: flex !important;
   flex-direction: column !important;
@@ -3067,21 +3050,26 @@ model-viewer {
   object-fit: cover !important;
 }
 
-/* ── 2. Mobile header: AlbaLogo icon keeps 32px, not 20px ── */
+/* ── 2. Mobile header: fix logo size, nav buttons, override atlas inline CSS ── */
 @media (max-width: 767px) {
-  /* The AlbaLogo small icon (left of AI + alien) */
+
+  /* ─ AlbaLogo small icon (left row) ─ */
   .header-logo-icon img {
     width: 32px !important;
     height: 32px !important;
     padding: 0 !important;
+    border-radius: 0 !important;
   }
-  /* AI icon same */
+
+  /* ─ AI widget icon ─ */
   .ai-widget-toggle img {
     width: 28px !important;
     height: 28px !important;
     padding: 0 !important;
+    border-radius: 0 !important;
   }
-  /* Alien / avatar button */
+
+  /* ─ Alien / user avatar ─ */
   .alien-ghost img,
   .logo-sub-icons #accountAvatar,
   .logo-sub-icons .account-avatar {
@@ -3090,13 +3078,91 @@ model-viewer {
     padding: 0 !important;
     border-radius: 50% !important;
   }
-  /* Gap between icons */
+
+  /* ─ Gap between left-row icons ─ */
   .logo-sub-icons {
     gap: 10px !important;
   }
-  /* AlbaSpace wordmark (center row) */
-  .main-center-logo .albaspace-img {
-    height: 26px !important;
+
+  /* ─ AlbaSpace wordmark — bigger, centred, NO rounding ─ */
+  .main-center-logo {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 6px 0 10px !important;
+    order: 3 !important;
+  }
+
+  .main-center-logo .albaspace-img,
+  .header-logo.main-center-logo img {
+    height: 38px !important;
+    width: auto !important;
+    max-width: 220px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* ─ Neutral override: kill atlas-page inline .header-logo img rule ─ */
+  /* That rule: .header-logo img { width:40px; height:40px; border-radius:999px; padding:4px }
+     targets BOTH the small icon AND wordmark. We split them here. */
+  .header-logo:not(.main-center-logo) img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ─ Nav buttons: pill style matching main page ─ */
+  .main-nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    order: 10 !important;
+    margin-top: 6px !important;
+    padding: 8px 8px !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
+  }
+
+  .main-nav a,
+  .main-nav .dropdown-trigger {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 6px 11px !important;
+    border: 1px solid rgba(0,194,255,0.35) !important;
+    border-radius: 20px !important;
+    background: rgba(0,194,255,0.10) !important;
+    color: #e5e7eb !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    transition: background 0.18s, border-color 0.18s !important;
+    line-height: 1 !important;
+    height: auto !important;
+  }
+
+  .main-nav a:hover,
+  .main-nav .dropdown-trigger:hover {
+    background: rgba(0,194,255,0.22) !important;
+    border-color: rgba(0,194,255,0.6) !important;
+    color: #fff !important;
+  }
+
+  /* Arrow chevron inside dropdown triggers */
+  .main-nav .dropdown-trigger .chevron,
+  .main-nav .dropdown-trigger svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex-shrink: 0 !important;
   }
 }
 
