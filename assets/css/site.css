@@ -2833,37 +2833,29 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════
-   MODEL-VIEWER PAGES — full centering fix
+   MODEL-VIEWER PAGES — centering fix (safe, no flex-body)
    Covers: atlas-*, turksat-*, gokturk-*, voyager*, etc.
    ═══════════════════════════════════════════════════════ */
 
-/* body becomes a centering column */
-body:has(model-viewer) {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-}
-
-/* h1 is a direct child of body on these pages → center text + side padding */
+/* h1 direct child of body: centre text, add top padding for fixed header */
 body:has(model-viewer) > h1 {
-  width: 100% !important;
-  max-width: 1100px !important;
   text-align: center !important;
-  padding: 0 20px !important;
-  margin-top: 120px !important; /* clear fixed header */
-  margin-bottom: 8px !important;
+  padding: 130px 20px 0 !important;
+  margin: 0 auto 12px !important;
+  width: 100% !important;
   box-sizing: border-box !important;
 }
 
 @media (max-width: 768px) {
   body:has(model-viewer) > h1 {
-    margin-top: 90px !important;
-    font-size: clamp(22px, 5vw, 38px) !important;
+    padding-top: 90px !important;
+    font-size: clamp(22px, 5vw, 36px) !important;
   }
 }
 
-/* .container centers its children */
+/* .container: block, centred with auto margins, full width */
 .container {
+  display: block !important;
   width: 100% !important;
   max-width: 1100px !important;
   margin-left: auto !important;
@@ -2871,28 +2863,27 @@ body:has(model-viewer) > h1 {
   padding-left: 20px !important;
   padding-right: 20px !important;
   box-sizing: border-box !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  text-align: center !important;
 }
 
-/* description paragraph */
+/* description paragraph inside .container */
 .container > p {
   text-align: center !important;
   max-width: 780px !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  margin-bottom: 16px !important;
   box-sizing: border-box !important;
 }
 
-/* model-viewer: explicit size so it never collapses */
+/* model-viewer: explicit dimensions so it never collapses to 0 */
 model-viewer {
   display: block !important;
   width: 100% !important;
-  max-width: 960px !important;
+  max-width: 100% !important;
   height: 60vh !important;
   min-height: 340px !important;
-  margin: 16px auto 0 !important;
+  margin: 0 auto 0 !important;
   border-radius: 14px !important;
   box-shadow: 0 0 36px rgba(0, 150, 255, 0.18) !important;
   box-sizing: border-box !important;
@@ -2913,15 +2904,14 @@ model-viewer {
   }
 }
 
-/* mv-add-cart-wrap центрируется через body flex */
+/* add-to-cart block below model-viewer */
 .mv-add-cart-wrap {
-  width: 100% !important;
-  max-width: 960px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   gap: 10px !important;
   padding: 20px 16px 40px !important;
+  width: 100% !important;
   box-sizing: border-box !important;
 }
 
