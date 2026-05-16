@@ -2837,21 +2837,10 @@ body {
    Applies to ALL pages with model-viewer (atlas- and non-)
    ═══════════════════════════════════════════════════════ */
 
-/* Push body content below fixed header on model-viewer pages */
-body:has(model-viewer) {
-  padding-top: 80px !important;
-}
-
-@media (max-width: 768px) {
-  body:has(model-viewer) {
-    padding-top: 60px !important;
-  }
-}
-
-/* h1 direct child of body — reset inline margin-top, centre text */
+/* h1 direct child of body — override inline style="margin-top:20px", centre text */
 body:has(model-viewer) > h1 {
   text-align: center !important;
-  margin-top: 40px !important;   /* overrides inline style="margin-top:20px" */
+  margin-top: 40px !important;
   margin-bottom: 0 !important;
   padding: 0 20px !important;
   width: 100% !important;
@@ -2897,7 +2886,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
   }
 }
 
-/* .container wraps model-viewer on ALL non-atlas and atlas- pages */
+/* .container wraps model-viewer on ALL pages */
 body:has(model-viewer) .container {
   width: 90% !important;
   max-width: 1200px !important;
