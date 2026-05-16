@@ -40,8 +40,7 @@
     * {
       box-sizing: border-box !important;
     }
-    
-</style>
+    </style>
 <script defer="" src="/assets/js/include.js"></script>
 <script defer="" src="/assets/js/menu-toggle.js"></script>
 <script defer="" src="/assets/js/model-viewer-debug.js"></script>
@@ -61,17 +60,14 @@
 </main>
 <!-- Глобальный русский футер -->
 
-  <!-- ═══════════════════════════════════════
-       ADD TO CART — 50 TL
-  ════════════════════════════════════════════ -->
+  <!-- ADD TO CART — 50 TL -->
   <div class="mv-add-cart-wrap" id="mvCartWrap">
     <button class="mv-add-cart-btn" id="mvAddCartBtn">
       <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.2;flex-shrink:0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      Sepete Ekle
+      В корзину
     </button>
     <span class="mv-price-label">50 TL</span>
   </div>
-
   <script>
   (function(){
     var btn = document.getElementById('mvAddCartBtn');
@@ -79,11 +75,11 @@
     function getModelName() {
       var h1 = document.querySelector('h1');
       if (h1) return h1.textContent.trim();
-      return document.title.split('\u2013')[0].split('-')[0].trim() || 'Model';
+      return document.title.split('\u2013')[0].trim() || 'Model';
     }
     function getSlug() {
-      var m = window.location.pathname.match(/atlas\/([^\/]+)/);
-      return m ? m[1] : 'model';
+      var m = window.location.pathname.match(/atlas-[^\/]+/);
+      return m ? m[0] : 'model';
     }
     function getImage() {
       var v = document.getElementById('mainViewer');
@@ -96,30 +92,24 @@
     }
     function showToast(name) {
       var t = document.getElementById('albaCartToast');
-      if (!t) {
-        t = document.createElement('div');
-        t.id = 'albaCartToast';
-        t.className = 'alba-cart-toast';
-        document.body.appendChild(t);
-      }
-      t.textContent = '\uD83D\uDED2 ' + name + ' sepete eklendi!';
+      if (!t) { t = document.createElement('div'); t.id='albaCartToast'; t.className='alba-cart-toast'; document.body.appendChild(t); }
+      t.textContent = '\uD83D\uDED2 ' + name + ' добавлено в корзину!';
       t.classList.add('show');
       clearTimeout(t._timer);
       t._timer = setTimeout(function(){ t.classList.remove('show'); }, 2500);
     }
     btn.addEventListener('click', function(){
-      var id = getSlug(), name = getModelName(), img = getImage(), price = 50;
+      var id=getSlug(), name=getModelName(), img=getImage(), price=50;
       if (window.cartManager && window.cartManager.addItem) {
-        window.cartManager.addItem({ id:id, name:name, price:price, image:img, url:window.location.href, qty:1 });
+        window.cartManager.addItem({id:id,name:name,price:price,image:img,url:window.location.href,qty:1});
       } else {
         try {
-          var cart = JSON.parse(localStorage.getItem('alba_space_cart_v1') || '[]');
-          var idx = cart.findIndex(function(e){ return e.id === id; });
-          if (idx >= 0) { cart[idx].qty += 1; }
-          else { cart.push({ id:id, name:name, price:price, image:img, url:window.location.href, qty:1 }); }
-          localStorage.setItem('alba_space_cart_v1', JSON.stringify(cart));
-          var total = cart.reduce(function(s,e){ return s+(Number(e.qty)||0); }, 0);
-          document.querySelectorAll('[data-cart-count],.cart-count').forEach(function(b){ b.textContent=String(total); });
+          var cart=JSON.parse(localStorage.getItem('alba_space_cart_v1')||'[]');
+          var idx=cart.findIndex(function(e){return e.id===id;});
+          if(idx>=0){cart[idx].qty+=1;}else{cart.push({id:id,name:name,price:price,image:img,url:window.location.href,qty:1});}
+          localStorage.setItem('alba_space_cart_v1',JSON.stringify(cart));
+          var total=cart.reduce(function(s,e){return s+(Number(e.qty)||0);},0);
+          document.querySelectorAll('[data-cart-count],.cart-count').forEach(function(b){b.textContent=String(total);});
         } catch(ex){}
       }
       showToast(name);
@@ -158,5 +148,39 @@
       }
     })();
   </script>
+
+    <script>
+      (function(){
+        var viewer = document.getElementById('mainViewer');
+        if (!viewer) return;
+        var m = window.location.pathname.match(/atlas-[^\/]+/);
+        var modelSlug = m ? m[0] : null;
+        if (!modelSlug) return;
+
+        async function load() {
+          try {
+            var resp = await fetch(
+              'https://albaspace-api.nncdecdgc.workers.dev/product-access?slug=' + modelSlug,
+              { credentials: 'include' }
+            );
+            if (resp.ok) {
+              var data = await resp.json();
+              if (data.access === 'premium') {
+                var modelRes = await fetch(
+                  'https://albaspace-api.nncdecdgc.workers.dev/model?slug=' + modelSlug,
+                  { credentials: 'include' }
+                );
+                var blob = await modelRes.blob();
+                viewer.setAttribute('src', URL.createObjectURL(blob));
+              }
+            }
+          } catch(e) { console.error(e); }
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', load);
+        } else { load(); }
+      })();
+    </script>
 </body>
 </html>

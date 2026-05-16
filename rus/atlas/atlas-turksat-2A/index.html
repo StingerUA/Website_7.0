@@ -154,5 +154,20 @@
       }
     })();
   </script>
+
+    <script>
+      (function(){
+        var viewer = document.getElementById("mainViewer");
+        var m = window.location.pathname.match(/atlas-[^\/]+/);
+        var slug = m ? m[0] : null;
+        async function load() {
+          try {
+            var r = await fetch("https://albaspace-api.nncdecdgc.workers.dev/product-access?slug="+slug,{credentials:"include"});
+            if(r.ok){var d=await r.json();if(d.access==="premium"){var mr=await fetch("https://albaspace-api.nncdecdgc.workers.dev/model?slug="+slug,{credentials:"include"});viewer.setAttribute("src",URL.createObjectURL(await mr.blob()));}}
+          } catch(e){}
+        }
+        document.readyState==="loading"?document.addEventListener("DOMContentLoaded",load):load();
+      })();
+    </script>
 </body>
 </html>
