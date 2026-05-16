@@ -3053,8 +3053,70 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
               0 0 10px rgba(0, 194, 255, 0.55) !important;
 }
 
-/* ── 2. Mobile header: fix logo size, nav buttons, override atlas inline CSS ── */
+/* ── The button ITSELF must be a fixed square so the img inside stays round ── */
+.alien-ghost {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* The img inside alien-ghost: fill the button exactly */
+.alien-ghost img {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+}
+
+/* ── alienMenu: hide wrong section based on auth state ── */
+/* worker-auth.js sets [hidden] on .alien-auth-logged-in or .alien-auth-logged-out */
+#alienMenu .alien-auth-logged-in[hidden],
+#alienMenu .alien-auth-logged-out[hidden] {
+  display: none !important;
+}
+
+/* Logged-OUT default: show only login buttons, hide account buttons */
+#alienMenu .alien-auth-logged-in {
+  display: none !important;
+}
+/* worker-auth removes [hidden] from alien-auth-logged-in when logged in → show it */
+#alienMenu .alien-auth-logged-in:not([hidden]) {
+  display: flex !important;
+}
+/* worker-auth adds [hidden] to alien-auth-logged-out when logged in → hide it */
+#alienMenu .alien-auth-logged-out:not([hidden]) {
+  display: flex !important;
+}
+
+/* ── 2. Mobile header fixes ── */
 @media (max-width: 767px) {
+
+  /* ─ Alien-ghost on mobile: keep 32px square ─ */
+  .alien-ghost {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+  }
+  .alien-ghost img {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+  }
 
   /* ─ AlbaLogo small icon (left row) ─ */
   .header-logo-icon img {
@@ -3070,16 +3132,6 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     height: 28px !important;
     padding: 0 !important;
     border-radius: 0 !important;
-  }
-
-  /* ─ Alien / user avatar ─ */
-  .alien-ghost img,
-  .logo-sub-icons #accountAvatar,
-  .logo-sub-icons .account-avatar {
-    width: 32px !important;
-    height: 32px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
   }
 
   /* ─ Gap between left-row icons ─ */
@@ -3110,7 +3162,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     display: block !important;
   }
 
-  /* ─ Neutral override: kill atlas-page inline .header-logo img rule ─ */
+  /* ─ Kill atlas-page inline .header-logo img rule ─ */
   .header-logo:not(.main-center-logo) img {
     width: 32px !important;
     height: 32px !important;
@@ -3118,53 +3170,53 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
     padding: 0 !important;
   }
 
-  /* ─ Nav: centred, pill buttons ─ */
+  /* ─ Nav: NO border/background, plain text buttons, one row ─ */
   .main-nav {
     display: flex !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     justify-content: center !important;
-    gap: 6px !important;
+    align-items: center !important;
+    gap: 4px !important;
     width: 100% !important;
     order: 10 !important;
-    margin: 6px 0 0 0 !important;    /* reset shop.css margin-left:40px */
-    padding: 8px 8px !important;
-    border-top: 1px solid rgba(255,255,255,0.1) !important;
+    margin: 4px 0 0 0 !important;
+    padding: 6px 4px 8px !important;
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
     background: transparent !important;
+    overflow: visible !important;
   }
 
   .main-nav a,
   .main-nav .dropdown-trigger {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 4px !important;
-    padding: 6px 11px !important;
-    border: 1px solid rgba(0,194,255,0.35) !important;
-    border-radius: 20px !important;
-    background: rgba(0,194,255,0.10) !important;
+    gap: 3px !important;
+    padding: 5px 8px !important;
+    /* NO border, NO background — match main page style */
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     color: #e5e7eb !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.02em !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
     white-space: nowrap !important;
     text-decoration: none !important;
-    transition: background 0.18s, border-color 0.18s !important;
-    line-height: 1 !important;
-    height: auto !important;
-    /* Kill browser focus rectangle */
+    text-transform: uppercase !important;
     outline: none !important;
     -webkit-tap-highlight-color: transparent !important;
+    line-height: 1 !important;
+    height: auto !important;
   }
 
-  /* Active / focus state: underline only, no rectangle */
+  /* Active/focus: underline only */
   .main-nav a:focus,
   .main-nav a:active,
   .main-nav .dropdown-trigger:focus,
   .main-nav .dropdown-trigger:active {
     outline: none !important;
-    border-color: rgba(0,194,255,0.35) !important; /* keep the pill border */
-    background: rgba(0,194,255,0.10) !important;
     box-shadow: none !important;
-    /* underline via text-decoration on the span/text */
+    border: none !important;
     text-decoration: underline !important;
     text-underline-offset: 3px !important;
     text-decoration-color: rgba(0,194,255,0.7) !important;
@@ -3172,22 +3224,67 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
 
   .main-nav a:hover,
   .main-nav .dropdown-trigger:hover {
-    background: rgba(0,194,255,0.22) !important;
-    border-color: rgba(0,194,255,0.6) !important;
-    color: #fff !important;
+    color: #00c2ff !important;
     outline: none !important;
+    border: none !important;
+    background: transparent !important;
   }
 
-  /* Arrow chevron inside dropdown triggers */
-  .main-nav .dropdown-trigger .chevron,
-  .main-nav .dropdown-trigger svg {
+  .main-nav .dropdown-trigger svg,
+  .main-nav .dropdown-trigger .chevron {
     width: 10px !important;
     height: 10px !important;
     flex-shrink: 0 !important;
   }
+
+  /* ─ Dropdown panel: 4 per row on mobile ─ */
+  .main-nav .dropdown-menu,
+  .header-inner .main-nav .dropdown-menu {
+    display: none;
+    position: fixed !important;
+    top: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px 10px !important;
+    background: rgba(2,6,23,0.98) !important;
+    border-top: 1px solid rgba(0,194,255,0.2) !important;
+    border-radius: 0 !important;
+    z-index: 99999 !important;
+  }
+
+  .main-nav .dropdown.active .dropdown-menu,
+  .header-inner .main-nav .dropdown.active .dropdown-menu {
+    display: flex !important;
+  }
+
+  /* Each dropdown item: ~25% width → 4 per row */
+  .main-nav .dropdown-menu a,
+  .header-inner .main-nav .dropdown-menu a {
+    flex: 0 0 calc(25% - 8px) !important;
+    min-width: 70px !important;
+    max-width: calc(25% - 8px) !important;
+    text-align: center !important;
+    padding: 8px 4px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(0,194,255,0.3) !important;
+    border-radius: 8px !important;
+    background: rgba(0,194,255,0.08) !important;
+    color: #e5e7eb !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    box-sizing: border-box !important;
+  }
 }
 
-/* ── 3. Remove focus rectangle from nav on ALL screen sizes ── */
+/* ── 3. Remove focus rectangle from nav globally ── */
 .main-nav a:focus-visible,
 .main-nav .dropdown-trigger:focus-visible {
   outline: none !important;
