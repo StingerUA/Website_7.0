@@ -2887,6 +2887,40 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
   }
 }
 
+/* ── Atlas pages: .container wraps model-viewer — needs max-width ── */
+body:has(model-viewer) .container {
+  width: 90% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+  padding-bottom: 50px !important;
+}
+
+body:has(model-viewer) .container model-viewer {
+  display: block !important;
+  width: 100% !important;
+  height: 600px !important;
+  min-height: 300px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 30px rgba(0, 150, 255, 0.35) !important;
+  margin-top: 20px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  body:has(model-viewer) .container model-viewer {
+    height: 420px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body:has(model-viewer) .container model-viewer {
+    height: 55vw !important;
+    min-height: 220px !important;
+  }
+}
+
 /* add-to-cart block — works for ALL model-viewer pages */
 .mv-add-cart-wrap {
   display: flex !important;
