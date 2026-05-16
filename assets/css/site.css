@@ -2833,29 +2833,39 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════
-   MODEL-VIEWER PAGES — centering fix
-   Only fixes pages where h1 is a DIRECT child of body
-   (turksat-*, rasat, etc.) — NOT atlas- pages which have
-   their own correct inline styles and must not be touched.
+   MODEL-VIEWER PAGES — layout & centering fix
+   Applies to ALL pages with model-viewer (atlas- and non-)
    ═══════════════════════════════════════════════════════ */
 
-/* Non-atlas pages: h1 is direct child of body, needs top padding for fixed header */
+/* Push body content below fixed header on model-viewer pages */
+body:has(model-viewer) {
+  padding-top: 80px !important;
+}
+
+@media (max-width: 768px) {
+  body:has(model-viewer) {
+    padding-top: 60px !important;
+  }
+}
+
+/* h1 direct child of body — reset inline margin-top, centre text */
 body:has(model-viewer) > h1 {
   text-align: center !important;
-  padding: 130px 20px 16px !important;
-  margin: 0 auto !important;
+  margin-top: 40px !important;   /* overrides inline style="margin-top:20px" */
+  margin-bottom: 0 !important;
+  padding: 0 20px !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
 @media (max-width: 768px) {
   body:has(model-viewer) > h1 {
-    padding-top: 90px !important;
+    margin-top: 24px !important;
     font-size: clamp(22px, 5vw, 36px) !important;
   }
 }
 
-/* Non-atlas pages: body > p (description, direct child of body) */
+/* p direct child of body */
 body:has(model-viewer) > p {
   text-align: center !important;
   max-width: 780px !important;
@@ -2865,7 +2875,7 @@ body:has(model-viewer) > p {
   box-sizing: border-box !important;
 }
 
-/* Non-atlas pages: model-viewer direct child of body */
+/* model-viewer direct child of body (non-container pages) */
 body:has(model-viewer) > model-viewer,
 body:has(model-viewer) > .viewer-wrapper model-viewer {
   display: block !important;
@@ -2873,7 +2883,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
   max-width: 960px !important;
   height: 60vh !important;
   min-height: 340px !important;
-  margin: 0 auto 0 !important;
+  margin: 0 auto !important;
   border-radius: 14px !important;
   box-shadow: 0 0 36px rgba(0, 150, 255, 0.18) !important;
   box-sizing: border-box !important;
@@ -2887,7 +2897,7 @@ body:has(model-viewer) > .viewer-wrapper model-viewer {
   }
 }
 
-/* ── Atlas pages: .container wraps model-viewer — needs max-width ── */
+/* .container wraps model-viewer on ALL non-atlas and atlas- pages */
 body:has(model-viewer) .container {
   width: 90% !important;
   max-width: 1200px !important;
@@ -2895,6 +2905,15 @@ body:has(model-viewer) .container {
   margin-right: auto !important;
   box-sizing: border-box !important;
   padding-bottom: 50px !important;
+  text-align: center !important;
+}
+
+body:has(model-viewer) .container p {
+  text-align: center !important;
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 20px !important;
 }
 
 body:has(model-viewer) .container model-viewer {
@@ -2921,7 +2940,7 @@ body:has(model-viewer) .container model-viewer {
   }
 }
 
-/* add-to-cart block — works for ALL model-viewer pages */
+/* add-to-cart block */
 .mv-add-cart-wrap {
   display: flex !important;
   flex-direction: column !important;
