@@ -133,5 +133,32 @@
       }
     })();
   </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var viewer = document.getElementById('mainViewer');
+        if (!viewer) return;
+        var pathMatch = window.location.pathname.match(/atlas-[^\/]+/);
+        var slug = pathMatch ? pathMatch[0] : null;
+        if (!slug) return;
+
+        viewer.setAttribute('src', '/assets/models/zaglushka.glb');
+
+        fetch('https://albaspace-api.nncdecdgc.workers.dev/product-access?slug=' + slug, {
+          credentials: 'include'
+        })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(data){
+          if (data && data.access === 'premium') {
+            return fetch(
+              'https://albaspace-api.nncdecdgc.workers.dev/model?slug=' + slug,
+              { credentials: 'include' }
+            )
+            .then(function(r){ return r.blob(); })
+            .then(function(blob){ viewer.setAttribute('src', URL.createObjectURL(blob)); });
+          }
+        })
+        .catch(function(e){ console.error('Model load error:', e); });
+      });
+    </script>
 </body>
 </html>
