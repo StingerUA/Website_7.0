@@ -17,22 +17,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
+        * { box-sizing: border-box; }
         body { margin: 0; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; color: white; -webkit-tap-highlight-color: transparent; }
         #app-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
         video, #three_canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
         video { z-index: 1; }
         #three_canvas { z-index: 2; pointer-events: none; }
-        .ui-container { position: relative; z-index: 100; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 30px; }
-        .status-badge { background: rgba(0, 0, 0, 0.7); padding: 8px 15px; border-radius: 20px; font-size: 14px; border: 1px solid rgba(255,255,255,0.2); }
-        .record-button { width: 80px; height: 80px; border-radius: 50%; border: 5px solid white; background: transparent; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s ease; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .record-button i { font-size: 35px; color: white; }
-        .record-button:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.2); }
-        .controls { display: flex; gap: 10px; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 15px; backdrop-filter: blur(10px); }
-        button { padding: 12px 18px; border: none; background: rgba(255,255,255,0.2); color: white; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; font-weight: bold; font-size: 14px; }
-        button.active { background: #3498db; box-shadow: 0 0 15px rgba(52, 152, 219, 0.5); }
-        #photo-preview { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        #photo-preview img { max-width: 100%; max-height: 80%; border-radius: 10px; margin-bottom: 20px; }
-        .preview-controls { display: flex; gap: 20px; }
+
+        .ui-container {
+            position: relative; z-index: 100; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 12px; padding-bottom: 24px;
+        }
+
+        .status-badge {
+            background: rgba(0,0,0,0.65); padding: 6px 14px;
+            border-radius: 20px; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* SIZE CONTROLS */
+        .size-controls {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0,0,0,0.55); padding: 6px 14px;
+            border-radius: 30px; backdrop-filter: blur(8px);
+        }
+        .size-label { font-size: 12px; opacity: 0.7; }
+        .size-btn {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white; font-size: 20px; font-weight: bold;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s; line-height: 1; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .size-btn:active { background: rgba(255,255,255,0.35); transform: scale(0.92); }
+
+        /* PHOTO BUTTON */
+        .record-button {
+            width: 74px; height: 74px; border-radius: 50%;
+            border: 4px solid white; background: transparent; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.2s ease; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .record-button i { font-size: 30px; color: white; }
+        .record-button:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+
+        /* MODEL BUTTONS */
+        .controls {
+            display: flex; gap: 8px;
+            background: rgba(0,0,0,0.55); padding: 10px 12px;
+            border-radius: 15px; backdrop-filter: blur(10px);
+        }
+        .controls button {
+            padding: 10px 14px; border: none;
+            background: rgba(255,255,255,0.18); color: white;
+            border-radius: 10px; cursor: pointer; font-weight: 700;
+            font-size: 13px; transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .controls button.active { background: #3498db; box-shadow: 0 0 12px rgba(52,152,219,0.6); }
+        .controls button:active { opacity: 0.7; }
+
+        /* PREVIEW */
+        #photo-preview {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 200;
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 20px; gap: 16px;
+        }
+        #photo-preview img {
+            max-width: 100%; max-height: 75%;
+            border-radius: 12px;
+        }
+        .preview-controls { display: flex; gap: 16px; }
+        .preview-controls button {
+            padding: 12px 24px; border: none; border-radius: 10px;
+            font-size: 15px; font-weight: 700; cursor: pointer; color: white;
+        }
         #hidden_composite_canvas { display: none; }
     </style>
 </head>
@@ -45,24 +109,32 @@
 
         <div class="ui-container">
             <div class="status-badge" id="status">Sistem başlatılıyor...</div>
-            
+
+            <!-- SIZE CONTROLS -->
+            <div class="size-controls">
+                <span class="size-label">Boyut</span>
+                <button class="size-btn" id="btn-minus" onclick="changeSize(-1)">−</button>
+                <span class="size-label" id="size-display">100%</span>
+                <button class="size-btn" id="btn-plus"  onclick="changeSize(+1)">+</button>
+            </div>
+
             <button class="record-button" id="photo_button" onclick="capturePhoto()">
                 <i class="fas fa-camera"></i>
             </button>
 
             <div class="controls">
-                <button onclick="switchModel('cap1')" id="btn-cap1">Şapka</button>
+                <button onclick="switchModel('cap1')"     id="btn-cap1">Şapka</button>
                 <button onclick="switchModel('glasses1')" id="btn-glasses1">Gözlük 1</button>
                 <button onclick="switchModel('glasses2')" id="btn-glasses2">Gözlük 2</button>
-                <button onclick="switchModel('none')" style="background: rgba(231, 76, 60, 0.4);">Sıfırla</button>
+                <button onclick="switchModel('none')" style="background:rgba(231,76,60,0.4);">Sıfırla</button>
             </div>
         </div>
 
         <div id="photo-preview">
             <img id="preview-image" src="" alt="Önizleme">
             <div class="preview-controls">
-                <button onclick="closePreview()" style="background: rgba(231, 76, 60, 0.6);">İptal</button>
-                <button id="download_link" style="background: #2ecc71;">Kaydet</button>
+                <button onclick="closePreview()" style="background:rgba(231,76,60,0.7);">İptal</button>
+                <button id="download_link" style="background:#2ecc71;">Kaydet</button>
             </div>
         </div>
     </div>
@@ -72,18 +144,31 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js";
 
-        // --- 1. MODEL AYARLARI ---
+        // ── MODEL CONFIG ──────────────────────────────────────────────
+        // scale: REDUCED by ~40% vs original for better initial fit
         const MODELS_CONFIG = {
-            cap1:     { type: 'cap',     url: 'cap1.glb',     scale: 1.4,  yOffset: 0.18 }, 
-            glasses1: { type: 'glasses', url: 'glasses1.glb', scale: 2.4,  yOffset: 0 },    
-            glasses2: { type: 'glasses', url: 'glasses2.glb', scale: 2.56, yOffset: 0 }     
+            cap1:     { type: 'cap',     url: 'cap1.glb',     scale: 0.85, yOffset: 0.18 },
+            glasses1: { type: 'glasses', url: 'glasses1.glb', scale: 1.5,  yOffset: 0 },
+            glasses2: { type: 'glasses', url: 'glasses2.glb', scale: 1.6,  yOffset: 0 }
         };
 
-        const video = document.getElementById("webcam");
-        const status = document.getElementById("status");
+        // ── USER SIZE MULTIPLIER (changed by +/- buttons) ─────────────
+        let userScale = 1.0;
+        const SCALE_STEP = 0.10;   // ±10% per click
+        const SCALE_MIN  = 0.3;
+        const SCALE_MAX  = 2.5;
+
+        window.changeSize = (dir) => {
+            userScale = Math.min(SCALE_MAX, Math.max(SCALE_MIN, userScale + dir * SCALE_STEP));
+            document.getElementById('size-display').textContent = Math.round(userScale * 100) + '%';
+        };
+
+        // ── THREE.JS STATE ────────────────────────────────────────────
+        const video   = document.getElementById('webcam');
+        const status  = document.getElementById('status');
         let faceLandmarker, scene, camera, renderer, gltfLoader;
         let currentModel = null;
-        let activeKey = 'cap1'; 
+        let activeKey = 'cap1';
         let lastVideoTime = -1;
 
         function initThreeJS() {
@@ -94,14 +179,12 @@
 
             renderer = new THREE.WebGLRenderer({
                 canvas: document.getElementById('three_canvas'),
-                alpha: true,
-                antialias: true,
-                preserveDrawingBuffer: true
+                alpha: true, antialias: true, preserveDrawingBuffer: true
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
 
-            scene.add(new THREE.AmbientLight(0xffffff, 2.0));
+            scene.add(new THREE.AmbientLight(0xffffff, 2.5));
             const dl = new THREE.DirectionalLight(0xffffff, 2.0);
             dl.position.set(0, 1, 2);
             scene.add(dl);
@@ -110,54 +193,70 @@
         }
 
         window.switchModel = async (key) => {
-            if (currentModel) scene.remove(currentModel);
+            // Remove old model from scene and clear reference
+            if (currentModel) { scene.remove(currentModel); currentModel = null; }
             document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-            if(key === 'none') { activeKey = 'none'; status.innerText = "İzleme Modu"; return; }
+
+            if (key === 'none') { activeKey = 'none'; status.innerText = 'İzleme Modu'; return; }
 
             const config = MODELS_CONFIG[key];
+            if (!config) return;
+
             document.getElementById(`btn-${key}`)?.classList.add('active');
-            status.innerText = "Yükleniyor...";
-            
-            gltfLoader.load(config.url, (gltf) => {
-                currentModel = gltf.scene;
-                scene.add(currentModel);
-                activeKey = key;
-                status.innerText = "Hazır";
-            });
+            status.innerText = 'Yükleniyor...';
+
+            gltfLoader.load(
+                config.url,
+                (gltf) => {
+                    currentModel = gltf.scene;
+                    scene.add(currentModel);
+                    activeKey = key;
+                    status.innerText = 'Hazır';
+                },
+                undefined,
+                (err) => { console.error('Model yüklenemedi:', err); status.innerText = 'Hata!'; }
+            );
         };
 
         async function initAR() {
-            const filesetResolver = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm");
-            faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
-                baseOptions: { modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`, delegate: "GPU" },
-                runningMode: "VIDEO", numFaces: 1
-            });
-            initThreeJS();
-            startCamera();
+            try {
+                const filesetResolver = await FilesetResolver.forVisionTasks(
+                    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm'
+                );
+                faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
+                    baseOptions: {
+                        modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',
+                        delegate: 'GPU'
+                    },
+                    runningMode: 'VIDEO', numFaces: 1
+                });
+                initThreeJS();
+                startCamera();
+            } catch(e) {
+                console.error('AR başlatılamadı:', e);
+                status.innerText = 'AR yüklenemedi!';
+            }
         }
 
         async function startCamera() {
             try {
-                // Пытаемся запросить фронтальную камеру
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
                 setupVideo(stream);
             } catch (err) {
-                console.warn("Фронтальная камера не найдена. Пробуем найти любую камеру...");
+                console.warn('Ön kamera bulunamadı, genel kamera deneniyor...');
                 try {
-                    // Запасной вариант для ПК
-                    const fallbackStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                    setupVideo(fallbackStream);
-                } catch (fallbackErr) {
-                    console.error("Не удалось найти ни одну камеру:", fallbackErr);
-                    status.innerText = "Kamera bulunamadı!";
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    setupVideo(stream);
+                } catch (e) {
+                    status.innerText = 'Kamera bulunamadı!';
                 }
             }
         }
 
         function setupVideo(stream) {
             video.srcObject = stream;
-            video.addEventListener("loadeddata", () => {
-                video.play(); // КРИТИЧНО: Принудительно запускаем воспроизведение
+            video.addEventListener('loadeddata', () => {
+                video.play();
                 predictWebcam();
                 switchModel('cap1');
             });
@@ -167,8 +266,11 @@
             if (lastVideoTime !== video.currentTime) {
                 lastVideoTime = video.currentTime;
                 const results = faceLandmarker.detectForVideo(video, performance.now());
-                if (results.faceLandmarks && results.faceLandmarks[0] && currentModel) {
+                if (results.faceLandmarks?.[0] && currentModel && activeKey !== 'none') {
                     updateTransform(results.faceLandmarks[0]);
+                } else if (currentModel) {
+                    // Hide model when no face detected
+                    currentModel.visible = !!results.faceLandmarks?.[0];
                 }
             }
             renderer.render(scene, camera);
@@ -176,81 +278,88 @@
         }
 
         function updateTransform(landmarks) {
+            if (!currentModel) return;
             currentModel.visible = true;
+
             const config = MODELS_CONFIG[activeKey];
             const aspect = window.innerWidth / window.innerHeight;
 
             const getPos = (idx) => ({
-                x: (landmarks[idx].x * 2 - 1) * aspect,
+                x:  (landmarks[idx].x * 2 - 1) * aspect,
                 y: -(landmarks[idx].y * 2 - 1),
-                z: -landmarks[idx].z * 10
+                z:  -landmarks[idx].z * 10
             });
 
-            const bridge = getPos(168);
-            const forehead = getPos(10);
-            const left = getPos(234);
-            const right = getPos(454);
+            const bridge   = getPos(168);   // nose bridge
+            const forehead = getPos(10);    // forehead top
+            const left     = getPos(234);   // left cheek
+            const right    = getPos(454);   // right cheek
 
-            const faceWidth = Math.sqrt(Math.pow(right.x - left.x, 2) + Math.pow(right.y - left.y, 2));
-            const angle = Math.atan2(right.y - left.y, right.x - left.x);
+            const faceWidth = Math.hypot(right.x - left.x, right.y - left.y);
+            const angle     = Math.atan2(right.y - left.y, right.x - left.x);
 
-            const s = faceWidth * config.scale * 10;
+            // Apply both config scale and user-controlled scale
+            const s = faceWidth * config.scale * userScale * 10;
             currentModel.scale.set(s, s, s);
 
-            // --- ИСПРАВЛЕННОЕ СМЕЩЕНИЕ ---
-            const downwardShift = (faceWidth * config.scale) * 0.25; 
+            // Fixed downward offset — relative to faceWidth only, not to config.scale
+            // (otherwise changing config.scale breaks the position)
+            const downShift = faceWidth * 0.18;
 
             if (config.type === 'glasses') {
-                currentModel.position.set(bridge.x, bridge.y - downwardShift, bridge.z);
+                currentModel.position.set(bridge.x, bridge.y - downShift, bridge.z);
             } else {
-                currentModel.position.set(forehead.x, (forehead.y + config.yOffset) - downwardShift, forehead.z);
+                // cap: sit on forehead with yOffset
+                currentModel.position.set(
+                    forehead.x,
+                    forehead.y + config.yOffset - downShift,
+                    forehead.z
+                );
             }
 
             currentModel.rotation.z = angle;
         }
 
+        // ── PHOTO CAPTURE ─────────────────────────────────────────────
         window.capturePhoto = () => {
-            const compositeCanvas = document.getElementById('hidden_composite_canvas');
-            const compositeCtx = compositeCanvas.getContext('2d');
-            const threeCanvas = document.getElementById('three_canvas');
+            const composite    = document.getElementById('hidden_composite_canvas');
+            const ctx          = composite.getContext('2d');
+            const threeCanvas  = document.getElementById('three_canvas');
+            const W = window.innerWidth, H = window.innerHeight;
 
-            const screenW = window.innerWidth;
-            const screenH = window.innerHeight;
-            compositeCanvas.width = screenW;
-            compositeCanvas.height = screenH;
+            composite.width  = W;
+            composite.height = H;
 
-            const videoW = video.videoWidth;
-            const videoH = video.videoHeight;
+            // Draw mirrored video
+            const vW = video.videoWidth, vH = video.videoHeight;
+            const sc = Math.max(W / vW, H / vH);
+            const dW = vW * sc, dH = vH * sc;
+            const ox = (W - dW) / 2, oy = (H - dH) / 2;
 
-            const scale = Math.max(screenW / videoW, screenH / videoH);
-            const drawW = videoW * scale;
-            const drawH = videoH * scale;
-            const offsetX = (screenW - drawW) / 2;
-            const offsetY = (screenH - drawH) / 2;
+            ctx.save();
+            ctx.translate(W, 0);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, ox, oy, dW, dH);
+            ctx.restore();
 
-            // 1. Отрисовка видео (зеркально)
-            compositeCtx.save();
-            compositeCtx.translate(screenW, 0);
-            compositeCtx.scale(-1, 1);
-            compositeCtx.drawImage(video, offsetX, offsetY, drawW, drawH);
-            compositeCtx.restore();
+            // Overlay 3D models
+            ctx.drawImage(threeCanvas, 0, 0, W, H);
 
-            // 2. Отрисовка моделей поверх
-            compositeCtx.drawImage(threeCanvas, 0, 0, screenW, screenH);
-
-            const dataUrl = compositeCanvas.toDataURL('image/png');
+            const dataUrl = composite.toDataURL('image/png');
             document.getElementById('preview-image').src = dataUrl;
             document.getElementById('photo-preview').style.display = 'flex';
             document.getElementById('download_link').onclick = () => {
-                const link = document.createElement('a');
-                link.href = dataUrl;
-                link.download = `Albaspace-AR-${Date.now()}.png`;
-                link.click();
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = `Albaspace-AR-${Date.now()}.png`;
+                a.click();
             };
         };
 
-        window.closePreview = () => document.getElementById('photo-preview').style.display = 'none';
-        
+        window.closePreview = () => {
+            document.getElementById('photo-preview').style.display = 'none';
+        };
+
         window.addEventListener('resize', () => {
             const aspect = window.innerWidth / window.innerHeight;
             camera.left = -aspect; camera.right = aspect;
