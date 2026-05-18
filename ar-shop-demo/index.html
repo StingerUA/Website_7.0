@@ -174,22 +174,17 @@
 
     // ── MODEL CONFIG ──────────────────────────────────────────────────
     const MODELS_CONFIG = {
-        cap1:     { type: 'cap',     url: 'cap1.glb',     scale: 0.85, yOffset: 0.18 },
-        glasses1: { type: 'glasses', url: 'glasses1.glb', scale: 1.5  },
-        glasses2: { type: 'glasses', url: 'glasses2.glb', scale: 1.6  }
+        cap1:     { type: 'cap',     url: 'cap1.glb',     scale: 1.02, yOffset: 0.10 },
+        glasses1: { type: 'glasses', url: 'glasses1.glb', scale: 1.2  },
+        glasses2: { type: 'glasses', url: 'glasses2.glb', scale: 1.28 }
     };
 
     // ── Landmark indices ──────────────────────────────────────────────
-    // 168 = переносица (nose bridge top)
-    // 10  = верх лба
-    // 234, 454 = щёки (для ширины лица)
-    // 105, 334 = точки НАД бровями (left/right brow top)
     const LM = { BRIDGE: 168, FOREHEAD: 10, L_CHEEK: 234, R_CHEEK: 454, L_BROW: 105, R_BROW: 334 };
 
-    // Насколько поднять модели вверх (positive = up in screen coords)
-    // 0 = без смещения, 0.10 = чуть выше, 0.20 = значительно выше
-    const GLASSES_LIFT = 0.12;  // поднять очки — центр между бровями
-    const CAP_LIFT     = 0.0;   // шапка сидит на лбу, без дополнительного подъёма
+    // Glasses: lower = smaller value (0 = at brow midpoint, negative = lower)
+    const GLASSES_LIFT = 0.02;  // опустить очки чуть ниже
+    const CAP_LIFT     = 0.0;
 
     // ── User scale ────────────────────────────────────────────────────
     let userScale = 1.0;
