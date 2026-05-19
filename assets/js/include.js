@@ -507,6 +507,62 @@ runAfterDomReady(() => {
       if (id) div.id = id;
       msgList.appendChild(div);
       msgList.scrollTop = msgList.scrollHeight;
+      return div;
+    }
+
+    // ── Conversation history (kept in memory per session) ──
+    if (!window.__albamenHistory) window.__albamenHistory = [];
+    const chatHistory = window.__albamenHistory;
+
+    // ── Voice synthesis (superhero voice via Web Speech API) ──
+    function speakAlbamen(text) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const clean = text
+        .replace(/[\u{1F000}-\u{1FFFF}]/gu, '')  // remove emoji
+        .replace(/[🚀🌌👨‍🚀⭐🛸💫🌟]/g, '')
+        .replace(/<[^>]+>/g, '')
+        .replace(/https?:\/\/\S+/g, '')           // remove URLs
+        .replace(/\n+/g, ' ')
+        .trim();
+      if (!clean) return;
+
+      const trySpeak = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const utt = new SpeechSynthesisUtterance(clean);
+
+        // Detect language from text
+        const isRu = /[а-яёА-ЯЁ]/.test(clean);
+        const isTr = /[ğışüöçĞİŞÜÖÇ]/.test(clean) && !isRu;
+
+        if (isRu) utt.lang = 'ru-RU';
+        else if (isTr) utt.lang = 'tr-TR';
+        else utt.lang = 'en-US';
+
+        // Pick deepest male voice for the current language
+        const preferred = voices.find(v =>
+          v.lang.startsWith(utt.lang.slice(0, 2)) &&
+          /male|david|mark|jorge|dmitri|yuri|ivan|ali|ahmet/i.test(v.name) &&
+          !/female|zira|monica/i.test(v.name)
+        ) || voices.find(v =>
+          v.lang.startsWith(utt.lang.slice(0, 2)) &&
+          !/female|zira|monica/i.test(v.name)
+        ) || voices.find(v => !/female|zira|monica/i.test(v.name))
+          || voices[0];
+
+        if (preferred) utt.voice = preferred;
+        utt.pitch  = 0.70;   // deep = superhero
+        utt.rate   = 0.90;   // slightly slower = dramatic
+        utt.volume = 1;
+        window.speechSynthesis.speak(utt);
+      };
+
+      // Chrome loads voices async — wait if needed
+      if (window.speechSynthesis.getVoices().length > 0) {
+        trySpeak();
+      } else {
+        window.speechSynthesis.addEventListener('voiceschanged', trySpeak, { once: true });
+      }
     }
 
     function sendMessage() {
@@ -524,9 +580,11 @@ runAfterDomReady(() => {
 
       const workerUrl = 'https://divine-flower-a0ae.nncdecdgc.workers.dev';
 
-      // текущее сохранённое имя/возраст
       const currentName = localStorage.getItem('albamen_user_name') || null;
       const currentAge  = localStorage.getItem('albamen_user_age')  || null;
+
+      // Send last 10 messages as history for context
+      const historySlice = chatHistory.slice(-10);
 
       fetch(workerUrl, {
         method: 'POST',
@@ -535,7 +593,8 @@ runAfterDomReady(() => {
           message: txt,
           sessionId,
           savedName: currentName,
-          savedAge: currentAge
+          savedAge: currentAge,
+          history: historySlice
         })
       })
         .then(res => res.json())
@@ -549,32 +608,48 @@ runAfterDomReady(() => {
             return;
           }
 
-          // сохраняем имя/возраст, если воркер их прислал
+          // Save name/age from structured JSON fields (fixed worker)
           if (data.saveName && typeof data.saveName === 'string') {
-            const newName = data.saveName.trim();
-            if (newName) {
-              localStorage.setItem('albamen_user_name', newName);
-            }
+            const n = data.saveName.trim();
+            if (n) localStorage.setItem('albamen_user_name', n);
           }
-
           if (data.saveAge && typeof data.saveAge === 'string') {
-            const newAge = data.saveAge.trim();
-            if (newAge) {
-              localStorage.setItem('albamen_user_age', newAge);
-            }
+            const a = data.saveAge.trim();
+            if (a) localStorage.setItem('albamen_user_age', a);
           }
 
+          // Fallback: extract tags if worker didn't strip them
           let finalReply = data.reply.trim();
+          const nmatch = finalReply.match(/<SAVE_NAME:([^>]+)>/);
+          if (nmatch) {
+            const n = nmatch[1].trim();
+            if (n) localStorage.setItem('albamen_user_name', n);
+            finalReply = finalReply.replace(nmatch[0], '').trim();
+          }
+          const amatch = finalReply.match(/<SAVE_AGE:([^>]+)>/);
+          if (amatch) {
+            const a = amatch[1].trim();
+            if (a) localStorage.setItem('albamen_user_age', a);
+            finalReply = finalReply.replace(amatch[0], '').trim();
+          }
 
-          // Если воркер вернул текст своей ошибки — прячем его от пользователя
           if (/^(Grok Hatası|JS Hatası)/i.test(finalReply)) {
             addMessage(strings.connectionError, 'bot');
             statusText.style.display = 'none';
             return;
           }
 
-          addMessage(finalReply || strings.connectionError, 'bot');
+          const reply = finalReply || strings.connectionError;
+
+          // Add to history for next request
+          chatHistory.push({ role: 'user',  text: txt   });
+          chatHistory.push({ role: 'model', text: reply });
+
+          addMessage(reply, 'bot');
           statusText.style.display = 'none';
+
+          // 🔊 Speak the reply in superhero voice
+          speakAlbamen(reply);
         })
         .catch(err => {
           console.error('AI Error:', err);
@@ -623,14 +698,23 @@ runAfterDomReady(() => {
         if (transcript) {
           inputField.value = transcript;
         }
+        // If final result — auto-send immediately
+        if (event.results[event.results.length - 1].isFinal) {
+          if (transcript) {
+            setTimeout(() => sendMessage(), 300);
+          }
+        }
       });
       recognition.addEventListener('end', () => {
         isListening = false;
         statusText.textContent = strings.initialStatus;
+        // Visual: reset mic button
+        if (micBtn) micBtn.classList.remove('ai-mic-active');
       });
       recognition.addEventListener('error', () => {
         isListening = false;
         statusText.textContent = strings.voiceNotSupported;
+        if (micBtn) micBtn.classList.remove('ai-mic-active');
       });
     }
   }
@@ -2071,4 +2155,3 @@ function injectUnifiedAiWidget() {
     });
   }
 }
-
