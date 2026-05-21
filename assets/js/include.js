@@ -32,6 +32,15 @@ runAfterDomReady(() => {
     script.defer = true;
     document.head.appendChild(script);
   }
+
+  // Load voice debug script for diagnostics
+  if (!document.querySelector('script[src*="voice-debug.js"]')) {
+    const debugScript = document.createElement('script');
+    debugScript.src = '/assets/js/voice-debug.js';
+    debugScript.defer = true;
+    debugScript.async = true;
+    document.body.appendChild(debugScript);
+  }
   // 2. Favicon
   (function ensureFavicon() {
     try {
