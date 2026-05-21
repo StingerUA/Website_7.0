@@ -2082,5 +2082,4 @@ function injectUnifiedAiWidget() {
       });
     }
   }
-
-}
+} // end injectUnifiedAiWidget
