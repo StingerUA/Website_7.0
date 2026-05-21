@@ -33,14 +33,8 @@ runAfterDomReady(() => {
     document.head.appendChild(script);
   }
 
-  // Load voice debug script for diagnostics
-  if (!document.querySelector('script[src*="voice-debug.js"]')) {
-    const debugScript = document.createElement('script');
-    debugScript.src = '/assets/js/voice-debug.js';
-    debugScript.defer = true;
-    debugScript.async = true;
-    document.body.appendChild(debugScript);
-  }
+  // Voice debug diagnostics have been disabled in production.
+  // Previously this loaded /assets/js/voice-debug.js and injected a fixed debug button.
   // 2. Favicon
   (function ensureFavicon() {
     try {
@@ -1728,27 +1722,46 @@ function injectUnifiedAiWidget() {
 
       /* Mobile responsive */
       @media (max-width: 480px) {
-        /* On small screens, show widget as a half-height panel (50% viewport height)
-           so it doesn't cover the whole page. Button is positioned slightly above it. */
         .ai-unified-widget {
           width: 100%;
-          height: 50vh;
-          max-height: 50vh;
+          max-width: 100%;
+          height: min(78vh, calc(100vh - 16px));
+          max-height: calc(100vh - 16px);
           bottom: 0;
+          left: 0;
           right: 0;
-          border-radius: 12px 12px 0 0;
+          border-radius: 16px 16px 0 0;
+          padding-bottom: env(safe-area-inset-bottom, 14px);
+          box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(6, 182, 212, 0.12);
+        }
+
+        .ai-widget-body {
+          padding-bottom: env(safe-area-inset-bottom, 14px);
         }
 
         .ai-widget-button {
           width: 48px;
           height: 48px;
-          bottom: calc(50vh + 16px);
+          bottom: calc(78vh + 16px);
           right: 16px;
         }
 
+        .ai-messages-container {
+          padding: 10px 14px;
+        }
+
+        .ai-avatar-area {
+          padding: 16px 14px 12px;
+        }
+
         .ai-message-content {
-          max-width: 85%;
+          max-width: 84%;
           font-size: 13px;
+        }
+
+        .ai-voice-controls {
+          flex-wrap: wrap;
+          gap: 10px;
         }
       }
     `;
@@ -1859,10 +1872,24 @@ function injectUnifiedAiWidget() {
     });
   });
 
+  function openVoiceTab() {
+    if (widget) {
+      widget.classList.add('open');
+    }
+    switchAiTab('voice');
+    try {
+      const fb = document.getElementById('ai-widget-button');
+      if (fb) fb.style.display = 'none';
+    } catch (e) { /* ignore */ }
+  }
+
   if (voicePanelBtn) {
-    voicePanelBtn.addEventListener('click', () => {
-      switchAiTab('voice');
-    });
+    voicePanelBtn.addEventListener('click', openVoiceTab);
+  }
+
+  const legacyMicBtn = document.getElementById('ai-mic-btn');
+  if (legacyMicBtn) {
+    legacyMicBtn.addEventListener('click', openVoiceTab);
   }
 
   // ===== CLOSE BUTTON =====
