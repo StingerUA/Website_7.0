@@ -1911,146 +1911,176 @@ function injectUnifiedAiWidget() {
   });
 
   // ===== VOICE CHAT LOGIC =====
-  const voiceStatusEl = document.getElementById('ai-voice-status');
-  const voiceStartBtn = document.getElementById('ai-voice-start-btn');
-  const voiceStopBtn = document.getElementById('ai-voice-stop-btn');
-  const voiceWave = document.getElementById('ai-voice-wave');
-  const avatarVoice = document.getElementById('ai-avatar-voice');
+  // Use a delayed search to ensure elements are in DOM
+  const findVoiceElements = () => {
+    return {
+      voiceStatusEl: document.getElementById('ai-voice-status'),
+      voiceStartBtn: document.getElementById('ai-voice-start-btn'),
+      voiceStopBtn: document.getElementById('ai-voice-stop-btn'),
+      voiceWave: document.getElementById('ai-voice-wave'),
+      avatarVoice: document.getElementById('ai-avatar-voice')
+    };
+  };
 
-  console.log('[AI Widget] Voice elements:', {
-    voiceStatusEl: !!voiceStatusEl,
-    voiceStartBtn: !!voiceStartBtn,
-    voiceStopBtn: !!voiceStopBtn,
-    voiceWave: !!voiceWave,
-    avatarVoice: !!avatarVoice
+  let voiceElements = findVoiceElements();
+
+  console.log('[AI Widget] Voice elements (attempt 1):', {
+    voiceStatusEl: !!voiceElements.voiceStatusEl,
+    voiceStartBtn: !!voiceElements.voiceStartBtn,
+    voiceStopBtn: !!voiceElements.voiceStopBtn,
+    voiceWave: !!voiceElements.voiceWave,
+    avatarVoice: !!voiceElements.avatarVoice
   });
 
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  let recognition = null;
-  let isListening = false;
-
-  console.log('[AI Widget] SpeechRecognition available:', !!SpeechRec);
-
-  if (SpeechRec) {
-    recognition = new SpeechRec();
-    recognition.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
-    recognition.interimResults = true;
+  // Retry after a small delay if elements not found
+  if (!voiceElements.voiceStartBtn) {
+    setTimeout(() => {
+      voiceElements = findVoiceElements();
+      console.log('[AI Widget] Voice elements (attempt 2 - delayed):', {
+        voiceStatusEl: !!voiceElements.voiceStatusEl,
+        voiceStartBtn: !!voiceElements.voiceStartBtn,
+        voiceStopBtn: !!voiceElements.voiceStopBtn,
+        voiceWave: !!voiceElements.voiceWave,
+        avatarVoice: !!voiceElements.avatarVoice
+      });
+      initVoiceHandlers();
+    }, 100);
+  } else {
+    initVoiceHandlers();
   }
 
-  if (!voiceStartBtn) {
-    console.error('[AI Widget] Voice start button not found!');
-  } else {
-    voiceStartBtn.addEventListener('click', () => {
+  function initVoiceHandlers() {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+
+    console.log('[AI Widget] SpeechRecognition available:', !!SpeechRec);
+
+    if (SpeechRec) {
+      recognition = new SpeechRec();
+      recognition.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
+      recognition.interimResults = true;
+    }
+
+    if (!voiceElements.voiceStartBtn) {
+      console.error('[AI Widget] Voice start button not found!');
+      return;
+    }
+
+    voiceElements.voiceStartBtn.addEventListener('click', () => {
       console.log('[AI Widget] Voice button clicked');
 
-    if (!recognition) {
-      voiceStatusEl.textContent = strings.voiceNotSupported;
-      return;
-    }
+      if (!recognition) {
+        if (voiceElements.voiceStatusEl) {
+          voiceElements.voiceStatusEl.textContent = strings.voiceNotSupported;
+        }
+        return;
+      }
 
-    if (isListening) {
-      recognition.stop();
-      return;
-    }
-
-    isListening = true;
-    voiceStatusEl.textContent = strings.listening;
-    voiceWave.style.display = 'flex';
-    voiceStopBtn.style.display = 'flex';
-    voiceStartBtn.style.display = 'none';
-    avatarVoice.classList.add('glow');
-
-    recognition.start();
-    });
-  }
-
-  if (voiceStopBtn) {
-    voiceStopBtn.addEventListener('click', () => {
-      if (recognition && isListening) {
+      if (isListening) {
         recognition.stop();
+        return;
       }
+
+      isListening = true;
+      if (voiceElements.voiceStatusEl) voiceElements.voiceStatusEl.textContent = strings.listening;
+      if (voiceElements.voiceWave) voiceElements.voiceWave.style.display = 'flex';
+      if (voiceElements.voiceStopBtn) voiceElements.voiceStopBtn.style.display = 'flex';
+      if (voiceElements.voiceStartBtn) voiceElements.voiceStartBtn.style.display = 'none';
+      if (voiceElements.avatarVoice) voiceElements.avatarVoice.classList.add('glow');
+
+      recognition.start();
     });
+
+    if (voiceElements.voiceStopBtn) {
+      voiceElements.voiceStopBtn.addEventListener('click', () => {
+        if (recognition && isListening) {
+          recognition.stop();
+        }
+      });
+    }
+
+    if (recognition) {
+      recognition.addEventListener('result', (event) => {
+        const transcript = Array.from(event.results)
+          .map(res => res[0].transcript)
+          .join(' ')
+          .trim();
+        
+        if (transcript && voiceElements.voiceStatusEl) {
+          voiceElements.voiceStatusEl.textContent = transcript;
+        }
+      });
+
+      recognition.addEventListener('end', () => {
+        isListening = false;
+        if (voiceElements.voiceWave) voiceElements.voiceWave.style.display = 'none';
+        if (voiceElements.voiceStopBtn) voiceElements.voiceStopBtn.style.display = 'none';
+        if (voiceElements.voiceStartBtn) voiceElements.voiceStartBtn.style.display = 'flex';
+        if (voiceElements.avatarVoice) voiceElements.avatarVoice.classList.remove('glow');
+
+        const transcript = voiceElements.voiceStatusEl?.textContent || '';
+        if (transcript && transcript !== strings.listening && transcript !== strings.initialStatus) {
+          // Send voice transcript to text worker
+          const currentName = localStorage.getItem('albamen_user_name') || null;
+          const currentAge = localStorage.getItem('albamen_user_age') || null;
+
+          fetch('https://divine-flower-a0ae.nncdecdgc.workers.dev', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: transcript,
+              sessionId,
+              savedName: currentName,
+              savedAge: currentAge,
+              isVoiceTranscript: true
+            })
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.reply && voiceElements.voiceStatusEl) {
+                voiceElements.voiceStatusEl.textContent = data.reply.trim();
+                
+                if (data.saveName) {
+                  localStorage.setItem('albamen_user_name', data.saveName.trim());
+                }
+                if (data.saveAge) {
+                  localStorage.setItem('albamen_user_age', data.saveAge.trim());
+                }
+
+                // Speak the response
+                if (window.speechSynthesis) {
+                  const utterance = new SpeechSynthesisUtterance(data.reply);
+                  utterance.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
+                  utterance.onstart = () => {
+                    if (voiceElements.avatarVoice) voiceElements.avatarVoice.classList.add('glow');
+                  };
+                  utterance.onend = () => {
+                    if (voiceElements.avatarVoice) voiceElements.avatarVoice.classList.remove('glow');
+                    if (voiceElements.voiceStatusEl) voiceElements.voiceStatusEl.textContent = strings.initialStatus;
+                  };
+                  window.speechSynthesis.speak(utterance);
+                }
+              }
+            })
+            .catch(err => {
+              console.error('Voice error:', err);
+              if (voiceElements.voiceStatusEl) voiceElements.voiceStatusEl.textContent = strings.connectionError;
+            });
+        } else {
+          if (voiceElements.voiceStatusEl) voiceElements.voiceStatusEl.textContent = strings.initialStatus;
+        }
+      });
+
+      recognition.addEventListener('error', () => {
+        isListening = false;
+        if (voiceElements.voiceWave) voiceElements.voiceWave.style.display = 'none';
+        if (voiceElements.voiceStopBtn) voiceElements.voiceStopBtn.style.display = 'none';
+        if (voiceElements.voiceStartBtn) voiceElements.voiceStartBtn.style.display = 'flex';
+        if (voiceElements.avatarVoice) voiceElements.avatarVoice.classList.remove('glow');
+        if (voiceElements.voiceStatusEl) voiceElements.voiceStatusEl.textContent = strings.voiceNotSupported;
+      });
+    }
   }
 
-  if (recognition) {
-    recognition.addEventListener('result', (event) => {
-      const transcript = Array.from(event.results)
-        .map(res => res[0].transcript)
-        .join(' ')
-        .trim();
-      
-      if (transcript) {
-        voiceStatusEl.textContent = transcript;
-      }
-    });
-
-    recognition.addEventListener('end', () => {
-      isListening = false;
-      voiceWave.style.display = 'none';
-      voiceStopBtn.style.display = 'none';
-      voiceStartBtn.style.display = 'flex';
-      avatarVoice.classList.remove('glow');
-
-      const transcript = voiceStatusEl.textContent;
-      if (transcript && transcript !== strings.listening && transcript !== strings.initialStatus) {
-        // Send voice transcript to text worker
-        const currentName = localStorage.getItem('albamen_user_name') || null;
-        const currentAge = localStorage.getItem('albamen_user_age') || null;
-
-        fetch('https://divine-flower-a0ae.nncdecdgc.workers.dev', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: transcript,
-            sessionId,
-            savedName: currentName,
-            savedAge: currentAge,
-            isVoiceTranscript: true
-          })
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.reply) {
-              voiceStatusEl.textContent = data.reply.trim();
-              
-              if (data.saveName) {
-                localStorage.setItem('albamen_user_name', data.saveName.trim());
-              }
-              if (data.saveAge) {
-                localStorage.setItem('albamen_user_age', data.saveAge.trim());
-              }
-
-              // Speak the   response
-              if (window.speechSynthesis) {
-                const utterance = new SpeechSynthesisUtterance(data.reply);
-                utterance.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';
-                utterance.onstart = () => {
-                  avatarVoice.classList.add('glow');
-                };
-                utterance.onend = () => {
-                  avatarVoice.classList.remove('glow');
-                  voiceStatusEl.textContent = strings.initialStatus;
-                };
-                window.speechSynthesis.speak(utterance);
-              }
-            }
-          })
-          .catch(err => {
-            console.error('Voice error:', err);
-            voiceStatusEl.textContent = strings.connectionError;
-          });
-      } else {
-        voiceStatusEl.textContent = strings.initialStatus;
-      }
-    });
-
-    recognition.addEventListener('error', () => {
-      isListening = false;
-      voiceWave.style.display = 'none';
-      voiceStopBtn.style.display = 'none';
-      voiceStartBtn.style.display = 'flex';
-      avatarVoice.classList.remove('glow');
-      voiceStatusEl.textContent = strings.voiceNotSupported;
-    });
-  }
 }
