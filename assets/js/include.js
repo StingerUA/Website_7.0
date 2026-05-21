@@ -1908,9 +1908,19 @@ function injectUnifiedAiWidget() {
   const voiceWave = document.getElementById('ai-voice-wave');
   const avatarVoice = document.getElementById('ai-avatar-voice');
 
+  console.log('[AI Widget] Voice elements:', {
+    voiceStatusEl: !!voiceStatusEl,
+    voiceStartBtn: !!voiceStartBtn,
+    voiceStopBtn: !!voiceStopBtn,
+    voiceWave: !!voiceWave,
+    avatarVoice: !!avatarVoice
+  });
+
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
   let isListening = false;
+
+  console.log('[AI Widget] SpeechRecognition available:', !!SpeechRec);
 
   if (SpeechRec) {
     recognition = new SpeechRec();
@@ -1918,7 +1928,12 @@ function injectUnifiedAiWidget() {
     recognition.interimResults = true;
   }
 
-  voiceStartBtn.addEventListener('click', () => {
+  if (!voiceStartBtn) {
+    console.error('[AI Widget] Voice start button not found!');
+  } else {
+    voiceStartBtn.addEventListener('click', () => {
+      console.log('[AI Widget] Voice button clicked');
+
     if (!recognition) {
       voiceStatusEl.textContent = strings.voiceNotSupported;
       return;
@@ -1937,13 +1952,16 @@ function injectUnifiedAiWidget() {
     avatarVoice.classList.add('glow');
 
     recognition.start();
-  });
+    });
+  }
 
-  voiceStopBtn.addEventListener('click', () => {
-    if (recognition && isListening) {
-      recognition.stop();
-    }
-  });
+  if (voiceStopBtn) {
+    voiceStopBtn.addEventListener('click', () => {
+      if (recognition && isListening) {
+        recognition.stop();
+      }
+    });
+  }
 
   if (recognition) {
     recognition.addEventListener('result', (event) => {
