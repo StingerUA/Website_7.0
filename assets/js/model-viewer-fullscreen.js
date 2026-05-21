@@ -7,14 +7,11 @@
 (function () {
   'use strict';
 
-  /* Only run on mobile */
-  if (window.innerWidth > 768) return;
-
   var CSS = `
     /* ── Expand button ── */
     .mv-expand-btn {
       position: absolute;
-      bottom: 10px;
+      top: 10px;
       right: 10px;
       z-index: 20;
       width: 38px;
