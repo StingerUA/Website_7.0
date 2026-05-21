@@ -5,6 +5,9 @@ const VOICE_DEBUG = window.location.hostname === 'localhost' || window.location.
 let recognition = null;
 let isListening = false;
 let currentWorkerRequest = null; // Для отслеживания текущего запроса
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
 
 // === Логирование ===
 function voiceLog(message, data = null) {
@@ -70,7 +73,6 @@ function initVoiceHandlers() {
   voiceLog('Elements found:', {
     voiceButtons: voiceButtons.length,
     voiceModal: !!voiceModal,
-    chatPanel: !!chatPanel,
     statusEl: !!statusEl,
     waveEl: !!waveEl,
   });
@@ -85,6 +87,32 @@ function initVoiceHandlers() {
       statusEl.textContent = text;
       if (ensureVisible) statusEl.style.display = 'block';
       voiceLog('Status updated:', text);
+    }
+  }
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+      
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const base64Audio = await blobToBase64(audioBlob);
+        sendAudioToWorker(base64Audio);
+      };
+
+      mediaRecorder.start();
+      isRecording = true;
+      waveEl?.classList.remove('hidden');
+      stopBtn?.classList.remove('hidden');
+      setStatus('🎤 Dinliyorum... (Konuşmanız bittiğinde Durdur\'a basın)');
+      if (avatarImg) avatarImg.classList.add('ai-glow');
+    } catch (err) {
+      voiceError('Microphone access denied:', err);
+      setStatus('❌ Mikrofon izni reddedildi.');
     }
   }
 
