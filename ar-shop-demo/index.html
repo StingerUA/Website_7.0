@@ -40,7 +40,7 @@
         .ui-container {
             position: relative; z-index: 100; width: 100%;
             display: flex; flex-direction: column;
-            align-items: center; gap: 10px; padding-bottom: 22px;
+            align-items: center; gap: 10px; padding-bottom: calc(22px + 1cm);
         }
 
         /* STATUS */
@@ -69,33 +69,49 @@
         }
         .size-btn:active { background: rgba(255,255,255,0.35); transform: scale(0.92); }
 
-        /* ── BOTTOM ROW: [Şapka][Gözlük1] [📷] [Gözlük2][Sıfırla] ── */
+        /* ── BOTTOM ROW: [−] [◀] [📷] [▶] [+] — same as rings.html ── */
         .bottom-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 20px;
             width: 100%;
-            padding: 0 12px;
+            padding: 0 16px;
         }
 
-        /* Model buttons */
-        .model-btn {
-            padding: 10px 13px; border: none;
-            background: rgba(255,255,255,0.18); color: white;
-            border-radius: 12px; cursor: pointer; font-weight: 700;
-            font-size: 13px; transition: all 0.2s ease;
+        /* Scale buttons */
+        .scale-btn {
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            font-size: 20px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            background: transparent;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             -webkit-tap-highlight-color: transparent;
-            white-space: nowrap; flex-shrink: 0;
+            flex-shrink: 0;
+            transition: background 0.15s;
         }
-        .model-btn.active {
-            background: #3498db;
-            box-shadow: 0 0 12px rgba(52,152,219,0.6);
+        .scale-btn:active { background: rgba(255,255,255,0.2); transform: scale(0.92); }
+
+        /* Arrow buttons (prev/next model) */
+        .arrow-btn {
+            border: none;
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            transition: background 0.15s;
         }
-        .model-btn:active { opacity: 0.7; transform: scale(0.95); }
-        .model-btn.reset {
-            background: rgba(231,76,60,0.45);
-        }
+        .arrow-btn:active { background: rgba(255,255,255,0.35); transform: scale(0.92); }
 
         /* Photo button */
         .record-button {
@@ -136,25 +152,19 @@
     <div class="ui-container">
         <div class="status-badge" id="status">Sistem başlatılıyor...</div>
 
-        <!-- Size controls -->
-        <div class="size-controls">
-            <span class="size-label">Boyut</span>
-            <button class="size-btn" onclick="changeSize(-1)">−</button>
-            <span class="size-label" id="size-display">100%</span>
-            <button class="size-btn" onclick="changeSize(+1)">+</button>
-        </div>
-
-        <!-- Bottom row: 2 model buttons | photo button | 2 model buttons -->
+        <!-- Single row matching rings.html: [−] [◀ model] [📷] [model ▶] [+] -->
         <div class="bottom-row">
-            <button class="model-btn" id="btn-cap1"     onclick="switchModel('cap1')">Şapka</button>
-            <button class="model-btn" id="btn-glasses1" onclick="switchModel('glasses1')">Gözlük 1</button>
+            <button class="scale-btn" onclick="changeSize(-1)" id="btn-scale-down">−</button>
+
+            <button class="arrow-btn" id="btn-prev" onclick="prevModel()">◀</button>
 
             <button class="record-button" id="photo_button" onclick="capturePhoto()">
                 <i class="fas fa-camera"></i>
             </button>
 
-            <button class="model-btn" id="btn-glasses2" onclick="switchModel('glasses2')">Gözlük 2</button>
-            <button class="model-btn reset"             onclick="switchModel('none')">Sıfırla</button>
+            <button class="arrow-btn" id="btn-next" onclick="nextModel()">▶</button>
+
+            <button class="scale-btn" onclick="changeSize(+1)" id="btn-scale-up">+</button>
         </div>
     </div>
 
@@ -183,12 +193,24 @@
     const LM = { BRIDGE: 168, FOREHEAD: 10, L_CHEEK: 234, R_CHEEK: 454, L_BROW: 105, R_BROW: 334 };
 
     // Glasses: lower = smaller value (0 = at brow midpoint, negative = lower)
-    const GLASSES_LIFT = 0.02;  // опустить очки чуть ниже
+    const GLASSES_LIFT = -0.43;  // опустить очки на ~45% ширины лица
     const CAP_LIFT     = 0.0;
 
     // ── User scale ────────────────────────────────────────────────────
     let userScale = 1.0;
     const SCALE_STEP = 0.10, SCALE_MIN = 0.3, SCALE_MAX = 2.5;
+
+    const MODEL_KEYS = ['cap1', 'glasses1', 'glasses2'];
+    let currentModelIdx = 0;
+
+    window.prevModel = () => {
+        currentModelIdx = (currentModelIdx - 1 + MODEL_KEYS.length) % MODEL_KEYS.length;
+        switchModel(MODEL_KEYS[currentModelIdx]);
+    };
+    window.nextModel = () => {
+        currentModelIdx = (currentModelIdx + 1) % MODEL_KEYS.length;
+        switchModel(MODEL_KEYS[currentModelIdx]);
+    };
 
     window.changeSize = (dir) => {
         userScale = Math.min(SCALE_MAX, Math.max(SCALE_MIN, userScale + dir * SCALE_STEP));
@@ -225,6 +247,8 @@
     }
 
     window.switchModel = async (key) => {
+        const _ki = MODEL_KEYS ? MODEL_KEYS.indexOf(key) : -1;
+        if (_ki !== -1) currentModelIdx = _ki;
         if (currentModel) { scene.remove(currentModel); currentModel = null; }
         document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
 

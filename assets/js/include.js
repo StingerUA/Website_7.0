@@ -1454,6 +1454,36 @@ function injectUnifiedAiWidget() {
         transform: rotate(90deg);
       }
 
+      .ai-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .ai-voice-panel-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        background: rgba(56, 189, 248, 0.08);
+        color: #0ea5e9;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .ai-voice-panel-btn:hover {
+        background: rgba(56, 189, 248, 0.15);
+        border-color: rgba(56, 189, 248, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .ai-voice-panel-btn:active {
+        transform: translateY(0);
+      }
+
       /* Chat body */
       .ai-widget-body {
         display: flex;
@@ -1758,7 +1788,17 @@ function injectUnifiedAiWidget() {
         <button class="ai-tab-btn active" data-tab="text">${strings.textTabTitle}</button>
         <button class="ai-tab-btn" data-tab="voice">${strings.voiceTabTitle}</button>
       </div>
-      <button class="ai-close-btn" id="ai-widget-close">×</button>
+      <div class="ai-header-actions">
+        <button class="ai-action-btn ai-voice-panel-btn" id="ai-voice-panel-btn" aria-label="${strings.voiceTabTitle}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+        <button class="ai-close-btn" id="ai-widget-close">×</button>
+      </div>
     </div>
 
     <div class="ai-widget-body">
@@ -1806,18 +1846,24 @@ function injectUnifiedAiWidget() {
   // ===== TAB SWITCHING =====
   const tabButtons = widget.querySelectorAll('.ai-tab-btn');
   const tabContents = widget.querySelectorAll('.ai-tab-content');
+  const voicePanelBtn = widget.querySelector('#ai-voice-panel-btn');
+
+  function switchAiTab(tabName) {
+    tabButtons.forEach(b => b.classList.toggle('active', b.getAttribute('data-tab') === tabName));
+    tabContents.forEach(c => c.classList.toggle('active', c.getAttribute('data-tab') === tabName));
+  }
 
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      const tabName = btn.getAttribute('data-tab');
-      
-      tabButtons.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      
-      btn.classList.add('active');
-      widget.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      switchAiTab(btn.getAttribute('data-tab'));
     });
   });
+
+  if (voicePanelBtn) {
+    voicePanelBtn.addEventListener('click', () => {
+      switchAiTab('voice');
+    });
+  }
 
   // ===== CLOSE BUTTON =====
   document.getElementById('ai-widget-close').addEventListener('click', () => {
