@@ -12,6 +12,15 @@ runAfterDomReady(() => {
     errorScript.async = false;
     document.head.insertBefore(errorScript, document.head.firstChild);
   }
+
+  // 0b. Fullscreen expand button for model-viewer (mobile only)
+  if (document.querySelector('model-viewer') &&
+      !document.querySelector('script[src*="model-viewer-fullscreen"]')) {
+    const _fsScript = document.createElement('script');
+    _fsScript.src = '/assets/js/model-viewer-fullscreen.js';
+    _fsScript.defer = true;
+    document.head.appendChild(_fsScript);
+  }
   
   // 1. ЗАПУСК АНАЛИТИКИ (В первую очередь)
   injectAnalytics();
@@ -2121,7 +2130,7 @@ function injectUnifiedAiWidget() {
                 localStorage.setItem('albamen_user_age', data.saveAge.trim());
               }
 
-              // Speak the response
+              // Speak the   response
               if (window.speechSynthesis) {
                 const utterance = new SpeechSynthesisUtterance(data.reply);
                 utterance.lang = isEn ? 'en-US' : isRu ? 'ru-RU' : 'tr-TR';

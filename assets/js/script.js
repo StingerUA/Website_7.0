@@ -2,9 +2,9 @@
 const VOICE_WORKER_URL = 'https://divine-flower-a0ae.nncdecdgc.workers.dev/api/voice';
 const VOICE_DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-let mediaRecorder = null;
-let audioChunks = [];
-let isRecording = false;
+let recognition = null;
+let isListening = false;
+let currentWorkerRequest = null; // Для отслеживания текущего запроса
 
 // === Логирование ===
 function voiceLog(message, data = null) {
@@ -21,8 +21,17 @@ function voiceError(message, error = null) {
 
 // Получение идентичности Albamen
 function getVoiceIdentity() {
-  if (window.albamenVoiceIdentity) return window.albamenVoiceIdentity;
-  
+  // Сначала пробуем то, что положили из include.js
+  if (window.albamenVoiceIdentity) {
+    return window.albamenVoiceIdentity;
+  }
+
+  // Потом — общий хелпер, если доступен
+  if (typeof window.getAlbamenIdentity === 'function') {
+    return window.getAlbamenIdentity();
+  }
+
+  // Фолбэк: читаем напрямую из localStorage
   let sessionId = localStorage.getItem('albamen_session_id');
   if (!sessionId) {
     sessionId = crypto.randomUUID ? crypto.randomUUID() : 'sess-' + Date.now() + '-' + Math.random().toString(16).slice(2);
@@ -56,35 +65,26 @@ function initVoiceHandlers() {
   const statusEl = document.getElementById('voice-status-text');
   const waveEl = document.getElementById('voice-wave');
   const stopBtn = document.getElementById('voice-stop-btn');
+  const inlineControls = document.getElementById('voice-inline-controls');
 
-  function setStatus(text) {
-    if (statusEl) statusEl.textContent = text;
-    voiceLog('Status:', text);
+  voiceLog('Elements found:', {
+    voiceButtons: voiceButtons.length,
+    voiceModal: !!voiceModal,
+    chatPanel: !!chatPanel,
+    statusEl: !!statusEl,
+    waveEl: !!waveEl,
+  });
+
+  function showVoiceUi(show) {
+    if (statusEl) statusEl.style.display = show ? 'block' : 'none';
+    inlineControls?.classList.toggle('hidden', !show);
   }
 
-  async function startRecording() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-
-      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
-      
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const base64Audio = await blobToBase64(audioBlob);
-        sendAudioToWorker(base64Audio);
-      };
-
-      mediaRecorder.start();
-      isRecording = true;
-      waveEl?.classList.remove('hidden');
-      stopBtn?.classList.remove('hidden');
-      setStatus('🎤 Dinliyorum... (Konuşmanız bittiğinde Durdur\'a basın)');
-      if (avatarImg) avatarImg.classList.add('ai-glow');
-    } catch (err) {
-      voiceError('Microphone access denied:', err);
-      setStatus('❌ Mikrofon izni reddedildi.');
+  function setStatus(text, ensureVisible = true) {
+    if (statusEl) {
+      statusEl.textContent = text;
+      if (ensureVisible) statusEl.style.display = 'block';
+      voiceLog('Status updated:', text);
     }
   }
 
