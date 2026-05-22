@@ -254,7 +254,7 @@ runAfterDomReady(() => {
             if (p) p.classList.toggle('ai-fullscreen');
             return;
           }
-          const openChat = ev.target.closest && ev.target.closest('#ai-avatar-trigger, #ai-call-trigger, .ai-call-btn, .ai-hero-avatar');
+          const openChat = ev.target.closest && ev.target.closest('#ai-avatar-trigger, #ai-call-trigger, .ai-call-btn, .ai-hero-avatar, .ai-widget-toggle');
           if (openChat) {
             const p = document.querySelector('.ai-panel-global');
             if (p) p.classList.add('ai-open');
