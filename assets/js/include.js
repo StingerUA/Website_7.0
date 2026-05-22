@@ -283,7 +283,7 @@ runAfterDomReady(() => {
     const _path = window.location.pathname || '/';
     // Enable unified AI widget on all pages
     if (!window.__disableAiWidgets) {
-      injectUnifiedAiWidget();
+      injectAiWidget();
     } else {
       console.info('[include.js] AI widget is disabled by flag');
     }

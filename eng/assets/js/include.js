@@ -452,8 +452,21 @@ runAfterDomReady(() => {
 
     micBtn.addEventListener('click', () => {
       panel.classList.add('chat-active');
+
+      if (!SpeechRec || !recognition) {
+        statusText.textContent = strings.voiceNotSupported;
+        inputField.focus();
+        return;
+      }
+
+      if (isListening) {
+        recognition.stop();
+        return;
+      }
+
+      isListening = true;
       statusText.textContent = strings.listening;
-      inputField.focus();
+      recognition.start();
     });
   }
 // ... (Остальной код: HELPER FUNCTIONS и далее, без изменений)
@@ -1066,8 +1079,21 @@ function injectFooterStyles() {
 
     micBtn.addEventListener('click', () => {
       panel.classList.add('chat-active');
+
+      if (!SpeechRec || !recognition) {
+        statusText.textContent = strings.voiceNotSupported;
+        inputField.focus();
+        return;
+      }
+
+      if (isListening) {
+        recognition.stop();
+        return;
+      }
+
+      isListening = true;
       statusText.textContent = strings.listening;
-      inputField.focus();
+      recognition.start();
     });
   }
 
