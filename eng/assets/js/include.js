@@ -279,6 +279,81 @@ runAfterDomReady(() => {
     const msgList = document.getElementById('ai-messages-list-legacy');
     const statusText = document.getElementById('ai-status-text');
 
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+    let recognition = null;
+    let isListening = false;
+    const voiceLang = isEn ? 'en-US' : 'tr-TR';
+
+    if (SpeechRec) {
+      recognition = new SpeechRec();
+      recognition.lang = voiceLang;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+
+      recognition.addEventListener('result', (event) => {
+        const transcript = Array.from(event.results)
+          .map((result) => result[0].transcript)
+          .join(' ')
+          .trim();
+        if (transcript && statusText) {
+          statusText.textContent = transcript;
+        }
+      });
+
+      recognition.addEventListener('end', () => {
+        if (!isListening) return;
+        isListening = false;
+
+        const transcript = statusText?.textContent?.trim() || '';
+        if (!transcript || transcript === strings.listening || transcript === strings.initialStatus) {
+          if (statusText) statusText.textContent = strings.initialStatus;
+          return;
+        }
+
+        if (statusText) statusText.textContent = strings.connect;
+
+        const currentName = localStorage.getItem('albamen_user_name');
+        const currentAge = localStorage.getItem('albamen_user_age');
+
+        fetch('https://divine-flower-a0ae.nncdecdgc.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: transcript,
+            savedName: currentName,
+            savedAge: currentAge,
+            isVoiceTranscript: true
+          })
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data || typeof data.reply !== 'string') {
+              if (statusText) statusText.textContent = strings.connectionError;
+              return;
+            }
+
+            if (data.saveName) {
+              localStorage.setItem('albamen_user_name', data.saveName.trim());
+            }
+            if (data.saveAge) {
+              localStorage.setItem('albamen_user_age', data.saveAge.trim());
+            }
+
+            if (statusText) statusText.textContent = data.reply.trim() || strings.connectionError;
+          })
+          .catch((err) => {
+            console.error('Voice recognition error:', err);
+            if (statusText) statusText.textContent = strings.connectionError;
+          });
+      });
+
+      recognition.addEventListener('error', (event) => {
+        isListening = false;
+        console.error('SpeechRecognition error:', event.error || event);
+        if (statusText) statusText.textContent = strings.voiceNotSupported;
+      });
+    }
+
     const openPanel = (evt) => {
       if (!evt || evt.isTrusted !== true) {
         if (!window.__allowAiAutoOpen) return;
@@ -817,6 +892,81 @@ function injectFooterStyles() {
     const inputField = document.getElementById('ai-input-field-legacy');
     const msgList = document.getElementById('ai-messages-list-legacy');
     const statusText = document.getElementById('ai-status-text');
+
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+    let recognition = null;
+    let isListening = false;
+    const voiceLang = isEn ? 'en-US' : 'tr-TR';
+
+    if (SpeechRec) {
+      recognition = new SpeechRec();
+      recognition.lang = voiceLang;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+
+      recognition.addEventListener('result', (event) => {
+        const transcript = Array.from(event.results)
+          .map((result) => result[0].transcript)
+          .join(' ')
+          .trim();
+        if (transcript && statusText) {
+          statusText.textContent = transcript;
+        }
+      });
+
+      recognition.addEventListener('end', () => {
+        if (!isListening) return;
+        isListening = false;
+
+        const transcript = statusText?.textContent?.trim() || '';
+        if (!transcript || transcript === strings.listening || transcript === strings.initialStatus) {
+          if (statusText) statusText.textContent = strings.initialStatus;
+          return;
+        }
+
+        if (statusText) statusText.textContent = strings.connect;
+
+        const currentName = localStorage.getItem('albamen_user_name');
+        const currentAge = localStorage.getItem('albamen_user_age');
+
+        fetch('https://divine-flower-a0ae.nncdecdgc.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: transcript,
+            savedName: currentName,
+            savedAge: currentAge,
+            isVoiceTranscript: true
+          })
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data || typeof data.reply !== 'string') {
+              if (statusText) statusText.textContent = strings.connectionError;
+              return;
+            }
+
+            if (data.saveName) {
+              localStorage.setItem('albamen_user_name', data.saveName.trim());
+            }
+            if (data.saveAge) {
+              localStorage.setItem('albamen_user_age', data.saveAge.trim());
+            }
+
+            if (statusText) statusText.textContent = data.reply.trim() || strings.connectionError;
+          })
+          .catch((err) => {
+            console.error('Voice recognition error:', err);
+            if (statusText) statusText.textContent = strings.connectionError;
+          });
+      });
+
+      recognition.addEventListener('error', (event) => {
+        isListening = false;
+        console.error('SpeechRecognition error:', event.error || event);
+        if (statusText) statusText.textContent = strings.voiceNotSupported;
+      });
+    }
 
     const openPanel = (evt) => {
       if (!evt || evt.isTrusted !== true) {

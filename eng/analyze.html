@@ -22,7 +22,8 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <script defer="" src="/assets/js/include.js"></script>
 <style> /* Основные настройки темы  */ body { background-color: #020617; color: white; font-family: system-ui, -apple-system, sans-serif; } /* Фиксированный фон */ .space-bg-fixed { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; opacity: 1; } .space-overlay { position: absolute; inset: 0; } /* Стили карточек - прозрачные */ .alba-card { background: rgba(13, 42, 87, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 28px 90px rgba(0, 0, 0, 0.85); transition: all 0.3s ease; } .alba-card:hover { border-color: #00c2ff; box-shadow: 0 0 20px rgba(0, 194, 255, 0.15), 0 28px 90px rgba(0, 0, 0, 0.85); transform: translateY(-2px); } /* Контейнер графика */ .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 350px; } /* Акцентный текст */ .text-accent { color: #00c2ff; } /* СТРАХОВКА: Гарантируем видимость контента на мобильных */ .reveal, .alba-card, section, canvas, .chart-container { opacity: 1 !important; transform: none !important; visibility: visible !important; filter: none !important; display: block; /* Убираем возможные display: none */ } /* Возвращаем display:flex для карточек, где это нужно (чтобы не сломать верстку) */ .alba-card.flex { display: flex !important; } </style>
-</link></head>
+</link><link href="/assets/css/text-containers.css" rel="stylesheet">
+</head>
 <body class="antialiased selection:bg-[#00c2ff] selection:text-black">
 <div class="space-bg-fixed">
 <div class="space-overlay"></div>

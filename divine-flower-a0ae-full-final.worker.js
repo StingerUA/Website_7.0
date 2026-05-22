@@ -160,8 +160,8 @@ async function handleTextChat(request, env, context, corsHeaders) {
 
   const llmResponse = await generateLLMResponse(message, sessionId, env, language, context);
 
-  // Telegram Logging
-  if (env.TELEGRAM_TOKEN && env.TELEGRAM_CHAT_ID) {
+  // Telegram Logging is now opt-in to prevent automatic spam reports.
+  if (env.TELEGRAM_TOKEN && env.TELEGRAM_CHAT_ID && body.logToTelegram === true) {
     context.waitUntil(
       fetch(`https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage`, {
         method: "POST",
